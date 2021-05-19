@@ -1,0 +1,6 @@
+model flowchart driver EMF {
+nsuri = "flowchart" 
+};
+
+var n : new flowchart!Node;
+flowchart!Node.allInstances().exists(n | n.name <> "");

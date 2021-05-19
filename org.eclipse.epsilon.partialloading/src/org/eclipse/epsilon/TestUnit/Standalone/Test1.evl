@@ -1,0 +1,62 @@
+model javaMM driver XMIN {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+/*
+context ImportDeclaration {
+	constraint allImportsAreUsed {
+		check: NamedElement.allInstances().exists(ne |
+			ne == self.importedElement and
+			ne.originalCompilationUnit == self.originalCompilationUnit
+		)
+	}
+}*/
+
+context NamedElement {
+	constraint notReservedWord {
+		check: self.name <> "var" and
+			self.name <> "_" and
+			self.name <> "strictfp" and
+			self.name <> "assert" and
+			self.name <> "enum"
+	}
+}
+
+context TypeDeclaration {
+	constraint shouldStartWithUpperCase {
+		check: self.name.firstToUpperCase() == self.name
+	}
+}
+
+
+context MethodInvocation {
+	guard: self.method.isDefined()
+	
+	constraint doesNotCallFinalize {
+		check: not (
+			self.method.name == "finalize" and
+			self.method.parameters.isEmpty()
+		) 
+	}
+
+	constraint doesNotCallExit {
+		check: not (
+			self.method.name = "exit" and
+			self.method.parameters.size() == 1 //and
+		//	self.method.parameters.first().type.type.isTypeOf(PrimitiveTypeInt)
+		)
+	}
+	
+	constraint doesNotCallRunFinalizers {
+		check: not (
+			self.method.name = "runFinalizersOnExit" and
+			self.method.parameters.size() == 1 and
+			self.method.parameters.first().type.type.isTypeOf(PrimitiveTypeBoolean)
+		)
+	}
+}
+
+context MethodDeclaration {
+	constraint shouldStartWithLowerCase {
+		check: self.name.firstToLowerCase() == self.name
+	}
+}

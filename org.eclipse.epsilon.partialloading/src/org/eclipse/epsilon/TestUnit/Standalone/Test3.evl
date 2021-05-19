@@ -1,0 +1,22 @@
+model javaMM driver XMIN {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+
+	
+context AbstractMethodDeclaration {
+constraint parametersEffectivelyFinal {
+		guard: self.body.isDefined() and self.parameters.notEmpty()
+		check: self.body.statements
+				.select(s:ExpressionStatement|
+					s.expression.isKindOf(Assignment)
+				)
+				.collect(s:ExpressionStatement | s.expression)
+				.select(assignment:Assignment |
+					assignment.leftHandSide.isKindOf(SingleVariableAccess) and
+					assignment.operator == AssignmentKind#ASSIGN and
+					assignment.leftHandSide.isKindOf(SingleVariableAccess) //and
+					//self.parameters.excludes(assignment.leftHandSide.variable)
+				)
+				.isEmpty()
+	}
+}

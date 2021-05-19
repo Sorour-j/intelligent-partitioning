@@ -1,0 +1,19 @@
+model javaMM driver SmartEMF {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+
+var b:new Block;
+for (b in Block.all){
+	b.emptyBlockIsDocumented();
+}
+
+operation Block emptyBlockIsDocumented() : Boolean {
+		if (self.statements.isEmpty()){
+			if (self.comments.notEmpty())
+				return true;
+			else
+				return false;
+			}
+		else
+			return false;
+}

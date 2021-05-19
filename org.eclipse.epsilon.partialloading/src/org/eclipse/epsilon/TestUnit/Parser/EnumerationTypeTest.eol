@@ -1,0 +1,8 @@
+model componentLanguage driver EMF {
+nsuri = "componentLanguage" 
+};
+
+var e : new componentLanguage!Component;
+for(e in componentLanguage!Component.allOfKind()) {
+	("name:" + e.ports.type).println();
+}

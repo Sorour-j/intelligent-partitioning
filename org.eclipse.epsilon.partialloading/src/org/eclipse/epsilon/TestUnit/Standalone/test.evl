@@ -1,0 +1,13 @@
+
+model javaMM driver XMIN {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+pre{
+	InfixExpression.all.size().println();
+}
+context InfixExpression {
+	constraint noRedundantComparison {
+		guard : self.leftOperand.isDefined() and  self.rightOperand.isDefined()
+		check: self.leftOperand<> self.rightOperand
+	}
+}

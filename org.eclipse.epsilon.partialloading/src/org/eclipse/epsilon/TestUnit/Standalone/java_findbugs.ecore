@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    name="javaMM" nsURI="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" nsPrefix="javaMM">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractMethodDeclaration" abstract="true" eSuperTypes="#//BodyDeclaration">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="canBeLocal localMethodIsUsed parametersEffectivelyFinal"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="canBeLocal" value="&#xA;&#x9;&#x9;&#x9;self.modifier &lt;> null and not self.modifier.isLocal() implies&#xA;&#x9;&#x9;&#x9;self.usages->exists(m | m.originalClassFile &lt;> self.originalClassFile)"/>
+      <details key="localMethodIsUsed" value="&#xA;&#x9;&#x9;&#x9;(self.modifier &lt;> null and self.modifier.isLocal()) implies self.usages->notEmpty()"/>
+      <details key="parametersEffectivelyFinal" value="&#xA;&#x9;&#x9;&#x9;(self.body &lt;> null and self.parameters->notEmpty()) implies (&#xA;&#x9;&#x9;&#x9;&#x9;self._'body'.statements ->&#xA;&#x9;&#x9;&#x9;&#x9;selectByKind(ExpressionStatement) ->&#xA;&#x9;&#x9;&#x9;&#x9;collect(expression) ->&#xA;&#x9;&#x9;&#x9;&#x9;selectByKind(Assignment) ->&#xA;&#x9;&#x9;&#x9;&#x9;select(assignment |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;assignment.leftHandSide.oclIsKindOf(SingleVariableAccess) and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;assignment.operator = AssignmentKind::ASSIGN and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;assignment.leftHandSide.oclIsKindOf(SingleVariableAccess) and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;self.parameters->excludes(assignment.leftHandSide.oclAsType(SingleVariableAccess).variable)&#xA;&#x9;&#x9;&#x9;&#x9;) ->&#xA;&#x9;&#x9;&#x9;&#x9;isEmpty()&#xA;&#x9;&#x9;&#x9;)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//Block" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1" eType="#//SingleVariableDeclaration" containment="true"
+        eOpposite="#//SingleVariableDeclaration/methodDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thrownExceptions" upperBound="-1" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeParameters" upperBound="-1" eType="#//TypeParameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usagesInDocComments" ordered="false" upperBound="-1" eType="#//MethodRef" eOpposite="#//MethodRef/method"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usages" ordered="false" upperBound="-1" eType="#//AbstractMethodInvocation"
+        eOpposite="#//AbstractMethodInvocation/method"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractMethodInvocation" abstract="true" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="method" lowerBound="1" eType="#//AbstractMethodDeclaration" eOpposite="#//AbstractMethodDeclaration/usages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeArguments" upperBound="-1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTypeDeclaration" abstract="true" eSuperTypes="#//BodyDeclaration #//Type">
+    <eOperations name="implements" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.superInterfaces->exists(si | si.type.name = type)"/>
+      </eAnnotations>
+      <eParameters name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDeclarations" upperBound="-1" eType="#//BodyDeclaration" containment="true"
+        eOpposite="#//BodyDeclaration/abstractTypeDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commentsBeforeBody" upperBound="-1" eType="#//Comment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commentsAfterBody" upperBound="-1" eType="#//Comment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//Package" eOpposite="#//Package/ownedElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superInterfaces" upperBound="-1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTypeQualifiedExpression" abstract="true" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractVariablesContainer" abstract="true" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fragments" upperBound="-1" eType="#//VariableDeclarationFragment" containment="true"
+        eOpposite="#//VariableDeclarationFragment/variablesContainer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotation" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1" eType="#//AnnotationMemberValuePair" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Archive" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalFilePath" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classFiles" ordered="false" upperBound="-1" eType="#//ClassFile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manifest" eType="#//Manifest" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssertStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="message" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ASTNode" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1" eType="#//Comment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originalCompilationUnit" eType="#//CompilationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originalClassFile" eType="#//ClassFile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationMemberValuePair" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="member" eType="#//AnnotationTypeMemberDeclaration" eOpposite="#//AnnotationTypeMemberDeclaration/usages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationTypeDeclaration" eSuperTypes="#//AbstractTypeDeclaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationTypeMemberDeclaration" eSuperTypes="#//BodyDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="default" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usages" ordered="false" upperBound="-1" eType="#//AnnotationMemberValuePair"
+        eOpposite="#//AnnotationMemberValuePair/member"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnonymousClassDeclaration" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDeclarations" upperBound="-1" eType="#//BodyDeclaration" containment="true"
+        eOpposite="#//BodyDeclaration/anonymousClassDeclarationOwner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classInstanceCreation" eType="#//ClassInstanceCreation" eOpposite="#//ClassInstanceCreation/anonymousClassDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrayAccess" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="array" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="index" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrayCreation" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dimensions" upperBound="-1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initializer" eType="#//ArrayInitializer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrayInitializer" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrayLengthAccess" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="array" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrayType" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dimensions" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elementType" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//Expression">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noRedundantAssignment"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="noRedundantAssignment" value="&#xA;&#x9;&#x9;&#x9;self.operator = AssignmentKind::ASSIGN implies self.leftHandSide &lt;> self.rightHandSide"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftHandSide" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1" eType="#//AssignmentKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightHandSide" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BodyDeclaration" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abstractTypeDeclaration" eType="#//AbstractTypeDeclaration" eOpposite="#//AbstractTypeDeclaration/bodyDeclarations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1" eType="#//Annotation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="anonymousClassDeclarationOwner" eType="#//AnonymousClassDeclaration" eOpposite="#//AnonymousClassDeclaration/bodyDeclarations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modifier" eType="#//Modifier" containment="true" eOpposite="#//Modifier/bodyDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BlockComment" eSuperTypes="#//Comment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Block" eSuperTypes="#//Statement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="emptyBlockIsDocumented"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="emptyBlockIsDocumented" value="&#xA;&#x9;&#x9;&#x9;self.statements->isEmpty() implies self.comments->notEmpty()"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1" eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BreakStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//LabeledStatement" eOpposite="#//LabeledStatement/usagesInBreakStatements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CastExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CatchClause" eSuperTypes="#//Statement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="exceptionIsUsed doesNotCatchDubiousExceptions"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="exceptionIsUsed" value="&#xA;&#x9;&#x9;&#x9;self.exception.usageInVariableAccess->notEmpty()"/>
+      <details key="doesNotCatchDubiousExceptions" value="&#xA;&#x9;&#x9;&#x9;self.exception.type.type.name &lt;> 'IllegalMonitorStateException'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1" eType="#//SingleVariableDeclaration" containment="true"
+        eOpposite="#//SingleVariableDeclaration/catchClause"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Block" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CharacterLiteral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="escapedValue" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassFile" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalFilePath" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//AbstractTypeDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedSource" eType="#//CompilationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//Package"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassInstanceCreation" eSuperTypes="#//Expression #//AbstractMethodInvocation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="anonymousClassDeclaration" eType="#//AnonymousClassDeclaration" containment="true"
+        eOpposite="#//AnonymousClassDeclaration/classInstanceCreation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstructorDeclaration" eSuperTypes="#//AbstractMethodDeclaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionalExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseExpression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thenExpression" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstructorInvocation" eSuperTypes="#//Statement #//AbstractMethodInvocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassDeclaration" eSuperTypes="#//TypeDeclaration">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="publicFieldsOnlyInPOJO hashCodeAndEquals noCovariantEquals noCovariantCompareTo equalsAndCompareTo cloneInCloneable serialUIDInSerializableClass noRedundantInterfaceImpl comparatorImplementsSerializable noObscuredVariables"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="publicFieldsOnlyInPOJO" value="&#xA;&#x9;&#x9;&#x9;self.bodyDeclarations&#xA;&#x9;&#x9;&#x9;&#x9;->select(oclIsKindOf(FieldDeclaration))&#xA;&#x9;&#x9;&#x9;&#x9;->collect(oclAsType(FieldDeclaration))&#xA;&#x9;&#x9;&#x9;&#x9;->select(modifier &lt;> null and modifier.visibility = VisibilityKind::public)&#xA;&#x9;&#x9;&#x9;&#x9;->notEmpty() implies self.bodyDeclarations&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->select(bd | bd.oclIsKindOf(MethodDeclaration))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->collect(bd | bd.oclAsType(MethodDeclaration))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->select(md | (md.modifier = null or md.modifier._'static') and not (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;md.isEquals() or md.isHashcode() or md.isToString()&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;or md.isFinalize() or md.isClone() or md.isCompareTo()&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;&#x9;)->isEmpty()"/>
+      <details key="hashCodeAndEquals" value="&#xA;&#x9;&#x9;&#x9;let hasEq : Boolean = getMethods()->exists(isEquals()),&#xA;&#x9;&#x9;&#x9;&#x9;hasHc : Boolean = getMethods()->exists(isHashcode())&#xA;&#x9;&#x9;&#x9;in&#xA;&#x9;&#x9;&#x9;&#x9;(hasEq implies hasHc) and&#xA;&#x9;&#x9;&#x9;&#x9;(hasHc implies hasEq)"/>
+      <details key="noCovariantEquals" value="&#xA;&#x9;&#x9;&#x9;getMethods()->exists(method |&#xA;&#x9;&#x9;&#x9;&#x9;method.name = 'equals' and&#xA;&#x9;&#x9;&#x9;&#x9;method.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;method.modifier.visibility = VisibilityKind::public and&#xA;&#x9;&#x9;&#x9;&#x9;method.returnType.type.oclIsTypeOf(PrimitiveTypeBoolean)&#xA;&#x9;&#x9;&#x9;) implies getMethods()->exists(isEquals())"/>
+      <details key="noCovariantCompareTo" value="&#xA;&#x9;&#x9;&#x9;getMethods()->exists(method | &#xA;&#x9;&#x9;&#x9;&#x9;method.name = 'compareTo' and&#xA;&#x9;&#x9;&#x9;&#x9;method.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;method.modifier.visibility = VisibilityKind::public and&#xA;&#x9;&#x9;&#x9;&#x9;method.returnType.type.oclIsTypeOf(PrimitiveTypeInt)&#xA;&#x9;&#x9;&#x9;) implies getMethods()->exists(isCompareTo())"/>
+      <details key="equalsAndCompareTo" value="&#xA;&#x9;&#x9;&#x9;getMethods()->exists(isCompareTo()) implies getMethods()->exists(isEquals())"/>
+      <details key="cloneInCloneable" value="&#xA;&#x9;&#x9;&#x9;self.implements('Cloneable') implies self.getMethods()->exists(md |&#xA;&#x9;&#x9;&#x9;&#x9;md.name = 'clone' and&#xA;&#x9;&#x9;&#x9;&#x9;md.parameters->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;md.thrownExceptions->size() = 1 and&#xA;&#x9;&#x9;&#x9;&#x9;md.thrownExceptions->first().type.name = 'CloneNotSupportedException' and&#xA;&#x9;&#x9;&#x9;&#x9;md.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;md.modifier.visibility = VisibilityKind::public&#xA;&#x9;&#x9;&#x9;)"/>
+      <details key="serialUIDInSerializableClass" value="&#xA;&#x9;&#x9;&#x9;self.implements('Serializable') implies (&#xA;&#x9;&#x9;&#x9;&#x9;self.bodyDeclarations->selectByKind(FieldDeclaration) ->&#xA;&#x9;&#x9;&#x9;&#x9;exists(bd |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;bd.name = 'serialVersionUID' and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;bd.modifier._'static' and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;bd.modifier.inheritance = InheritanceKind::final and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;bd.type.type.oclIsTypeOf(PrimitiveTypeLong)&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;)"/>
+      <details key="noRedundantInterfaceImpl" value="&#xA;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;self.superInterfaces &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.superClass &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.superClass.type.oclIsKindOf(ClassDeclaration) and&#xA;&#x9;&#x9;&#x9;&#x9;self.superClass.type.oclAsType(ClassDeclaration).superInterfaces &lt;> null&#xA;&#x9;&#x9;&#x9;) implies (&#xA;&#x9;&#x9;&#x9;&#x9;self.superInterfaces->exists(tIface |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;self.superClass.type.oclIsKindOf(AbstractTypeDeclaration) implies (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.superClass.type.oclAsType(AbstractTypeDeclaration)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;.superInterfaces->includes(tIface)&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;)&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;)"/>
+      <details key="comparatorImplementsSerializable" value="&#xA;&#x9;&#x9;&#x9;self.implements('Comparator') implies self.implements('Serializable')"/>
+      <details key="noObscuredVariables" value="&#xA;&#x9;&#x9;&#x9;let fields = self.bodyDeclarations->selectByKind(FieldDeclaration) in&#xA;&#x9;&#x9;&#x9;&#x9;self.bodyDeclarations->&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;selectByKind(AbstractMethodDeclaration) ->&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;forAll(md | md.body &lt;> null implies md.body.statements ->&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;selectByKind(VariableDeclaration) ->&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;forAll(vd | fields->forAll(fd | fd.name &lt;> vd.name))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;)"/>
+    </eAnnotations>
+    <eOperations name="getMethods" upperBound="-1" eType="#//MethodDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.bodyDeclarations->selectByKind(MethodDeclaration)"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superClass" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment" abstract="true" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enclosedByParent" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefixOfParent" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompilationUnit" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalFilePath" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commentList" upperBound="-1" eType="#//Comment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1" eType="#//ImportDeclaration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//Package"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1" eType="#//AbstractTypeDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContinueStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//LabeledStatement" eOpposite="#//LabeledStatement/usagesInContinueStatements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EmptyStatement" eSuperTypes="#//Statement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnhancedForStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Statement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1" eType="#//SingleVariableDeclaration" containment="true"
+        eOpposite="#//SingleVariableDeclaration/enhancedForStatement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumConstantDeclaration" eSuperTypes="#//BodyDeclaration #//VariableDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="anonymousClassDeclaration" eType="#//AnonymousClassDeclaration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumDeclaration" eSuperTypes="#//AbstractTypeDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumConstants" upperBound="-1" eType="#//EnumConstantDeclaration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true" eSuperTypes="#//ASTNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldAccess" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="field" lowerBound="1" eType="#//SingleVariableAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldDeclaration" eSuperTypes="#//BodyDeclaration #//AbstractVariablesContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ForStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="updaters" upperBound="-1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initializers" upperBound="-1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfStatement" eSuperTypes="#//Statement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noDeadCode noUselessControlFlow"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="noDeadCode" value="&#xA;&#x9;&#x9;&#x9;not self.expression.oclIsKindOf(TypeLiteral)"/>
+      <details key="noUselessControlFlow" value="&#xA;&#x9;&#x9;&#x9;not self.thenStatement.oclIsTypeOf(EmptyStatement) and&#xA;&#x9;&#x9;&#x9;(self.elseStatement &lt;> null implies not self.elseStatement.oclIsTypeOf(EmptyStatement))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thenStatement" lowerBound="1" eType="#//Statement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseStatement" eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportDeclaration" eSuperTypes="#//ASTNode">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="allImportsAreUsed"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="allImportsAreUsed" value="&#xA;&#x9;&#x9;&#x9;NamedElement.allInstances()->exists(ne |&#xA;&#x9;&#x9;&#x9;&#x9;ne = self.importedElement and&#xA;&#x9;&#x9;&#x9;&#x9;ne.originalCompilationUnit = self.originalCompilationUnit&#xA;&#x9;&#x9;&#x9;)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importedElement" lowerBound="1" eType="#//NamedElement" eOpposite="#//NamedElement/usagesInImports"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InfixExpression" eSuperTypes="#//Expression">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noRedundantComparison equalsNotOnLiterals equalsNotOnStrings"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="noRedundantComparison" value="&#xA;&#x9;&#x9;&#x9;self.leftOperand &lt;> self.rightOperand"/>
+      <details key="equalsNotOnLiterals" value="&#xA;&#x9;&#x9;&#x9;operatorIsEquality() implies (&#xA;&#x9;&#x9;&#x9;&#x9;self.leftOperand.oclIsTypeOf(self.rightOperand.oclType()) and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;(not (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.leftOperand.oclIsTypeOf(StringLiteral) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.leftOperand.oclIsTypeOf(NumberLiteral) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.leftOperand.oclIsTypeOf(CharacterLiteral) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.leftOperand.oclIsTypeOf(BooleanLiteral) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.leftOperand.oclIsTypeOf(NullLiteral) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.leftOperand.oclIsTypeOf(TypeLiteral)&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;)"/>
+      <details key="equalsNotOnStrings" value="&#xA;&#x9;&#x9;&#x9;operatorIsEquality() implies (not&#xA;&#x9;&#x9;&#x9;&#x9;(self.leftOperand.oclIsTypeOf(StringLiteral) or&#xA;&#x9;&#x9;&#x9;&#x9;self.rightOperand.oclIsTypeOf(StringLiteral))&#xA;&#x9;&#x9;&#x9;)"/>
+    </eAnnotations>
+    <eOperations name="operatorIsEquality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.operator = InfixExpressionKind::EQUALS or self.operator = InfixExpressionKind::NOT_EQUALS"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1" eType="#//InfixExpressionKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightOperand" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftOperand" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedOperands" upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Initializer" eSuperTypes="#//BodyDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Block" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstanceofExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightOperand" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftOperand" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceDeclaration" eSuperTypes="#//TypeDeclaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Javadoc" eSuperTypes="#//Comment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//TagElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LabeledStatement" eSuperTypes="#//NamedElement #//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Statement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usagesInBreakStatements" ordered="false" upperBound="-1" eType="#//BreakStatement"
+        eOpposite="#//BreakStatement/label"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usagesInContinueStatements" ordered="false" upperBound="-1" eType="#//ContinueStatement"
+        eOpposite="#//ContinueStatement/label"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LineComment" eSuperTypes="#//Comment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Manifest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainAttributes" ordered="false" upperBound="-1" eType="#//ManifestAttribute"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entryAttributes" ordered="false" upperBound="-1" eType="#//ManifestEntry" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManifestAttribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManifestEntry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" ordered="false" upperBound="-1" eType="#//ManifestAttribute" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MemberRef" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="member" lowerBound="1" eType="#//NamedElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodDeclaration" eSuperTypes="#//AbstractMethodDeclaration">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="shouldStartWithLowerCase"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="shouldStartWithLowerCase" value="&#xA;&#x9;&#x9;&#x9;self.name.at(1).toLowerCase() = self.name.at(1)"/>
+    </eAnnotations>
+    <eOperations name="isEquals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.name = 'equals' and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->size() = 1 and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->first().type.type.name = 'Object' and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType.type.oclIsTypeOf(PrimitiveTypeBoolean) and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::public"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isHashcode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.name = 'hashCode' and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType.type.oclIsTypeOf(PrimitiveTypeInt) and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::public"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isToString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.name = 'toString' and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;(self.returnType.type.name = 'String' or&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType.type.name = 'java.lang.String') and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::public"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isFinalize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.name = 'finalize' and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->size() = 1 and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->first().type.name = 'Throwable' and&#xA;&#x9;&#x9;&#x9;&#x9;(self.returnType = null or self.returnType.type.oclIsTypeOf(PrimitiveTypeVoid)) and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;(self.modifier.visibility = VisibilityKind::public or&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::protected)"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isClone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.name = 'clone' and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->size() = 1 and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->first().type.name = 'CloneNotSupportedException' and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::public"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isCompareTo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.name = 'compareTo' and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->size() = 1 and&#xA;&#x9;&#x9;&#x9;&#x9;self.parameters->first().type.type.name = 'Object' and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::public and&#xA;&#x9;&#x9;&#x9;&#x9;self.thrownExceptions->isEmpty() and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType &lt;> null and&#xA;&#x9;&#x9;&#x9;&#x9;self.returnType.type.oclIsTypeOf(PrimitiveTypeInt)"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extraArrayDimensions" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="redefinedMethodDeclaration" eType="#//MethodDeclaration" eOpposite="#//MethodDeclaration/redefinitions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="redefinitions" ordered="false" upperBound="-1" eType="#//MethodDeclaration"
+        eOpposite="#//MethodDeclaration/redefinedMethodDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodInvocation" eSuperTypes="#//Expression #//AbstractMethodInvocation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="doesNotCallFinalize doesNotCallExit doesNotCallRunFinalizers"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="doesNotCallFinalize" value="&#xA;&#x9;&#x9;&#x9;self.method &lt;> null implies not (&#xA;&#x9;&#x9;&#x9;&#x9;self.method.name = 'finalize' and&#xA;&#x9;&#x9;&#x9;&#x9;self.method.parameters->isEmpty()&#xA;&#x9;&#x9;&#x9;)"/>
+      <details key="doesNotCallExit" value="&#xA;&#x9;&#x9;&#x9;self.method &lt;> null implies not (&#xA;&#x9;&#x9;&#x9;&#x9;self.method.name = 'exit' and&#xA;&#x9;&#x9;&#x9;&#x9;self.method.parameters->size() = 1 and&#xA;&#x9;&#x9;&#x9;&#x9;self.method.parameters->first().type.type.oclIsTypeOf(PrimitiveTypeInt)&#xA;&#x9;&#x9;&#x9;)"/>
+      <details key="doesNotCallRunFinalizers" value="&#xA;&#x9;&#x9;&#x9;self.method &lt;> null implies not (&#xA;&#x9;&#x9;&#x9;&#x9;self.method.name = 'runFinalizersOnExit' and&#xA;&#x9;&#x9;&#x9;&#x9;self.method.parameters->size() = 1 and&#xA;&#x9;&#x9;&#x9;&#x9;self.method.parameters->first().type.type.oclIsTypeOf(PrimitiveTypeBoolean)&#xA;&#x9;&#x9;&#x9;)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodRef" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="method" lowerBound="1" eType="#//AbstractMethodDeclaration" eOpposite="#//AbstractMethodDeclaration/usagesInDocComments"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1" eType="#//MethodRefParameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodRefParameter" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="varargs" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedElements" ordered="false" upperBound="-1" eType="#//Package" containment="true"
+        eOpposite="#//Package/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orphanTypes" ordered="false" upperBound="-1" eType="#//Type" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unresolvedItems" ordered="false" upperBound="-1" eType="#//UnresolvedItem"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compilationUnits" ordered="false" upperBound="-1" eType="#//CompilationUnit"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classFiles" ordered="false" upperBound="-1" eType="#//ClassFile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archives" ordered="false" upperBound="-1" eType="#//Archive" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Modifier" eSuperTypes="#//ASTNode">
+    <eOperations name="isLocal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.visibility = VisibilityKind::none or self.visibility = VisibilityKind::private"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" lowerBound="1" eType="#//VisibilityKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inheritance" lowerBound="1" eType="#//InheritanceKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transient" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volatile" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="native" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strictfp" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="synchronized" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDeclaration" eType="#//BodyDeclaration" eOpposite="#//BodyDeclaration/modifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleVariableDeclaration" eType="#//SingleVariableDeclaration" eOpposite="#//SingleVariableDeclaration/modifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variableDeclarationStatement" eType="#//VariableDeclarationStatement" eOpposite="#//VariableDeclarationStatement/modifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variableDeclarationExpression" eType="#//VariableDeclarationExpression" eOpposite="#//VariableDeclarationExpression/modifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//ASTNode">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="notReservedWord"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="notReservedWord" value="&#xA;&#x9;&#x9;&#x9;self.name &lt;> 'var' and&#xA;&#x9;&#x9;&#x9;&#x9;self.name &lt;> '_' and&#xA;&#x9;&#x9;&#x9;&#x9;self.name &lt;> 'strictfp' and&#xA;&#x9;&#x9;&#x9;&#x9;self.name &lt;> 'assert' and&#xA;&#x9;&#x9;&#x9;&#x9;self.name &lt;> 'enum'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="proxy" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usagesInImports" ordered="false" upperBound="-1" eType="#//ImportDeclaration"
+        eOpposite="#//ImportDeclaration/importedElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamespaceAccess" abstract="true" eSuperTypes="#//ASTNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NumberLiteral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokenValue" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NullLiteral" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedElements" ordered="false" upperBound="-1" eType="#//AbstractTypeDeclaration"
+        containment="true" eOpposite="#//AbstractTypeDeclaration/package"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model" eOpposite="#//Model/ownedElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedPackages" ordered="false" upperBound="-1" eType="#//Package" containment="true"
+        eOpposite="#//Package/package"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//Package" eOpposite="#//Package/ownedPackages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usagesInPackageAccess" ordered="false" upperBound="-1" eType="#//PackageAccess"
+        eOpposite="#//PackageAccess/package"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageAccess" eSuperTypes="#//NamespaceAccess">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" lowerBound="1" eType="#//Package" eOpposite="#//Package/usagesInPackageAccess"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" eType="#//PackageAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterizedType" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeArguments" upperBound="-1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParenthesizedExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PostfixExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1" eType="#//PostfixExpressionKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrefixExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1" eType="#//PrefixExpressionKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveType" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeBoolean" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeByte" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeChar" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeDouble" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeShort" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeFloat" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeInt" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeLong" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveTypeVoid" eSuperTypes="#//PrimitiveType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleVariableAccess" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1" eType="#//VariableDeclaration" eOpposite="#//VariableDeclaration/usageInVariableAccess"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleVariableDeclaration" eSuperTypes="#//VariableDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modifier" eType="#//Modifier" containment="true" eOpposite="#//Modifier/singleVariableDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="varargs" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1" eType="#//Annotation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclaration" eType="#//AbstractMethodDeclaration" eOpposite="#//AbstractMethodDeclaration/parameters"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="catchClause" eType="#//CatchClause" eOpposite="#//CatchClause/exception"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enhancedForStatement" eType="#//EnhancedForStatement" eOpposite="#//EnhancedForStatement/parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Statement" abstract="true" eSuperTypes="#//ASTNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StringLiteral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="escapedValue" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SuperConstructorInvocation" eSuperTypes="#//Statement #//AbstractMethodInvocation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noRedundantSuperCall"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="noRedundantSuperCall" value="&#xA;&#x9;&#x9;&#x9;self.arguments->notEmpty()"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SuperFieldAccess" eSuperTypes="#//AbstractTypeQualifiedExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="field" lowerBound="1" eType="#//SingleVariableAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SuperMethodInvocation" eSuperTypes="#//AbstractTypeQualifiedExpression #//AbstractMethodInvocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SwitchCase" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SwitchStatement" eSuperTypes="#//Statement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="moreThan3Cases"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="moreThan3Cases" value="&#xA;&#x9;&#x9;&#x9;self.statements->size() > 3"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1" eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SynchronizedStatement" eSuperTypes="#//Statement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="hasStatements"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="hasStatements" value="&#xA;&#x9;&#x9;&#x9;self._'body'.statements->notEmpty()"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Block" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TagElement" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tagName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fragments" upperBound="-1" eType="#//ASTNode" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextElement" eSuperTypes="#//ASTNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThisExpression" eSuperTypes="#//AbstractTypeQualifiedExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ThrowStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TryStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Block" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finally" eType="#//Block" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="catchClauses" upperBound="-1" eType="#//CatchClause" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usagesInTypeAccess" ordered="false" upperBound="-1" eType="#//TypeAccess" eOpposite="#//TypeAccess/type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeAccess" eSuperTypes="#//Expression #//NamespaceAccess">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type" eOpposite="#//Type/usagesInTypeAccess"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" eType="#//NamespaceAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeDeclaration" abstract="true" eSuperTypes="#//AbstractTypeDeclaration">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="shouldStartWithUpperCase"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="shouldStartWithUpperCase" value="&#xA;&#x9;&#x9;&#x9;self.name.at(1) = self.name.at(1).toUpperCase()"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeParameters" upperBound="-1" eType="#//TypeParameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeDeclarationStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declaration" lowerBound="1" eType="#//AbstractTypeDeclaration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeLiteral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeParameter" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bounds" upperBound="-1" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedItem" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedItemAccess" eSuperTypes="#//Expression #//NamespaceAccess">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="#//UnresolvedItem"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" eType="#//ASTNode" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedAnnotationDeclaration" eSuperTypes="#//AnnotationTypeDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedAnnotationTypeMemberDeclaration" eSuperTypes="#//AnnotationTypeMemberDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedClassDeclaration" eSuperTypes="#//ClassDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedEnumDeclaration" eSuperTypes="#//EnumDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedInterfaceDeclaration" eSuperTypes="#//InterfaceDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedLabeledStatement" eSuperTypes="#//LabeledStatement #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedMethodDeclaration" eSuperTypes="#//MethodDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedSingleVariableDeclaration" eSuperTypes="#//SingleVariableDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedType" eSuperTypes="#//Type #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedTypeDeclaration" eSuperTypes="#//AbstractTypeDeclaration #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnresolvedVariableDeclarationFragment" eSuperTypes="#//VariableDeclarationFragment #//UnresolvedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDeclaration" abstract="true" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="variableIsUsed"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="variableIsUsed" value="&#xA;&#x9;&#x9;&#x9;self.usageInVariableAccess->notEmpty()"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extraArrayDimensions" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initializer" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usageInVariableAccess" ordered="false" upperBound="-1" eType="#//SingleVariableAccess"
+        eOpposite="#//SingleVariableAccess/variable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDeclarationExpression" eSuperTypes="#//Expression #//AbstractVariablesContainer">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="publicVariableIsFinal"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="publicVariableIsFinal" value="&#xA;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::public implies self.modifier.inheritance = InheritanceKind::final"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modifier" eType="#//Modifier" containment="true" eOpposite="#//Modifier/variableDeclarationExpression"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1" eType="#//Annotation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDeclarationFragment" eSuperTypes="#//VariableDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variablesContainer" eType="#//AbstractVariablesContainer" eOpposite="#//AbstractVariablesContainer/fragments"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDeclarationStatement" eSuperTypes="#//Statement #//AbstractVariablesContainer">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="publicVariableIsFinal"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="publicVariableIsFinal" value="&#xA;&#x9;&#x9;&#x9;self.modifier.visibility = VisibilityKind::public implies self.modifier.inheritance = InheritanceKind::final"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extraArrayDimensions" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modifier" eType="#//Modifier" containment="true" eOpposite="#//Modifier/variableDeclarationStatement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1" eType="#//Annotation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WildCardType" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bound" eType="#//TypeAccess" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhileStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1" eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AssignmentKind">
+    <eLiterals name="ASSIGN" value="1" literal="="/>
+    <eLiterals name="PLUS_ASSIGN" value="2" literal="+="/>
+    <eLiterals name="MINUS_ASSIGN" value="3" literal="-="/>
+    <eLiterals name="TIMES_ASSIGN" value="4" literal="*="/>
+    <eLiterals name="DIVIDE_ASSIGN" value="5" literal="/="/>
+    <eLiterals name="BIT_AND_ASSIGN" value="6" literal="&amp;="/>
+    <eLiterals name="BIT_OR_ASSIGN" value="7" literal="|="/>
+    <eLiterals name="BIT_XOR_ASSIGN" value="8" literal="^="/>
+    <eLiterals name="REMAINDER_ASSIGN" value="9" literal="%="/>
+    <eLiterals name="LEFT_SHIFT_ASSIGN" value="10" literal="&lt;&lt;="/>
+    <eLiterals name="RIGHT_SHIFT_SIGNED_ASSIGN" value="11" literal=">>="/>
+    <eLiterals name="RIGHT_SHIFT_UNSIGNED_ASSIGN" value="12" literal=">>>="/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InfixExpressionKind">
+    <eLiterals name="TIMES" value="1" literal="*"/>
+    <eLiterals name="DIVIDE" value="2" literal="/"/>
+    <eLiterals name="REMAINDER" value="3" literal="%"/>
+    <eLiterals name="PLUS" value="4" literal="+"/>
+    <eLiterals name="MINUS" value="5" literal="-"/>
+    <eLiterals name="LEFT_SHIFT" value="6" literal="&lt;&lt;"/>
+    <eLiterals name="RIGHT_SHIFT_SIGNED" value="7" literal=">>"/>
+    <eLiterals name="RIGHT_SHIFT_UNSIGNED" value="8" literal=">>>"/>
+    <eLiterals name="LESS" value="9" literal="&lt;"/>
+    <eLiterals name="GREATER" value="10" literal=">"/>
+    <eLiterals name="LESS_EQUALS" value="11" literal="&lt;="/>
+    <eLiterals name="GREATER_EQUALS" value="12" literal=">="/>
+    <eLiterals name="EQUALS" value="13" literal="=="/>
+    <eLiterals name="NOT_EQUALS" value="14" literal="!="/>
+    <eLiterals name="XOR" value="15" literal="^"/>
+    <eLiterals name="AND" value="16" literal="&amp;"/>
+    <eLiterals name="OR" value="17" literal="|"/>
+    <eLiterals name="CONDITIONAL_AND" value="18" literal="&amp;&amp;"/>
+    <eLiterals name="CONDITIONAL_OR" value="19" literal="||"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InheritanceKind">
+    <eLiterals name="none" value="1"/>
+    <eLiterals name="abstract" value="2"/>
+    <eLiterals name="final" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PostfixExpressionKind">
+    <eLiterals name="INCREMENT" value="1" literal="++"/>
+    <eLiterals name="DECREMENT" value="2" literal="--"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PrefixExpressionKind">
+    <eLiterals name="INCREMENT" value="1" literal="++"/>
+    <eLiterals name="DECREMENT" value="2" literal="--"/>
+    <eLiterals name="PLUS" value="3" literal="+"/>
+    <eLiterals name="MINUS" value="4" literal="-"/>
+    <eLiterals name="COMPLEMENT" value="5" literal="~"/>
+    <eLiterals name="NOT" value="6" literal="!"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VisibilityKind">
+    <eLiterals name="none" value="1"/>
+    <eLiterals name="public" value="2"/>
+    <eLiterals name="private" value="3"/>
+    <eLiterals name="protected" value="4"/>
+  </eClassifiers>
+</ecore:EPackage>

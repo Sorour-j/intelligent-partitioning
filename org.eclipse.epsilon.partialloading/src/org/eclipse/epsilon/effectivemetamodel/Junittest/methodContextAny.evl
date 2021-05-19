@@ -1,0 +1,14 @@
+model flowchart driver XMIN {
+nsuri = "flowchart" 
+};
+
+
+context Action {
+	constraint noRedundantComparison {
+		check: self.incoming.notEmpty()
+	}
+}
+
+operation Any printName(){
+	self.name.println();
+}

@@ -1,0 +1,11 @@
+model javaMM driver XMIN {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+
+context MethodInvocation {
+	guard: self.method.isDefined()
+	
+	constraint doesNotCallFinalize {
+		check: not (self.method.name == "finalize") 
+	}
+}

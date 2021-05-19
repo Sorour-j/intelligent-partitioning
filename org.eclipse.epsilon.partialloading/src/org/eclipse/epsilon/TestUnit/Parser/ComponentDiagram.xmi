@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<componentLanguage:ComponentDiagram
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:componentLanguage="componentLanguage"
+    xsi:schemaLocation="componentLanguage componentLanguage.ecore">
+  <components
+      name="com1">
+    <ports name="sen1"/>
+    <ports xsi:type="componentLanguage:Sink"
+        name="si1"/>
+  </components>
+  <components
+      name="com2">
+    <ports xsi:type="componentLanguage:Sensor"
+        name="Sen2"/>
+  </components>
+  <connectors
+      name="connector1"
+      source="//@components.0/@ports.0"
+      target="//@components.0/@ports.1"/>
+</componentLanguage:ComponentDiagram>

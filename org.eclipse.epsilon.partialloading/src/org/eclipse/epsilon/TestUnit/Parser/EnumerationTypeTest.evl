@@ -1,0 +1,11 @@
+model javaMM driver EMF {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+
+context BodyDeclaration {
+	@parallel
+	constraint allImportsAreUsed {
+	
+		check: self.modifier.visibility == VisibilityKind#public
+	}
+}

@@ -1,0 +1,23 @@
+model flowchart driver EMF {
+nsuri = "flowchart" 
+};
+
+var e : new flowchart!Action;
+var n : new flowchart!Transition;
+
+for(e in flowchart!Action.allOfType()) {
+	("name:" + e.name).println();
+}
+isCalled();
+
+operation isCalled(){
+
+	for(n in flowchart!Transition.allOfKind())
+		("name:" + n.name).println();
+}
+
+operation notCalled(){
+
+	for(n in flowchart!Decision.allOfKind())
+		("name:" + n.name).println();
+}

@@ -1,0 +1,10 @@
+model javaMM driver EMF {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+
+context Type {
+	constraint allImportsAreUsed {
+	
+		check: self.name <> null
+	}
+}

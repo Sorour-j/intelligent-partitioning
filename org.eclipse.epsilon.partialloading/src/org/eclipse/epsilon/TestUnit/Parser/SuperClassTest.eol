@@ -1,0 +1,10 @@
+model flowchart driver EMF {
+nsuri = "flowchart" 
+};
+
+var e : new flowchart!Node;
+for(e in flowchart!Node.allOfKind()) {
+
+	("name:" + e.name).println();
+	
+}

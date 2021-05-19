@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<flowchart:Flowchart xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flowchart="flowchart" xmi:id="_ycP54IboEeqP-L8HqdkuCg">
+  <nodes xsi:type="flowchart:Action" xmi:id="_zSryoIboEeqP-L8HqdkuCg" name="Act1" incoming="_5EYEcIboEeqP-L8HqdkuCg"/>
+  <nodes xsi:type="flowchart:Action" xmi:id="_0oo48IboEeqP-L8HqdkuCg" name="Act2" incoming="_6bav4IboEeqP-L8HqdkuCg"/>
+  <nodes xsi:type="flowchart:Decision" xmi:id="_1-SdQIboEeqP-L8HqdkuCg" name="Dec1" outgoing="_5EYEcIboEeqP-L8HqdkuCg"/>
+  <nodes xsi:type="flowchart:Decision" xmi:id="_37GIMIboEeqP-L8HqdkuCg" name="Dec2" outgoing="_6bav4IboEeqP-L8HqdkuCg"/>
+  <transitions xmi:id="_5EYEcIboEeqP-L8HqdkuCg" name="T1" source="_1-SdQIboEeqP-L8HqdkuCg" target="_zSryoIboEeqP-L8HqdkuCg"/>
+  <transitions xmi:id="_6bav4IboEeqP-L8HqdkuCg" name="T2" source="_37GIMIboEeqP-L8HqdkuCg" target="_0oo48IboEeqP-L8HqdkuCg"/>
+</flowchart:Flowchart>

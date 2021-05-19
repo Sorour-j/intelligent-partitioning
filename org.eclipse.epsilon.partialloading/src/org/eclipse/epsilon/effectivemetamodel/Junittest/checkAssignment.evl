@@ -1,0 +1,15 @@
+model flowchart driver XMIN {
+nsuri = "flowchart" 
+};
+
+pre{
+	var objects = Decision.all;
+	objects.name.println();
+	objects = Action.all;
+	objects.outgoing.println();
+}
+context Transition {
+	constraint noRedundantComparison {
+		check: self.source.notEmpty()
+	}
+}
