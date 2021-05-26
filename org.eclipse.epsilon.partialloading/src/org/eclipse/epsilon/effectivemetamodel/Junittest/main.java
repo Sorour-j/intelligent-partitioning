@@ -16,6 +16,8 @@ import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtraction;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtractor;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
+import org.eclipse.epsilon.effectivemetamodel.extraction.EolEffectiveMetamodelComputationVisitor;
+import org.eclipse.epsilon.effectivemetamodel.extraction.EvlEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.staticanalyser.EolStaticAnalyser;
@@ -29,8 +31,8 @@ public class main {
 
 		XMIN efModel = null;
 		String path = "src/org/eclipse/epsilon/TestUnit/Parser/flowchart.ecore";
-		EvlModule module = new EvlModule();
-ResourceSet resourceSet = new ResourceSetImpl();
+		EolModule module = new EolModule();
+		ResourceSet resourceSet = new ResourceSetImpl();
 		
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
 		ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
@@ -54,14 +56,22 @@ ResourceSet resourceSet = new ResourceSetImpl();
 			e.printStackTrace();
 		}
 		
-		module.getCompilationContext().setModelFactory(new SubModelFactory());
-		if (module instanceof EvlModule)
-			new EvlStaticAnalyser().validate(module);
-		else {
-			new EolStaticAnalyser().validate(module);
+		if (module instanceof EvlModule) {
+			EvlStaticAnalyser staticAnalyser = new EvlStaticAnalyser();
+			staticAnalyser.getContext().setModelFactory(new SubModelFactory());
+			staticAnalyser.validate(module);
+			efModel = new EvlEffectiveMetamodelComputationVisitor(staticAnalyser).preValidate(module);
+			return efModel;
 		}
-		efModel = new EffectiveMetamodelComputationVisitor().preValidate(module);
-		return efModel;
+			
+		else {
+			EolStaticAnalyser staticAnalyser = new EolStaticAnalyser();
+			staticAnalyser.getContext().setModelFactory(new SubModelFactory());
+			staticAnalyser.validate(module);
+			efModel = new EolEffectiveMetamodelComputationVisitor(staticAnalyser).preValidate(module);
+			return efModel;
+		}
+		
 
 	}
 }

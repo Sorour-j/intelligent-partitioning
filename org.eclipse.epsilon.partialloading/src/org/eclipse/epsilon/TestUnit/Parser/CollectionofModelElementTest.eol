@@ -2,15 +2,12 @@ model flowchart driver EMF {
 nsuri = "flowchart" 
 };
 
-var e : new flowchart!Action;
-var n : new flowchart!Transition;
+var e : Action;
 
-for(e in flowchart!Action.allOfType()) {
+for(e in Action.allOfType()) {
 	("name:" + e.name).println();
 }
-test();
 
 operation test(){
-
-		("name:" + flowchart!Transition.name).println();
+	("name:" + Transition.all.name).println();
 }
