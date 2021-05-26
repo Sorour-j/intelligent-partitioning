@@ -2,8 +2,7 @@ package org.eclipse.epsilon.effectivemetamodel;
 
 import java.util.ArrayList;
 
-import org.eclipse.epsilon.eol.compile.m3.StructuralFeature;
-import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.m3.StructuralFeature;
 
 
 public class EffectiveType {
