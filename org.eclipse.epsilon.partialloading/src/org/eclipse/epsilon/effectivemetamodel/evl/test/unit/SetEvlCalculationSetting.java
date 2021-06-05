@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.effectivemetamodel.Junittest;
+package org.eclipse.epsilon.effectivemetamodel.evl.test.unit;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,28 +10,18 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.epsilon.SmartSaxParser.Demonstration;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelComputationVisitor;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtraction;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtractor;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
-import org.eclipse.epsilon.effectivemetamodel.extraction.EolEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EvlEffectiveMetamodelComputationVisitor;
-import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.staticanalyser.EolStaticAnalyser;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
-import org.eclipse.epsilon.loading.EffectiveMetamodelInjector;
 
-public class main {
+public class SetEvlCalculationSetting {
 
-	public static XMIN calculation(String file) {
+	public static XMIN calculation(String file, String path) {
 
 		XMIN efModel = null;
-		String path = "src/org/eclipse/epsilon/TestUnit/Parser/flowchart.ecore";
-		EolModule module = new EolModule();
+		EvlModule module = new EvlModule();
 		ResourceSet resourceSet = new ResourceSetImpl();
 		
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
@@ -56,21 +46,12 @@ public class main {
 			e.printStackTrace();
 		}
 		
-		if (module instanceof EvlModule) {
-			EvlStaticAnalyser staticAnalyser = new EvlStaticAnalyser();
+		
+		EvlStaticAnalyser staticAnalyser = new EvlStaticAnalyser();
 			staticAnalyser.getContext().setModelFactory(new SubModelFactory());
 			staticAnalyser.validate(module);
-			efModel = new EvlEffectiveMetamodelComputationVisitor(staticAnalyser).preValidate(module);
+			efModel = new EvlEffectiveMetamodelComputationVisitor().setExtractor(module,staticAnalyser);
 			return efModel;
-		}
-			
-		else {
-			EolStaticAnalyser staticAnalyser = new EolStaticAnalyser();
-			staticAnalyser.getContext().setModelFactory(new SubModelFactory());
-			staticAnalyser.validate(module);
-			efModel = new EolEffectiveMetamodelComputationVisitor(staticAnalyser).preValidate(module);
-			return efModel;
-		}
 		
 
 	}

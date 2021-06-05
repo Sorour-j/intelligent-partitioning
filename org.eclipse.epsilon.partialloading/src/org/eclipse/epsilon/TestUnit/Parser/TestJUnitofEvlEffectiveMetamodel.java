@@ -22,8 +22,8 @@ import org.eclipse.epsilon.SmartSaxParser.Demonstration;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtraction;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtractionforEVL;
+import org.eclipse.epsilon.effectivemetamodel.eol.test.unit.SetEolCalculationSetting;
+import org.eclipse.epsilon.effectivemetamodel.evl.test.unit.SetEvlCalculationSetting;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveType;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
@@ -45,8 +45,7 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf, expectedEf;
 
 		/* Actual */
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/* Expected */
 		expectedEf = new XMIN();
@@ -68,9 +67,7 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf, expectedEf;
 
 		/* Actual */
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
-
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 		/* Expected */
 		expectedEf = new XMIN();
 		expectedEf.setName("javaMM");
@@ -88,8 +85,7 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf, expectedEf;
 
 		/* Actual */
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/* Expected */
 		expectedEf = new XMIN();
@@ -108,8 +104,7 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf, expectedEf;
 
 		/* Actual */
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/* Expected */
 		expectedEf = new XMIN();
@@ -130,8 +125,8 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf,expectedEf;
 		
 		/*Actual*/
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
+
 		
 		/* Expected */
 		expectedEf = new XMIN();
@@ -150,9 +145,8 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf,expectedEf;
 		
 		/*Actual*/
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
-		
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
+
 		/*Expected*/
 		expectedEf = new XMIN();
 		expectedEf.setName("javaMM");
@@ -170,9 +164,8 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf,expectedEf;
 		
 		/*Actual*/
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
-		
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
+
 		/*Expected*/
 		expectedEf = new XMIN();
 		expectedEf.setName("javaMM");
@@ -190,9 +183,8 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf,expectedEf;
 		
 		/*Actual*/
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
-		
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
+
 		/*Expected*/
 		expectedEf = new XMIN();
 		expectedEf.setName("javaMM");
@@ -211,9 +203,8 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		XMIN actualEf,expectedEf;
 		
 		/*Actual*/
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		actualEf = ef.getEffectiveMetamodel();
-		
+		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
+
 		/*Expected*/
 		expectedEf = new XMIN();
 		expectedEf.setName("javaMM");
