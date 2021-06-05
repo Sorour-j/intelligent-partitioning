@@ -36,7 +36,7 @@ public class XminModelLoader implements EpsilonLaunchConfigurationDelegateListen
 			 staticanalyser.validate(module);
 			if (!staticanalyser.getContext().getModelDeclarations().isEmpty() && 
 				 staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN")){
-					 xminModel = new EvlEffectiveMetamodelComputationVisitor().setExtractor(module,staticanalyser);
+					 xminModel = new EvlEffectiveMetamodelComputationVisitor().setExtractor((EvlModule)module, staticanalyser);
 			}
 		}
 		else if (module instanceof EolModule) {

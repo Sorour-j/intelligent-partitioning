@@ -17,6 +17,7 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 	protected EvlStaticAnalyser staticAnalyser = null;
 	protected EvlModule module = new EvlModule();
 	
+	
 	public XMIN setExtractor(EvlModule module , EvlStaticAnalyser staticAnalyser) {
 		
 		this.module = module;

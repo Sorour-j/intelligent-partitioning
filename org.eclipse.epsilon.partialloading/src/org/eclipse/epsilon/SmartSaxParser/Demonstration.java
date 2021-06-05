@@ -18,9 +18,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtraction;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtractionforEVL;
-import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.effectivemetamodel.eol.test.unit.SetEolCalculationSetting;
 
 public class Demonstration {
 
@@ -39,9 +37,7 @@ public class Demonstration {
 		// TODO Auto-generated method stub
 		String metamodel = "src/org/eclipse/epsilon/TestUnit/Parser/java.ecore";
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/java_1Constraint.evl";
-		EffectiveMetamodelExtractionforEVL ef = new EffectiveMetamodelExtractionforEVL(metamodel, evlFile);
-		// effectiveMetamodel = ef.getEffectiveMetamodel();
-		effectiveMetamodel = ef.getEffectiveMetamodel();
+		SetEolCalculationSetting.calculation(evlFile, metamodel);
 		model = "src/org/eclipse/epsilon/TestUnit/Parser/eclipseModel-0.1.xmi";
 //		try {
 //			demo();
