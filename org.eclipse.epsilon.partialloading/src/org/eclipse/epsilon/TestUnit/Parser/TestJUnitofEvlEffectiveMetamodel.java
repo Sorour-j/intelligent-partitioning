@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectEList;
-import org.eclipse.epsilon.SmartSaxParser.Demonstration;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
@@ -29,6 +28,7 @@ import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
 import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.returnStatement_return;
+import org.eclipse.epsilon.smartsaxparser.Demonstration;
 import org.junit.Test;
 
 public class TestJUnitofEvlEffectiveMetamodel {

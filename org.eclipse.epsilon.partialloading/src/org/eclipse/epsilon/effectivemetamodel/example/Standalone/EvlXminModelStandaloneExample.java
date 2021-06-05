@@ -7,7 +7,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.TestUnit.Standalone;
+package org.eclipse.epsilon.effectivemetamodel.example.Standalone;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,7 +23,7 @@ import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
  * @author Sina Madani
  * @author Dimitrios Kolovos
  */
-public class EvlStandaloneExample_SmartEMF {
+public class EvlXminModelStandaloneExample {
 
 	public static void main(String... args) throws Exception {
 		Path root = Paths.get(EvlStandaloneExample.class.getResource("").toURI()),

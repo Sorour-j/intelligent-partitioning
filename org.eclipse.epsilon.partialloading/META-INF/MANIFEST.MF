@@ -3,9 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Partialloading
 Bundle-SymbolicName: org.eclipse.epsilon.effectivemetamodel;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Export-Package: org.eclipse.epsilon.SmartSaxParser,
- org.eclipse.epsilon.effectivemetamodel,
- org.eclipse.epsilon.loading
+Export-Package: org.eclipse.epsilon.effectivemetamodel,
+ org.eclipse.epsilon.loading,
+ org.eclipse.epsilon.smartsaxparser
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.epsilon.eol.engine,

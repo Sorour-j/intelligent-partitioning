@@ -7,7 +7,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.TestUnit.Standalone;
+package org.eclipse.epsilon.effectivemetamodel.example.Standalone;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

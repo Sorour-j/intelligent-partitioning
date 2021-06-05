@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.TestUnit.Standalone;
+package org.eclipse.epsilon.effectivemetamodel.example.Standalone;
 
 import java.io.File;
 import java.io.IOException;

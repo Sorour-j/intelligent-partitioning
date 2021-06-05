@@ -15,15 +15,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.epsilon.SmartSaxParser.EffectiveMetamodelReconciler;
-import org.eclipse.epsilon.SmartSaxParser.SmartSAXResourceFactory;
-import org.eclipse.epsilon.SmartSaxParser.SmartSAXXMIResource;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.smartsaxparser.EffectiveMetamodelReconciler;
+import org.eclipse.epsilon.smartsaxparser.SmartSAXResourceFactory;
+import org.eclipse.epsilon.smartsaxparser.SmartSAXXMIResource;
 
 public class XMIN extends EmfModel{
 
