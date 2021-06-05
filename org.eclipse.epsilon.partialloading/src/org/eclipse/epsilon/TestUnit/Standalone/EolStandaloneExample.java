@@ -39,7 +39,7 @@ public class EolStandaloneExample {
 	//	modelProperties.setProperty(EmfModel.PROPERTY_METAMODEL_URI,"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
 		modelProperties.setProperty("type", "EMF");
 		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("eclipseModel-1.0.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("test.xmi").toAbsolutePath().toUri().toString()
 		);
 		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()

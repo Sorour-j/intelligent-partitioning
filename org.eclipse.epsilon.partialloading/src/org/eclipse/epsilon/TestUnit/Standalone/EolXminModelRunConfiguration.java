@@ -10,9 +10,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodelExtractor;
-import org.eclipse.epsilon.effectivemetamodel.EvlEffectiveMetamodelExtractor;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
+import org.eclipse.epsilon.effectivemetamodel.extraction.EolEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -24,11 +23,12 @@ import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
 
-public class SmartEMFRunConfiguration extends EvlRunConfiguration{
+public class EolXminModelRunConfiguration extends EvlRunConfiguration{
 	
 	IEolModule module;
-	
-	public SmartEMFRunConfiguration(EvlRunConfiguration other) {
+	EolStaticAnalyser staticnalyser = new EolStaticAnalyser();
+	XMIN xminModel;
+	public EolXminModelRunConfiguration(EvlRunConfiguration other) {
 		super(other);
 		module = super.getModule();
 		// TODO Auto-generated constructor stub
@@ -57,29 +57,17 @@ public class SmartEMFRunConfiguration extends EvlRunConfiguration{
 			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 		}	//	Resource resource = resourceSet.createResource(URI.createFileURI(new File(model).getAbsolutePath()));
 
-		module.getCompilationContext().setModelFactory(new SubModelFactory());
-		if (module instanceof EvlModule)
-			new EvlStaticAnalyser().validate(module);
-		else
-			new EolStaticAnalyser().validate(module);
-			
-		if (!module.getCompilationContext().getModelDeclarations().isEmpty() 
-			&& module.getCompilationContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
+		
+		staticnalyser.getContext().setModelFactory(new SubModelFactory());
+		staticnalyser.validate(module);
+		if (!staticnalyser.getContext().getModelDeclarations().isEmpty() 
+			&& staticnalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
 			{
 				
-				
-			
-			//ArrayList<SmartEMF> effectiveMetamodels = new ArrayList<SmartEMF>();
-			XMIN smartEMFModel = null;
-			if (module instanceof EvlModule)
-				smartEMFModel = new EffectiveMetamodelExtractor().geteffectiveMetamodel(module);
-			else {
-				if (module.getMain() == null) return;
-			smartEMFModel = new EffectiveMetamodelExtractor().geteffectiveMetamodel(module);
-			}
+			xminModel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module, staticnalyser);
 //			smartEMFModel.setCalculatedEffectiveMetamodel(true);
 //			smartEMFModel.load();
-			System.out.println(smartEMFModel);
+			System.out.println(xminModel);
 		//	System.out.println(new EolUnparser().unparse((EolModule)module));
 		}
 	}
