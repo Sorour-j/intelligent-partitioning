@@ -66,7 +66,7 @@ public class EvlXminModelRunConfiguration extends EvlRunConfiguration{
 			&& staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
 			{
 				
-			xminModel = new EvlEffectiveMetamodelComputationVisitor().setExtractor(module, staticanalyser);
+			xminModel = new EvlEffectiveMetamodelComputationVisitor().setExtractor((EvlModule)module, staticanalyser);
 			System.out.println(xminModel);
 			xminModel.load();
 		}
