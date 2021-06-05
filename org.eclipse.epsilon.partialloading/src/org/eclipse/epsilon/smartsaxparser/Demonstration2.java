@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.SmartSaxParser;
+package org.eclipse.epsilon.smartsaxparser;
 
 import java.io.File;
 import java.io.IOException;

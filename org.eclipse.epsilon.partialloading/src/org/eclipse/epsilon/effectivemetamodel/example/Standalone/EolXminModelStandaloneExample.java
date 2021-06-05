@@ -7,7 +7,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.TestUnit.Standalone;
+package org.eclipse.epsilon.effectivemetamodel.example.Standalone;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,10 +24,10 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
  * @author Sina Madani
  * @author Dimitrios Kolovos
  */
-public class EolStandaloneExample_SmartEMF {
+public class EolXminModelStandaloneExample {
 	
 	public static void main(String[] args) throws Exception {
-		Path root = Paths.get(EolStandaloneExample_SmartEMF.class.getResource("").toURI()),
+		Path root = Paths.get(EolXminModelStandaloneExample.class.getResource("").toURI()),
 			modelsRoot = root.getParent().resolve("standalone");
 		
 		StringProperties modelProperties = new StringProperties();
