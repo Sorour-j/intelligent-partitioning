@@ -12,12 +12,9 @@ package org.eclipse.epsilon.TestUnit.Standalone;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
-import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
-import org.eclipse.epsilon.emc.emf.EmfModel;
 
 /**
  * This example demonstrates using the Epsilon Object Language, the core

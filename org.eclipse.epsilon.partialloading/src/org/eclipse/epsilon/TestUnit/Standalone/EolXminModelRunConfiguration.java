@@ -13,22 +13,17 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EolEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
-import org.eclipse.epsilon.eol.launch.EolRunConfiguration.Builder;
-import org.eclipse.epsilon.eol.parse.EolUnparser;
 import org.eclipse.epsilon.eol.staticanalyser.EolStaticAnalyser;
-import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
-import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
 
-public class EolXminModelRunConfiguration extends EvlRunConfiguration{
+public class EolXminModelRunConfiguration extends EolRunConfiguration{
 	
 	IEolModule module;
-	EolStaticAnalyser staticnalyser = new EolStaticAnalyser();
+	EolStaticAnalyser staticanalyser = new EolStaticAnalyser();
 	XMIN xminModel;
-	public EolXminModelRunConfiguration(EvlRunConfiguration other) {
+	public EolXminModelRunConfiguration(EolRunConfiguration other) {
 		super(other);
 		module = super.getModule();
 		// TODO Auto-generated constructor stub
@@ -37,7 +32,6 @@ public class EolXminModelRunConfiguration extends EvlRunConfiguration{
 	@Override
 	public void preExecute() throws Exception {
 		super.preExecute();
-		
 		String metamodel = "src/org/eclipse/epsilon/TestUnit/Standalone/Java.ecore";
 		ResourceSet resourceSet = new ResourceSetImpl();
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
@@ -52,23 +46,23 @@ public class EolXminModelRunConfiguration extends EvlRunConfiguration{
 		}
 		for (EObject o : ecoreResource.getContents()) {
 			EPackage ePackage = (EPackage) o;
-			System.out.println("JAva MM :" + o.eContents().size());
+			System.out.println("Java MM :" + o.eContents().size());
 			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 		}	//	Resource resource = resourceSet.createResource(URI.createFileURI(new File(model).getAbsolutePath()));
 
 		
-		staticnalyser.getContext().setModelFactory(new SubModelFactory());
-		staticnalyser.validate(module);
-		if (!staticnalyser.getContext().getModelDeclarations().isEmpty() 
-			&& staticnalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
+		staticanalyser.getContext().setModelFactory(new SubModelFactory());
+		staticanalyser.validate(module);
+		
+			
+		if (!staticanalyser.getContext().getModelDeclarations().isEmpty() 
+			&& staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
 			{
 				
-			xminModel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module, staticnalyser);
-//			smartEMFModel.setCalculatedEffectiveMetamodel(true);
-//			smartEMFModel.load();
+			xminModel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module, staticanalyser);
 			System.out.println(xminModel);
-		//	System.out.println(new EolUnparser().unparse((EolModule)module));
+			xminModel.load();
 		}
 	}
 }

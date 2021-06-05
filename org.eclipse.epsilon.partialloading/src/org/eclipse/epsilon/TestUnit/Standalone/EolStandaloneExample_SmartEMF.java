@@ -37,19 +37,19 @@ public class EolStandaloneExample_SmartEMF {
 			
 		);
 		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
-		modelProperties.setProperty("type", "SmartEMF");
+		modelProperties.setProperty("type", "XMIN");
 		modelProperties.setProperty(XMIN.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("eclipsemodel-1.0.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("test.xmi").toAbsolutePath().toUri().toString()
 		);
 		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()
-			.withScript(root.resolve("java_findbugs.eol"))
+			.withScript(root.resolve("test.eol"))
 			.withModel(new XMIN(), modelProperties)
 			.withParameter("Thread", Thread.class)
 			.withProfiling()
 			.build();
-		//SmartEMFRunConfiguration sm = new SmartEMFRunConfiguration(runConfig);
-		//sm.run();
+		EolXminModelRunConfiguration xminRunconfig = new EolXminModelRunConfiguration(runConfig);
+		xminRunconfig.run();
 		//System.out.println(sm.getResult());
 	}
 }
