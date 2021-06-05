@@ -12,7 +12,7 @@ package org.eclipse.epsilon.loading;
 
 import org.eclipse.epsilon.emc.emf.dt.EmfModelConfigurationDialog;
 
-public class SmartEmfModelConfigurationDialog extends EmfModelConfigurationDialog {
+public class XminModelConfigurationDialog extends EmfModelConfigurationDialog {
 
 	@Override
 	protected String getModelName() {

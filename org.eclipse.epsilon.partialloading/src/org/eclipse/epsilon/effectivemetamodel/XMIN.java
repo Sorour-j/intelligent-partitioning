@@ -30,7 +30,7 @@ public class XMIN extends EmfModel{
 	protected String name;
 	protected String nsuri;
 	protected String path;
-	protected boolean CalculatedEffectiveMetamodel = false; // To understand that effective metamodel is calculated or not 
+	protected boolean isCalculated = false; // To understand that effective metamodel is calculated or not 
 	protected ArrayList<EffectiveType> allOfType = new ArrayList<EffectiveType>();
 	protected ArrayList<EffectiveType> allOfKind = new ArrayList<EffectiveType>();
 	
@@ -44,8 +44,11 @@ public class XMIN extends EmfModel{
 	public String toString() {
 		return "XMIN Model [name=" + getName() + "]";
 	}
-	public void setCalculatedEffectiveMetamodel(boolean set) {
-		this.CalculatedEffectiveMetamodel = set;
+	public void setIsCalculated(boolean set) {
+		this.isCalculated = set;
+	}
+	public boolean getIsCalculated() {
+		return isCalculated;
 	}
 	public void setName(String name)
 	{
@@ -363,7 +366,7 @@ public class XMIN extends EmfModel{
 	@Override
 	public void load(){
 		
-		if (CalculatedEffectiveMetamodel == false)
+		if (getIsCalculated() == false)
 			return;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -409,7 +412,6 @@ public class XMIN extends EmfModel{
 		System.out.println(duration / 1000000 + " milliseconds");
 		
 		long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-		//System.out.println("End : "+ endMemory);
 		long memory = (long) ((endMemory - startMemory) / 1000000);
 		System.out.println("**** Memory ****");
 		System.out.println((memory) + " MB");

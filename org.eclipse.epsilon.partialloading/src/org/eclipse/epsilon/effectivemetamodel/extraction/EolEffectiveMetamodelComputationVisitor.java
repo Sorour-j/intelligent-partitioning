@@ -1,11 +1,8 @@
 package org.eclipse.epsilon.effectivemetamodel.extraction;
 
 import java.util.ArrayList;
-import java.util.jar.Attributes.Name;
 
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveType;
-import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -78,24 +75,11 @@ import org.eclipse.epsilon.eol.dom.VariableDeclaration;
 import org.eclipse.epsilon.eol.dom.WhileStatement;
 import org.eclipse.epsilon.eol.dom.XorOperatorExpression;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.staticanalyser.EolStaticAnalyser;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.erl.dom.NamedStatementBlockRule;
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
-import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.dom.Constraint;
-import org.eclipse.epsilon.evl.dom.ConstraintContext;
-import org.eclipse.epsilon.evl.dom.Fix;
-import org.eclipse.epsilon.evl.dom.IEvlVisitor;
-import org.eclipse.epsilon.evl.parse.EvlParser.evlModule_return;
-import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
 
 public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 
@@ -103,67 +87,44 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 	EolModule module;
 	EolStaticAnalyser staticanalyser = new EolStaticAnalyser();
 
-	public EolEffectiveMetamodelComputationVisitor(EolStaticAnalyser staticAnalyser) {
-		this.staticanalyser = staticAnalyser;
-	}
-	public XMIN preValidate(IEolModule imodule) {
+	public XMIN setExtractor(IEolModule imodule, EolStaticAnalyser staticAnalyser) {
 
 		EolModule module = (EolModule) imodule;
 		this.module = module;
-//		staticanalyser.getContext().setModelFactory(new SubModelFactory());
-//		staticanalyser.validate(module);
-
-//		try {
-//			xminModel = (XMIN) module.getContext().getModelRepository().getModelByName(
-//					staticanalyser.getContext().getModelDeclarations().get(0).getNameExpression().getName());
-//		} catch (EolModelNotFoundException e) {
-			xminModel = (XMIN) staticanalyser.getContext().getModelDeclarations().get(0).getModel();
+		this.staticanalyser = staticAnalyser;
+		try {
+			xminModel = (XMIN) module.getContext().getModelRepository().getModelByName(staticAnalyser.getContext().getModelDeclarations().get(0).getModel().getName());
+		} catch (EolModelNotFoundException e) {
 			// TODO Auto-generated catch block
-//			if (xminModel == null)
-//				e.printStackTrace();
-//		}
-		validate();
+			xminModel = (XMIN) staticAnalyser.getContext().getModelDeclarations().get(0).getModel();
+		}
+		extractor();
 		iterate();
-		xminModel.setCalculatedEffectiveMetamodel(true);
+		xminModel.setIsCalculated(true);
 		return xminModel;
 	}
 
 	public void iterate() {
 		String modelVersion1, modelVersion2 = null;
 		modelVersion1 = effectiveMetamodelConvertor(xminModel);
-		validate();
+		extractor();
 		modelVersion2 = effectiveMetamodelConvertor(xminModel);
 		while (!modelVersion1.equals(modelVersion2)) {
 			modelVersion1 = modelVersion2;
-			validate();
+			extractor();
 			modelVersion2 = effectiveMetamodelConvertor(xminModel);
 		}
 	}
 
-	public void validate() {
-
-//		// module = evlModule;
-//		for (Pre p : module.getPre()) {
-//			p.accept(this);
-//		}
-//
-//		for (ConstraintContext cc : module.getConstraintContexts()) {
-//			cc.accept(this);
-//		}
+	public void extractor() {
 		if (module.getMain() != null)
 			module.getMain().accept(this);
-
 		module.getDeclaredOperations().forEach(o -> o.accept(this));
-//
-//		for (Post post : module.getPost()) {
-//			post.accept(this);
-//		}
 	}
 
 	@Override
 	public void visit(AbortStatement abortStatement) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -179,7 +140,6 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 	@Override
 	public void visit(AnnotationBlock annotationBlock) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -673,7 +633,7 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 	}
 
 	public String effectiveMetamodelConvertor(XMIN model) {
-		String XMIN = null;
+		String XMIN = new String();
 		for (EffectiveType type : model.getAllOfKind()) {
 			XMIN += "AllofKind" + type.getName() + "-";
 			XMIN += "Attributes" + type.getAttributes() + "-";
