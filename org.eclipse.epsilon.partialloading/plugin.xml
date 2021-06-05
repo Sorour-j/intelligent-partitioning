@@ -4,14 +4,14 @@
    <extension
          point="org.eclipse.epsilon.eol.dt.launchConfigurationExtension">
       <launchConfigurationExtension
-            listener="org.eclipse.epsilon.loading.EffectiveMetamodelInjector"></launchConfigurationExtension>
+            listener="org.eclipse.epsilon.loading.XminModelLoader"></launchConfigurationExtension>
    </extension>
    <extension
          point="org.eclipse.epsilon.common.dt.modelType">
       <modelType
             class="org.eclipse.epsilon.effectivemetamodel.XMIN"
-            dialog="org.eclipse.epsilon.loading.SmartEmfModelConfigurationDialog"
-            icon="icons/SmartEMF.png"
+            dialog="org.eclipse.epsilon.loading.XminModelConfigurationDialog"
+            icon="icons/XMIN.png"
             label="XMIN Model"
             stable="true"
             type="XMIN">
