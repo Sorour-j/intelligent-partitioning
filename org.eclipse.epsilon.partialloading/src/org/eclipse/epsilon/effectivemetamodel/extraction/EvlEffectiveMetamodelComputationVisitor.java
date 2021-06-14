@@ -37,7 +37,7 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 	@Override
 	public void extractor() {
 		
-		for (Pre p : module.getPre()) {
+		for (Pre p : module.getDeclaredPre()) {
 			p.accept(this);
 		}
 
@@ -47,7 +47,7 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 		
 		module.getDeclaredOperations().forEach(o -> o.accept(this));
 		
-		for (Post post : module.getPost()) {
+		for (Post post : module.getDeclaredPost()) {
 			post.accept(this);
 		}
 	}
