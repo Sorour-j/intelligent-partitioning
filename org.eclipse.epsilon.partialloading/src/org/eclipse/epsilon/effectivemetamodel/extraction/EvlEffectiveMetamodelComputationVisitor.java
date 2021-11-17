@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.effectivemetamodel.extraction;
 
+import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
@@ -17,21 +18,20 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 	protected EvlStaticAnalyser staticAnalyser = null;
 	protected EvlModule module = new EvlModule();
 	
-	
-	public XMIN setExtractor(EvlModule module , EvlStaticAnalyser staticAnalyser) {
+	public EffectiveMetamodel setExtractor(EvlModule module , EvlStaticAnalyser staticAnalyser) {
 		
 		this.module = module;
 		this.staticAnalyser = staticAnalyser;
-		try {
-			xminModel = (XMIN) module.getContext().getModelRepository().getModelByName(staticAnalyser.getContext().getModelDeclarations().get(0).getModel().getName());
-		} catch (EolModelNotFoundException e) {
-			// TODO Auto-generated catch block
-			xminModel = (XMIN) staticAnalyser.getContext().getModelDeclarations().get(0).getModel();
-		}
+//		try {
+//			xminModel = (XMIN) module.getContext().getModelRepository().getModelByName(staticAnalyser.getContext().getModelDeclarations().get(0).getModel().getName());
+//		} catch (EolModelNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			xminModel = (XMIN) staticAnalyser.getContext().getModelDeclarations().get(0).getModel();
+//		}
 		extractor();
 		iterate();
-		xminModel.setIsCalculated(true);
-		return xminModel;
+		efmetamodel.setIsCalculated(true);
+		return efmetamodel;
 	}
 	
 	@Override
@@ -54,13 +54,13 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 	@Override
 	public void iterate() {
 		String modelVersion1, modelVersion2 = null;
-		modelVersion1 = effectiveMetamodelConvertor(xminModel);
+		modelVersion1 = effectiveMetamodelConvertor(efmetamodel);
 		extractor();
-		modelVersion2 = effectiveMetamodelConvertor(xminModel);
+		modelVersion2 = effectiveMetamodelConvertor(efmetamodel);
 		while (!modelVersion1.equals(modelVersion2)) {
 			modelVersion1 = modelVersion2;
 			extractor();
-			modelVersion2 = effectiveMetamodelConvertor(xminModel);
+			modelVersion2 = effectiveMetamodelConvertor(efmetamodel);
 		}
 	}	
 	@Override
@@ -76,30 +76,33 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 	@Override
 	public void visit(ConstraintContext constraintContext) {
 		EolModelElementType target;
+		
 		if (constraintContext.getTypeExpression() != null) {
 			target = (EolModelElementType) staticAnalyser.getResolvedType(constraintContext.getTypeExpression());
-			xminModel.addToAllOfKind(target.getName());
+			efmetamodel.addToAllOfKind(target.getName());
 
-			if (xminModel.allOfTypeContains(target.getTypeName())) {
+			if (efmetamodel.allOfTypeContains(target.getTypeName())) {
 
-				xminModel.addToAllOfKind(xminModel.getFromAllOfType(target.getName()));
-				xminModel.removeFromAllOfType(target.getName());
+				efmetamodel.addToAllOfKind(efmetamodel.getFromAllOfType(target.getName()));
+				efmetamodel.removeFromAllOfType(target.getName());
 
 			}
 			// If the element is already under EM's types reference
-			if (xminModel.typesContains(target.getTypeName())) {
+			if (efmetamodel.typesContains(target.getTypeName())) {
 
-				xminModel.addToAllOfKind(xminModel.getFromTypes(target.getName()));
-				xminModel.removeFromTypes(target.getName());
+				efmetamodel.addToAllOfKind(efmetamodel.getFromTypes(target.getName()));
+				efmetamodel.removeFromTypes(target.getName());
 			} else {
 				// not already under the EM's allOfKind or allOfType references
-				xminModel.addToAllOfKind(target.getTypeName());
-				loadFeatures(target, xminModel.getFromAllOfKind(target.getName()));
+				efmetamodel.addToAllOfKind(target.getTypeName());
+				loadFeatures(target, efmetamodel.getFromAllOfKind(target.getName()));
 			}
 		}
 		constraintContext.getTypeExpression().accept(this);
 		for (Constraint c : constraintContext.getConstraints())
+		{
 			c.accept(this);
+		}
 	}
 
 	@Override
