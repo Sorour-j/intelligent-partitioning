@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EolEffectiveMetamodelComputationVisitor;
@@ -18,9 +19,9 @@ import org.eclipse.epsilon.eol.staticanalyser.EolStaticAnalyser;
 
 public class SetEolCalculationSetting {
 
-	public static XMIN calculation(String file, String path) {
+	public static EffectiveMetamodel calculation(String file, String path) {
 
-		XMIN efModel = null;
+		EffectiveMetamodel efModel = null;
 		EolModule module = new EolModule();
 		ResourceSet resourceSet = new ResourceSetImpl();
 		
@@ -52,8 +53,6 @@ public class SetEolCalculationSetting {
 			staticAnalyser.validate(module);
 			efModel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module,staticAnalyser);
 			return efModel;
-		
-
 	}
 }
 

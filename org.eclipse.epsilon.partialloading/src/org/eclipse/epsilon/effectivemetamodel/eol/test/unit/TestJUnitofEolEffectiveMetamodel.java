@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 
 import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
-import org.eclipse.epsilon.effectivemetamodel.XMIN;
+import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveType;
 import org.junit.Test;
 
@@ -16,10 +16,10 @@ public class TestJUnitofEolEffectiveMetamodel{
 	public void allInstancesTest() throws Exception {
 		
 		String eolFile = "src/org/eclipse/epsilon/effectivemetamodel/eol/test/unit/AllInstancesTest.eol";
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("flowchart");
 		expectedEf.addToAllOfKind("Node");
 		expectedEf.getFromAllOfKind("Node").addToAttributes("name");
@@ -34,10 +34,10 @@ public class TestJUnitofEolEffectiveMetamodel{
 	public void AllofTypeTest() throws Exception {
 		
 		String eolFile = "src/org/eclipse/epsilon/effectivemetamodel/eol/test/unit/AllofTypeforSubClassTest.eol";
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("flowchart");
 		expectedEf.addToAllOfType("Action");
 		expectedEf.getFromAllOfType("Action").addToAttributes("name");
@@ -51,10 +51,10 @@ public class TestJUnitofEolEffectiveMetamodel{
 	public void CallInOperationTest() throws Exception {
 		
 		String eolFile = "src/org/eclipse/epsilon/effectivemetamodel/eol/test/unit/CollectionofModelElementTest.eol";
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("flowchart");
 		expectedEf.addToAllOfType("Action");
 		expectedEf.getFromAllOfType("Action").addToAttributes("name");
@@ -70,10 +70,10 @@ public class TestJUnitofEolEffectiveMetamodel{
 	public void NonContainmentRefrenceTest() throws Exception {
 		
 		String eolFile = "src/org/eclipse/epsilon/effectivemetamodel/eol/test/unit/NonContainmentRefrenceTest.eol";
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("flowchart");
 		expectedEf.addToAllOfKind("Node");
 		expectedEf.getFromAllOfKind("Node").addToReferences("incoming");
@@ -89,10 +89,10 @@ public class TestJUnitofEolEffectiveMetamodel{
 		metamodel = "src/org/eclipse/epsilon/effectivemetamodel/eol/test/unit/componentLanguage.ecore";
 		String eolFile = "src/org/eclipse/epsilon/effectivemetamodel/eol/test/unit/ContainmentRefrenceTest.eol";
 		
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.addToAllOfKind("Component");
 		expectedEf.getFromAllOfKind("Component").addToReferences("ports");
 		expectedEf.addToAllOfKind("Port");
@@ -103,7 +103,7 @@ public class TestJUnitofEolEffectiveMetamodel{
 
 	
 		}
-	public String effectiveMetamodelConvertor(XMIN model) {
+	public String effectiveMetamodelConvertor(EffectiveMetamodel model) {
 		String XMIN = null;
 		for (EffectiveType type : model.getAllOfKind()) {
 			XMIN += "AllofKind" + type.getName() + "-";
