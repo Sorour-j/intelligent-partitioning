@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
+import org.eclipse.epsilon.loading.PartialEvlModule;
 
 /**
  * This example demonstrates using the Epsilon Object Language, the core
@@ -30,18 +31,19 @@ public class EvlXminModelStandaloneExample {
 				modelsRoot = root.getParent().resolve("standalone");
 
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(XMIN.PROPERTY_NAME, "javaMM");
+		modelProperties.setProperty(XMIN.PROPERTY_NAME, "movies");
 		modelProperties.setProperty(XMIN.PROPERTY_FILE_BASED_METAMODEL_URI,
-				modelsRoot.resolve("java.ecore").toAbsolutePath().toUri().toString()
+				modelsRoot.resolve("movies.ecore").toAbsolutePath().toUri().toString()
 
 		);
-		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,
-				"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
+		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"http://movies/1.0");
 		modelProperties.setProperty("type", "XMIN");
 		modelProperties.setProperty(XMIN.PROPERTY_MODEL_URI,
-				modelsRoot.resolve("test.xmi").toAbsolutePath().toUri().toString());
+				modelsRoot.resolve("imdb-0.1.xmi").toAbsolutePath().toUri().toString());
 
-		EvlRunConfiguration runConfig = EvlRunConfiguration.Builder().withScript(root.resolve("test.evl"))
+		EvlRunConfiguration runConfig = EvlRunConfiguration.Builder()
+				.withModule(new PartialEvlModule())
+				.withScript(root.resolve("imdbXMIN.evl"))
 				.withModel(new XMIN(), modelProperties)
 				// .withParameter("greeting", "Hello from ")
 				.withProfiling()
