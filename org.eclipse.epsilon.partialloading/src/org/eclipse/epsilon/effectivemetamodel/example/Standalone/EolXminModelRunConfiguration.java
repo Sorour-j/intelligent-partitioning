@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EolEffectiveMetamodelComputationVisitor;
+import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
@@ -23,6 +24,7 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 	IEolModule module;
 	EolStaticAnalyser staticanalyser = new EolStaticAnalyser();
 	XMIN xminModel;
+	EffectiveMetamodel efMetamodel = new EffectiveMetamodel();
 	public EolXminModelRunConfiguration(EolRunConfiguration other) {
 		super(other);
 		module = super.getModule();
@@ -32,7 +34,7 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 	@Override
 	public void preExecute() throws Exception {
 		super.preExecute();
-		String metamodel = "src/org/eclipse/epsilon/TestUnit/Standalone/Java.ecore";
+		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/tree.ecore";
 		ResourceSet resourceSet = new ResourceSetImpl();
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
 		ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
@@ -46,23 +48,29 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 		}
 		for (EObject o : ecoreResource.getContents()) {
 			EPackage ePackage = (EPackage) o;
-			System.out.println("Java MM :" + o.eContents().size());
+			System.out.println("Tree MM :" + o.eContents().size());
 			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 		}	//	Resource resource = resourceSet.createResource(URI.createFileURI(new File(model).getAbsolutePath()));
 
-		
+		xminModel = (XMIN)module.getContext().getModelRepository().getModels().get(0);
 		staticanalyser.getContext().setModelFactory(new SubModelFactory());
 		staticanalyser.validate(module);
 		
-			
 		if (!staticanalyser.getContext().getModelDeclarations().isEmpty() 
-			&& staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
-			{
+			&& staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN")){
 				
-			xminModel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module, staticanalyser);
+		//	efMetamodel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module, staticanalyser);
+			efMetamodel.addToAllOfKind("Tree");
+			efMetamodel.addReferenceToEffectiveType("Tree","children");
+			efMetamodel.addAttributeToEffectiveType(efMetamodel.getFromAllOfKind("Tree"),"label");
+			efMetamodel.addToTypes("Tree");
+			efMetamodel.addAttributeToEffectiveType(efMetamodel.getFromTypes("Tree"),"label");
+			xminModel.setEffectiveMteamodel(efMetamodel);
+			efMetamodel.setIsCalculated(true);
 			System.out.println(xminModel);
-			xminModel.load();
+			xminModel.loadResource();
+			xminModel.load(efMetamodel);
 		}
 	}
 }

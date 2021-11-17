@@ -31,19 +31,19 @@ public class EolXminModelStandaloneExample {
 			modelsRoot = root.getParent().resolve("standalone");
 		
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(XMIN.PROPERTY_NAME, "javaMM");
+		modelProperties.setProperty(XMIN.PROPERTY_NAME, "Tree");
 		modelProperties.setProperty(XMIN.PROPERTY_FILE_BASED_METAMODEL_URI,
-			modelsRoot.resolve("java.ecore").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("tree.ecore").toAbsolutePath().toUri().toString()
 			
 		);
-		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
+		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"Tree");
 		modelProperties.setProperty("type", "XMIN");
 		modelProperties.setProperty(XMIN.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("test.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("First.xmi").toAbsolutePath().toUri().toString()
 		);
 		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()
-			.withScript(root.resolve("test.eol"))
+			.withScript(root.resolve("tree.eol"))
 			.withModel(new XMIN(), modelProperties)
 			.withParameter("Thread", Thread.class)
 			.withProfiling()
