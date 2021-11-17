@@ -1,0 +1,16 @@
+model flowchart driver XMIN {
+nsuri = "flowchart" 
+};
+
+context Action {
+
+  constraint LabelsStartWithT {
+    check   : self.name.startsWith("t")
+    message : "Label starts with t"
+ 	}
+ 	
+ 	constraint NotNull {
+    check   : self.incoming.name <> null
+    message : "Label starts with t"
+  }
+ }

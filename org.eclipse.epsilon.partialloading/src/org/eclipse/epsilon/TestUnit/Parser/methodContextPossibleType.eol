@@ -1,0 +1,17 @@
+model flowchart driver XMIN {
+nsuri = "flowchart" 
+};
+
+
+/*var persons = Person.all;
+persons.name.println();*/
+
+var d : new Decision; // d.possibleType : Decision
+var a : new Action; // a.possibleType : Decision
+
+d.printName();	//op.contextType.possibleType : Decision
+a.printName();  //op.contextType.possibleType : {Decision, Action}
+
+operation Any printName() {
+    self.name.println();
+}

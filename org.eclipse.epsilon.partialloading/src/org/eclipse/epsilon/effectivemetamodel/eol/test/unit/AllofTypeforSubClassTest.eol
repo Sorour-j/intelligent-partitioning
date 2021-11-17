@@ -1,4 +1,4 @@
-model flowchart driver EMF {
+model flowchart driver XMIN {
 nsuri = "flowchart" 
 };
 

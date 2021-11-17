@@ -1,4 +1,4 @@
-model componentLanguage driver EMF {
+model componentLanguage driver XMIN {
 nsuri = "componentLanguage" 
 };
 

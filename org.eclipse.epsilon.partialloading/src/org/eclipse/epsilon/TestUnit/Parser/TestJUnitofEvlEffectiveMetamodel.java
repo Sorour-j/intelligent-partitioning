@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
+import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.effectivemetamodel.eol.test.unit.SetEolCalculationSetting;
 import org.eclipse.epsilon.effectivemetamodel.evl.test.unit.SetEvlCalculationSetting;
@@ -42,13 +43,13 @@ public class TestJUnitofEvlEffectiveMetamodel {
 	public void allInstances() throws Exception {
 
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/allInstancesTest.evl";
-		XMIN actualEf, expectedEf;
+		EffectiveMetamodel actualEf, expectedEf;
 
 		/* Actual */
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/* Expected */
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("ImportDeclaration");
 //		expectedEf.addReferenceToAllOfKind("ImportDeclaration", "importedElement");
@@ -64,12 +65,12 @@ public class TestJUnitofEvlEffectiveMetamodel {
 	public void AllofTypeforSubClass() throws Exception {
 
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/AllofTypeforSubClassTest.evl";
-		XMIN actualEf, expectedEf;
+		EffectiveMetamodel actualEf, expectedEf;
 
 		/* Actual */
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 		/* Expected */
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("ImportDeclaration");
 //		expectedEf.addReferenceToAllOfKind("ImportDeclaration", "importedElement");
@@ -82,13 +83,13 @@ public class TestJUnitofEvlEffectiveMetamodel {
 	public void AllofTypeforSuperClass() throws Exception {
 
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/AllofTypeforSuperClassTest.evl";
-		XMIN actualEf, expectedEf;
+		EffectiveMetamodel actualEf, expectedEf;
 
 		/* Actual */
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/* Expected */
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("ImportDeclaration");
 //		expectedEf.addReferenceToAllOfKind("ImportDeclaration", "importedElement");
@@ -101,13 +102,13 @@ public class TestJUnitofEvlEffectiveMetamodel {
 	public void CollectionofModelElementTest() throws Exception {
 
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/CollectionofModelElementTest.evl";
-		XMIN actualEf, expectedEf;
+		EffectiveMetamodel actualEf, expectedEf;
 
 		/* Actual */
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/* Expected */
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("ImportDeclaration");
 		expectedEf.addToAllOfKind("Package");
@@ -122,14 +123,14 @@ public class TestJUnitofEvlEffectiveMetamodel {
 	public void NonContainmentRefrence() throws Exception {
 		
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/NonContainmentRefrenceTest.evl";
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Actual*/
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		
 		/* Expected */
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("ImportDeclaration");
 		//expectedEf.addReferenceToAllOfKind("ImportDeclaration", "importedElement");
@@ -142,13 +143,13 @@ public class TestJUnitofEvlEffectiveMetamodel {
 	public void subClass() throws Exception {
 		
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/SubClassTest.evl";
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Actual*/
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("Type");
 		//expectedEf.addAttributeToAllOfKind("Type", "name");
@@ -161,13 +162,13 @@ public class TestJUnitofEvlEffectiveMetamodel {
 	public void superClass() throws Exception {
 		
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/SuperClassTest.evl";
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Actual*/
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("NamedElement");
 //		expectedEf.addAttributeToAllOfKind("NamedElement", "name");
@@ -180,13 +181,13 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/ContainmentRefrenceTest.evl";
 		
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Actual*/
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("Package");
 		//expectedEf.addReferenceToAllOfKind("Package","ownedElements");
@@ -200,13 +201,13 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/EnumerationTypeTest.evl";
 		
-		XMIN actualEf,expectedEf;
+		EffectiveMetamodel actualEf,expectedEf;
 		
 		/*Actual*/
 		actualEf = SetEvlCalculationSetting.calculation(evlFile, metamodel);
 
 		/*Expected*/
-		expectedEf = new XMIN();
+		expectedEf = new EffectiveMetamodel();
 		expectedEf.setName("javaMM");
 		expectedEf.addToAllOfKind("BodyDeclaration");
 //		expectedEf.addReferenceToAllOfKind("BodyDeclaration","modifier");
@@ -218,7 +219,7 @@ public class TestJUnitofEvlEffectiveMetamodel {
 		}
 	
 
-	public static boolean compare(XMIN actual, XMIN expected) {
+	public static boolean compare(EffectiveMetamodel actual, EffectiveMetamodel expected) {
 
 		int i = 0;
 		int j = 0;

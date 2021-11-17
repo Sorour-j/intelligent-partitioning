@@ -1,0 +1,37 @@
+//model Tree driver XMIN {
+//nsuri = "Tree"
+//};
+//
+//
+//context Tree {
+//	constraint hasName {
+//		check: self.label.println() <> null
+//	}
+//}
+model movies driver XMIN {
+nsuri = "http://movies/1.0"
+};
+context Movie {
+	constraint hasTitle {
+		check: self.`title`<> null
+	}
+	constraint hasRate {
+		check: self.rating<4	
+		}
+}
+context Person {
+	constraint hasName {
+		check: self.name <> null
+	}
+}
+
+
+//context Movie {
+//	constraint hasTitle {
+//		check: self.`title`.println()<> null
+//	}
+//}
+
+//
+
+//}

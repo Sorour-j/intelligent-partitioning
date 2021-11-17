@@ -1,0 +1,8 @@
+model Tree driver XMIN {
+nsuri = "Tree"
+};
+
+var a:Tree;
+for (a in Tree.allInstances()){
+	a.children.label.println();
+}
