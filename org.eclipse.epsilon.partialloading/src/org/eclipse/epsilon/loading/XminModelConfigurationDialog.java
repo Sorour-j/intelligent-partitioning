@@ -13,7 +13,7 @@ package org.eclipse.epsilon.loading;
 import org.eclipse.epsilon.emc.emf.dt.EmfModelConfigurationDialog;
 
 public class XminModelConfigurationDialog extends EmfModelConfigurationDialog {
-
+	
 	@Override
 	protected String getModelName() {
 		return "XMIN model";
@@ -23,4 +23,5 @@ public class XminModelConfigurationDialog extends EmfModelConfigurationDialog {
 	protected String getModelType() {
 		return "XMIN";
 	}
+	
 }

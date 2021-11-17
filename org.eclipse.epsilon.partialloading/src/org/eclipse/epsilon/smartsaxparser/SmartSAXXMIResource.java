@@ -3,16 +3,13 @@ package org.eclipse.epsilon.smartsaxparser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
-import org.eclipse.epsilon.effectivemetamodel.XMIN;
+import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 
 public class SmartSAXXMIResource extends XMIResourceImpl {
 
@@ -44,7 +41,7 @@ public class SmartSAXXMIResource extends XMIResourceImpl {
 
 		// loadAllAttributes = (Boolean) options.get(OPTION_LOAD_ALL_ATTRIBUTES);
 
-		ArrayList<XMIN> effectiveMetamodels = (ArrayList<XMIN>) options.get(OPTION_EFFECTIVE_METAMODELS);
+		ArrayList<EffectiveMetamodel> effectiveMetamodels = (ArrayList<EffectiveMetamodel>) options.get(OPTION_EFFECTIVE_METAMODELS);
 		if (effectiveMetamodels != null) {
 			EffectiveMetamodelReconciler effectiveMetamodelReconciler = new EffectiveMetamodelReconciler();
 			effectiveMetamodelReconciler.addEffectiveMetamodels(effectiveMetamodels);

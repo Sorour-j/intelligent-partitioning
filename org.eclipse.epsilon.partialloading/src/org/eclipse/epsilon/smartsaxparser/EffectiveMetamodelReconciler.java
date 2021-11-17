@@ -11,12 +11,13 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
+import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveType;
 
 public class EffectiveMetamodelReconciler {
 
 	//effective metamodels
-	protected ArrayList<XMIN> effectiveMetamodels = new ArrayList<XMIN>();
+	protected ArrayList<EffectiveMetamodel> effectiveMetamodels = new ArrayList<EffectiveMetamodel>();
 	
 	//epackages
 	protected ArrayList<EPackage> packages = new ArrayList<EPackage>();
@@ -31,16 +32,16 @@ public class EffectiveMetamodelReconciler {
 	protected ArrayList<EClass> visitedClasses = new ArrayList<EClass>();
 
 	
-	public ArrayList<XMIN> getEffectiveMetamodels() {
+	public ArrayList<EffectiveMetamodel> getEffectiveMetamodels() {
 		return effectiveMetamodels;
 	}
 	
-	public void addEffectiveMetamodel(XMIN effectiveMetamodel)
+	public void addEffectiveMetamodel(EffectiveMetamodel effectiveMetamodel)
 	{
 		effectiveMetamodels.add(effectiveMetamodel);
 	}
 	
-	public void addEffectiveMetamodels(ArrayList<XMIN> effectiveMetamodels)
+	public void addEffectiveMetamodels(ArrayList<EffectiveMetamodel> effectiveMetamodels)
 	{
 		this.effectiveMetamodels.addAll(effectiveMetamodels);
 	}
@@ -104,7 +105,7 @@ public class EffectiveMetamodelReconciler {
 			}
 		}
 		long end = System.nanoTime();
-		System.out.println("Loop One = " + (long)(end-start)/1000000);
+	//	System.out.println("Loop One = " + (long)(end-start)/1000000);
 		
 		start = System.nanoTime();
 		
@@ -210,7 +211,7 @@ public class EffectiveMetamodelReconciler {
 //			}
 //	}
 		end = System.nanoTime();
-		System.out.println("Loop Two = " + (long)(end-start)/1000000);
+	//	System.out.println("Loop Two = " + (long)(end-start)/1000000);
 		
 	/*	for(XMIN em: effectiveMetamodels)
 		{
@@ -275,7 +276,7 @@ public class EffectiveMetamodelReconciler {
 	public boolean actualObjectToLoad(EPackage ePackage, EClass eClass)
 	{
 		//for each effective metamodel in the container
-		for(XMIN em: effectiveMetamodels)
+		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if em's name is equal to epack's name
 			if (em.getName().equalsIgnoreCase(ePackage.getName())) {
@@ -322,7 +323,7 @@ public class EffectiveMetamodelReconciler {
 	public boolean typesToLoad(EPackage ePackage, EClass eClass)
 	{
 		//for each effective metamodel in the container
-		for(XMIN em: effectiveMetamodels)
+		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if em's name is equal to epack's name
 			if (em.getName().equalsIgnoreCase(ePackage.getName())) {
@@ -445,15 +446,17 @@ public class EffectiveMetamodelReconciler {
 			
 		}
 		//If this eclass exists as ActualObjectToLoad then merge features in ActualObjtToLoad
-		if (Actual != null && Actual.containsKey(eClass.getName())) {
-				for (String feature : Actual.get(eClass.getName()))
-						if (refs.contains(feature))
-							refs.remove(feature);
-			
-						refs.addAll(Actual.get(eClass.getName()));
-						Actual.put(eClass.getName(), refs);
-						subMap.remove(eClass.getName());
-				}
+		//Merge or not?
+		
+//		if (Actual != null && Actual.containsKey(eClass.getName())) {
+//				for (String feature : Actual.get(eClass.getName()))
+//						if (refs.contains(feature))
+//							refs.remove(feature);
+//			
+//						refs.addAll(Actual.get(eClass.getName()));
+//						Actual.put(eClass.getName(), refs);
+//						subMap.remove(eClass.getName());
+//				}
 }
 
 	public ArrayList<String> getFeaturesForTypeToLoad(EClass eClass)
@@ -464,7 +467,7 @@ public class EffectiveMetamodelReconciler {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		//for all model containers
-		for(XMIN em: effectiveMetamodels)
+		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if the container is the container needed
 			if (em.getName().equals(ePackage.getName())) {
@@ -513,7 +516,7 @@ public class EffectiveMetamodelReconciler {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		//for all model containers
-		for(XMIN em: effectiveMetamodels)
+		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if the container is the container needed
 			if (em.getName().equals(ePackage.getName())) {
@@ -634,7 +637,7 @@ public class EffectiveMetamodelReconciler {
 	public boolean liveClass(EPackage ePackage, String className)
 	{
 		//for each effective metamodel
-		for(XMIN em: effectiveMetamodels)
+		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//get the package first
 			if (em.getName().equalsIgnoreCase(ePackage.getName())) {
@@ -784,7 +787,7 @@ public class EffectiveMetamodelReconciler {
 		//inserted 
 		boolean inserted = false;
 		//for each effective metamodel
-		for(XMIN em: effectiveMetamodels)
+		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//get the matching package
 			if (em.getName().equals(ePackage.getName())) {
@@ -844,7 +847,7 @@ public class EffectiveMetamodelReconciler {
 		//if not inserted, create effective metamodel and add to types
 		if (!inserted) {
 			addPlaceHolderObject(ePackage.getName(), eClass.getName());
-			XMIN newEffectiveMetamodel = new XMIN();
+			EffectiveMetamodel newEffectiveMetamodel = new EffectiveMetamodel();
 			newEffectiveMetamodel.setName(ePackage.getName());
 			effectiveMetamodels.add(newEffectiveMetamodel);
 		}
