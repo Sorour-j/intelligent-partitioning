@@ -8,7 +8,7 @@ import org.eclipse.epsilon.eol.m3.StructuralFeature;
 public class EffectiveType {
 
 	protected String name;
-	protected XMIN effectiveMetamodel;
+	protected EffectiveMetamodel effectiveMetamodel;
 	protected ArrayList<EffectiveFeature> attributes = new ArrayList<EffectiveFeature>();
 	protected ArrayList<EffectiveFeature> references = new ArrayList<EffectiveFeature>();
 	protected ArrayList<StructuralFeature> traversalAttributes = new ArrayList<StructuralFeature>();
@@ -62,11 +62,11 @@ public class EffectiveType {
 		return name;
 	}
 	
-	public XMIN getEffectiveMetamodel() {
+	public EffectiveMetamodel getEffectiveMetamodel() {
 		return effectiveMetamodel;
 	}
 	
-	public void setEffectiveMetamodel(XMIN effectiveMetamodel) {
+	public void setEffectiveMetamodel(EffectiveMetamodel effectiveMetamodel) {
 		this.effectiveMetamodel = effectiveMetamodel;
 	}
 	
