@@ -2,6 +2,8 @@ package org.eclipse.epsilon.effectivemetamodel.evl.test.unit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -16,13 +18,14 @@ import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EvlEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EvlPartitioningEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
 
-public class SetEvlCalculationSetting {
+public class SetEvlCalculationPartitioningSetting {
 
-	public static EffectiveMetamodel calculation(String file, String path) {
+	public static HashMap<String, EffectiveMetamodel> calculation(String file, String path) {
 
-		EffectiveMetamodel efModel = null;
+		HashMap<String, EffectiveMetamodel> efMetaModels = new HashMap<String, EffectiveMetamodel>();
 		EvlModule module = new EvlModule();
 		ResourceSet resourceSet = new ResourceSetImpl();
 		
@@ -52,11 +55,11 @@ public class SetEvlCalculationSetting {
 		EvlStaticAnalyser staticAnalyser = new EvlStaticAnalyser();
 			staticAnalyser.getContext().setModelFactory(new SubModelFactory());
 			staticAnalyser.validate(module);
-			efModel = new EvlEffectiveMetamodelComputationVisitor().setExtractor(module,staticAnalyser);
-		//	efModel = new EvlEffectiveMetamodelComputationVisitor().setExtractor(module,staticAnalyser);
-			
-			return efModel;
-		
+//			for (Map.Entry<String, EffectiveMetamodel> entry : new EvlPartitioningEffectiveMetamodelComputationVisitor().preExtractor(module,staticAnalyser).entrySet())
+//				efMetaModels.put(entry.getKey(), entry.getValue());
+			efMetaModels = new EvlPartitioningEffectiveMetamodelComputationVisitor().preExtractor(module,staticAnalyser);
+			return efMetaModels;
+
 	}
 }
 
