@@ -3,6 +3,8 @@ package org.eclipse.epsilon.smartsaxparser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.impl.XMILoadImpl;
 import org.xml.sax.helpers.DefaultHandler;
@@ -10,9 +12,9 @@ import org.xml.sax.helpers.DefaultHandler;
 public class SmartSAXXMILoadImpl extends XMILoadImpl{
 	public boolean loadAllAttributes = true;
 	
-	protected HashMap<String, HashMap<String, ArrayList<String>>> objectsAndRefNamesToVisit = new HashMap<String, HashMap<String,ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> actualObjectsToLoad = new HashMap<String, HashMap<String,ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> typesToLoad = new HashMap<String, HashMap<String,ArrayList<String>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> objectsAndRefNamesToVisit = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> actualObjectsToLoad = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> typesToLoad = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
 
 	public void clearCollections()
 	{
@@ -23,17 +25,17 @@ public class SmartSAXXMILoadImpl extends XMILoadImpl{
 	}
 	
 	public void setObjectsAndRefNamesToVisit(
-			HashMap<String, HashMap<String, ArrayList<String>>> objectsAndRefNamesToVisit) {
+			HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> objectsAndRefNamesToVisit) {
 		this.objectsAndRefNamesToVisit = objectsAndRefNamesToVisit;
 	}
 
 	public void setActualObjectsToLoad(
-			HashMap<String, HashMap<String, ArrayList<String>>> actualObjectsToLoad) {
+			HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> actualObjectsToLoad) {
 		this.actualObjectsToLoad = actualObjectsToLoad;
 	}
 	
 	public void setTypesToLoad(
-			HashMap<String, HashMap<String, ArrayList<String>>> typesToLoad) {
+			HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> typesToLoad) {
 		this.typesToLoad = typesToLoad;
 	}
 	

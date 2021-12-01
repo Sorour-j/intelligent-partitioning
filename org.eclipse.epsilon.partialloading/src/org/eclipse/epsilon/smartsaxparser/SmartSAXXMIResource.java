@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
@@ -21,9 +23,9 @@ public class SmartSAXXMIResource extends XMIResourceImpl {
 
 	public boolean loadAllAttributes = true;
 
-	protected HashMap<String, HashMap<String, ArrayList<String>>> objectsAndRefNamesToVisit = new HashMap<String, HashMap<String, ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> actualObjectsToLoad = new HashMap<String, HashMap<String, ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> typesToLoad = new HashMap<String, HashMap<String, ArrayList<String>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> objectsAndRefNamesToVisit = new HashMap<String,HashMap<EClass, ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> actualObjectsToLoad = new HashMap<String,HashMap<EClass, ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> typesToLoad = new HashMap<String,HashMap<EClass, ArrayList<EStructuralFeature>>>();
 
 	protected boolean handleFlatObjects = false;
 	protected SmartSAXXMILoadImpl sxl;

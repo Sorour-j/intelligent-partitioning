@@ -8,9 +8,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
-import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveType;
 
@@ -22,9 +22,9 @@ public class EffectiveMetamodelReconciler {
 	//epackages
 	protected ArrayList<EPackage> packages = new ArrayList<EPackage>();
 	
-	protected HashMap<String, HashMap<String, ArrayList<String>>> traversalPlans = new HashMap<String, HashMap<String,ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> actualObjectsAndFeaturesToLoad = new HashMap<String, HashMap<String,ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> typesToLoad = new HashMap<String, HashMap<String,ArrayList<String>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> traversalPlans = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> actualObjectsAndFeaturesToLoad = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> typesToLoad = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
 	protected HashMap<String, ArrayList<String>> metamodelClasses = new HashMap<String, ArrayList<String>>();
 	protected HashMap<String, ArrayList<String>> placeHolderObjects = new HashMap<String, ArrayList<String>>();
 	
@@ -56,15 +56,15 @@ public class EffectiveMetamodelReconciler {
 		this.packages.addAll((Collection<? extends EPackage>) packages);
 	}
 	
-	public HashMap<String, HashMap<String, ArrayList<String>>> getObjectsAndRefNamesToVisit() {
+	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getObjectsAndRefNamesToVisit() {
 		return traversalPlans;
 	}
 	
-	public HashMap<String, HashMap<String, ArrayList<String>>> getActualObjectsToLoad() {
+	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getActualObjectsToLoad() {
 		return actualObjectsAndFeaturesToLoad;
 	}
 	
-	public HashMap<String, HashMap<String, ArrayList<String>>> getTypesToLoad() {
+	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getTypesToLoad() {
 		return typesToLoad;
 	}
 	
@@ -364,21 +364,21 @@ public class EffectiveMetamodelReconciler {
 		String epackage = eClass.getEPackage().getName();
 		
 		//get the submap with the epackage name
-		HashMap<String, ArrayList<String>> subMap = actualObjectsAndFeaturesToLoad.get(epackage);
-		HashMap<String, ArrayList<String>> types = typesToLoad.get(epackage);
-		ArrayList<String> refs = new ArrayList<String>();
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = actualObjectsAndFeaturesToLoad.get(epackage);
+		//HashMap<EClass, ArrayList<EStructuralFeature>> types = typesToLoad.get(epackage);
+		ArrayList<EStructuralFeature> refs = new ArrayList<EStructuralFeature>();
 				
 		//if sub map is null
 		if (subMap == null) {
 			
 			//create new sub map
-			subMap = new HashMap<String, ArrayList<String>>();
+			subMap = new HashMap<EClass, ArrayList<EStructuralFeature>>();
 			
 			//create new refs for the map
 			refs = getFeaturesForClassToLoad(eClass);
 			
 			//add the ref to the sub map
-			subMap.put(eClass.getName(), refs);
+			subMap.put(eClass, refs);
 			
 			//add the sub map to objectsAndRefNamesToVisit
 			actualObjectsAndFeaturesToLoad.put(epackage, subMap);
@@ -386,27 +386,27 @@ public class EffectiveMetamodelReconciler {
 		else
 		{
 			//if sub map is not null, get the refs by class name
-			refs = subMap.get(eClass.getName());
+			refs = subMap.get(eClass);
 
 			//if refs is null, create new refs and add the ref and then add to sub map
 			if (refs == null) {
 				//get refs from allOfKind or allOfType
 				refs = getFeaturesForClassToLoad(eClass);
 //	
-				subMap.put(eClass.getName(), refs);
+				subMap.put(eClass, refs);
 			}
 		}
 			
 			//If this eclass exists as ActualObjectToLoad then merge features in ActualObjtToLoad
-			if (types != null && types.containsKey(eClass.getName())) {
-						for (String feature : types.get(eClass.getName()))
-							if (refs.contains(feature))
-								refs.remove(feature);
-					
-							refs.addAll(types.get(eClass.getName()));
-							subMap.put(eClass.getName(), refs);
-							types.remove(eClass.getName());
-			}
+//			if (types != null && types.containsKey(eClass.getName())) {
+//						for (String feature : types.get(eClass.getName()))
+//							if (refs.contains(feature))
+//								refs.remove(feature);
+//					
+//							refs.addAll(types.get(eClass.getName()));
+//							subMap.put(eClass.getName(), refs);
+//							types.remove(eClass.getName());
+//			}
 			
 	}
 	
@@ -416,18 +416,18 @@ public class EffectiveMetamodelReconciler {
 		String epackage = eClass.getEPackage().getName();
 		
 		//get the submap with the epackage name
-		HashMap<String, ArrayList<String>> subMap = typesToLoad.get(epackage);
-		HashMap<String, ArrayList<String>> Actual = actualObjectsAndFeaturesToLoad.get(epackage);
-		ArrayList<String> refs = getFeaturesForTypeToLoad(eClass);
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = typesToLoad.get(epackage);
+	//	HashMap<EClass, ArrayList<EStructuralFeature>> Actual = actualObjectsAndFeaturesToLoad.get(epackage);
+		ArrayList<EStructuralFeature> refs = getFeaturesForTypeToLoad(eClass);
 		
 		//if sub map is null and eClass doesn't exist in ActualObjToLoad
 		
 		if (subMap == null) {
 				//create new sub map
-				subMap = new HashMap<String, ArrayList<String>>();
+				subMap = new HashMap<EClass, ArrayList<EStructuralFeature>>();
 				
 					//add the ref to the sub map
-					subMap.put(eClass.getName(), refs);
+					subMap.put(eClass, refs);
 			
 					//add the sub map to objectsAndRefNamesToVisit
 					typesToLoad.put(epackage, subMap);
@@ -435,13 +435,13 @@ public class EffectiveMetamodelReconciler {
 		else
 		{	
 			//if sub map is not null, get the refs by class name
-			refs = subMap.get(eClass.getName());
+			refs = subMap.get(eClass);
 			//if refs is null, create new refs and add the ref and then add to sub map
 			if (refs == null) {
 				
 				//the features should be loaded accprding to effective metamdel
 				refs = getFeaturesForTypeToLoad(eClass);
-				subMap.put(eClass.getName(), refs);
+				subMap.put(eClass, refs);
 			}
 			
 		}
@@ -459,12 +459,12 @@ public class EffectiveMetamodelReconciler {
 //				}
 }
 
-	public ArrayList<String> getFeaturesForTypeToLoad(EClass eClass)
+	public ArrayList<EStructuralFeature> getFeaturesForTypeToLoad(EClass eClass)
 	{
 		//get the package
 		EPackage ePackage = eClass.getEPackage();
 		//prepare the result
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<EStructuralFeature> result = new ArrayList<EStructuralFeature>();
 		
 		//for all model containers
 		for(EffectiveMetamodel em: effectiveMetamodels)
@@ -477,11 +477,13 @@ public class EffectiveMetamodelReconciler {
 					if (eClass.getName().equals(et.getName())) {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
-							result.add(ef.getName());
+							//result.add(ef.getName());
+							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						for(EffectiveFeature ef: et.getReferences())
 						{
-							result.add(ef.getName());
+							//result.add(ef.getName());
+							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop2;
 					}
@@ -492,13 +494,15 @@ public class EffectiveMetamodelReconciler {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
 							//add by Sorour
-							if (!result.contains(ef.getName()))
-									result.add(ef.getName());
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
+									//result.add(ef.getName());
+								result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						for(EffectiveFeature ef: et.getReferences())
 						{
-							if (!result.contains(ef.getName()))
-								result.add(ef.getName());
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
+								//result.add(ef.getName());
+								result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop1;
 					}
@@ -508,12 +512,12 @@ public class EffectiveMetamodelReconciler {
 		return result;
 	}
 	
-	public ArrayList<String> getFeaturesForClassToLoad(EClass eClass)
+	public ArrayList<EStructuralFeature> getFeaturesForClassToLoad(EClass eClass)
 	{
 		//get the package
 		EPackage ePackage = eClass.getEPackage();
 		//prepare the result
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<EStructuralFeature> result = new ArrayList<EStructuralFeature>();
 		
 		//for all model containers
 		for(EffectiveMetamodel em: effectiveMetamodels)
@@ -528,11 +532,13 @@ public class EffectiveMetamodelReconciler {
 					if (eClass.getName().equals(et.getName())) {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
-							result.add(ef.getName());
+							//result.add(ef.getName());
+							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						for(EffectiveFeature ef: et.getReferences())
 						{
-							result.add(ef.getName());
+							//result.add(ef.getName());
+							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop1;
 					}
@@ -543,14 +549,16 @@ public class EffectiveMetamodelReconciler {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
 							//Add recently
-							if (!result.contains(ef.getName()))
-								result.add(ef.getName());
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
+								//result.add(ef.getName());
+								result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						for(EffectiveFeature ef: et.getReferences())
 						{
 							//Add recently
-							if (!result.contains(ef.getName()))
-								result.add(ef.getName());
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
+								//result.add(ef.getName());
+								result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop1;
 					}
@@ -564,11 +572,13 @@ public class EffectiveMetamodelReconciler {
 					if (eClass.getName().equals(et.getName())) {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
-							result.add(ef.getName());
+							//result.add(ef.getName());
+							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						for(EffectiveFeature ef: et.getReferences())
 						{
-							result.add(ef.getName());
+							//result.add(ef.getName());
+							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop2;
 					}
@@ -739,41 +749,41 @@ public class EffectiveMetamodelReconciler {
 		//get the epackage name
 		String epackage = eClass.getEPackage().getName();
 		//get the submap with the epackage name
-		HashMap<String, ArrayList<String>> subMap = traversalPlans.get(epackage);
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = traversalPlans.get(epackage);
 		//if sub map is null
 		if (subMap == null) {
 			//create new sub map
-			subMap = new HashMap<String, ArrayList<String>>();
+			subMap = new HashMap<EClass, ArrayList<EStructuralFeature>>();
 			//create new refs for the map
-			ArrayList<String> refs = new ArrayList<String>();
+			ArrayList<EStructuralFeature> refs = new ArrayList<EStructuralFeature>();
 			//if eReference is not null
 			if (eReference != null) {
 				//add the eReference to the ref
-				refs.add(eReference.getName());
+				refs.add(eReference);
 			}
 			//add the ref to the sub map
-			subMap.put(eClass.getName(), refs);
+			subMap.put(eClass, refs);
 			//add the sub map to objectsAndRefNamesToVisit
 			traversalPlans.put(epackage, subMap);
 		}
 		else {
 			//if sub map is not null, get the refs by class name
-			ArrayList<String> refs = subMap.get(eClass.getName());
+			ArrayList<EStructuralFeature> refs = subMap.get(eClass);
 
 			//if refs is null, create new refs and add the ref and then add to sub map
 			if (refs == null) {
-				refs = new ArrayList<String>();
+				refs = new ArrayList<EStructuralFeature>();
 				if(eReference != null)
 				{
-					refs.add(eReference.getName());
+					refs.add(eReference);
 				}
-				subMap.put(eClass.getName(), refs);
+				subMap.put(eClass, refs);
 			}
 			//if ref is not null, add the ref
 			else {
 				if (eReference != null) {
-					if (!refs.contains(eReference.getName())) {
-						refs.add(eReference.getName());	
+					if (!refs.contains(eReference)) {
+						refs.add(eReference);	
 					}
 				}
 			}

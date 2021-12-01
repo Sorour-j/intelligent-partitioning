@@ -27,9 +27,9 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 public class SmartSAXXMIHandler extends SAXXMIHandler{
 	
-	protected HashMap<String, HashMap<String, ArrayList<String>>> traversalPlans = new HashMap<String, HashMap<String,ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> actualObjectsAndFeaturesToLoad = new HashMap<String, HashMap<String,ArrayList<String>>>();
-	protected HashMap<String, HashMap<String, ArrayList<String>>> typesToLoad = new HashMap<String, HashMap<String,ArrayList<String>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> traversalPlans = new HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> actualObjectsAndFeaturesToLoad = new HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>>();
+	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> typesToLoad = new HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>>();
 
  	protected HashMap<EClass, EObject> cache = new HashMap<EClass, EObject>();
  	
@@ -38,7 +38,7 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
  	protected ArrayList<Integer> extentIndexToDelete = new ArrayList<Integer>(); 
 	
 	protected EClass traversal_currentClass;
-	protected ArrayList<String> traversal_currentFeatures = new ArrayList<String>();
+	protected ArrayList<EStructuralFeature> traversal_currentFeatures = new ArrayList<EStructuralFeature>();
 	
 	protected boolean shouldHalt = false;
 	protected String currentName = "";
@@ -70,17 +70,17 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 	}
 	
 	public void setTypesToLoad(
-			HashMap<String, HashMap<String, ArrayList<String>>> typesToLoad) {
+			HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> typesToLoad) {
 		this.typesToLoad = typesToLoad;
 	}
 	
 	public void setObjectsAndRefNamesToVisit(
-			HashMap<String, HashMap<String, ArrayList<String>>> objectsAndRefNamesToVisit) {
+			HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> objectsAndRefNamesToVisit) {
 		this.traversalPlans = objectsAndRefNamesToVisit;
 	}
 	
 	public void setActualObjectsToLoad(
-			HashMap<String, HashMap<String, ArrayList<String>>> actualObjectsToLoad) {
+			HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> actualObjectsToLoad) {
 		this.actualObjectsAndFeaturesToLoad = actualObjectsToLoad;
 	}
 	
@@ -137,7 +137,7 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 		//    if (!extent.contains(newObject))
 //		    if (newObject.getClass().getName().equals("InfixExpression") && objects.peekEObject().getClass().getName().equals("IfStatement") )
 //	    		System.out.println();
-		    if (!handlingFeature || !extent.contains(objects.peekEObject())) {
+		   if (!handlingFeature || !extent.contains(objects.peekEObject())) {
 		    	extent.add(newObject);	
 //		    	if (extent.size() > 71)
 //		    		System.out.print("Hi");
@@ -147,7 +147,7 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 		    
 		}
 		
-		else if (handlingFeature && shouldCreateObjectForReference(eClass)) {
+		else if (shouldCreateObjectForReference(eClass) && handlingFeature) {
 			
 			//prepare newObject
 		    EObject newObject = null;
@@ -260,11 +260,11 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 	    		  setFeatureValue(object, feature, value, -2);	
 	    	  }
 	    	  else {
-		    	  if (shouldHandleFeature(object, feature.getName())) {
+		    	  if (shouldHandleFeature(object, feature)) {
 		    		  setFeatureValue(object, feature, value, -2);	
 		    	  }
 		    	  else {
-					if (handlingFeature && shouldHandleFeatureForType(object, feature.getName())) {
+					if (handlingFeature && shouldHandleFeatureForType(object, feature)) {
 						setFeatureValue(object, feature, value, -2);
 					}
 				}
@@ -273,11 +273,11 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 	      }
 	      else
 	      {
-	    	  if (shouldHandleFeature(object, feature.getName())) {
+	    	  if (shouldHandleFeature(object, feature)) {
 	  	        	setValueFromId(object, (EReference)feature, value);
 			}
 	    	  else {
-					if (handlingFeature && shouldHandleFeatureForType(object, feature.getName())) {
+					if (handlingFeature && shouldHandleFeatureForType(object, feature)) {
 						
 						if (((EReference)feature).isContainment())
 							setFeatureValue(object, feature, value, -2);
@@ -346,15 +346,14 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 		shouldHalt = true;
 	}
 		
-	public boolean shouldHandleFeature(EObject object, String featureName)
+	public boolean shouldHandleFeature(EObject object, EStructuralFeature feature)
 	{
 		EClass eClass = object.eClass();
-		String className = eClass.getName();
 		String packageName = eClass.getEPackage().getName();
-		HashMap<String, ArrayList<String>> subMap = actualObjectsAndFeaturesToLoad.get(packageName);
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = actualObjectsAndFeaturesToLoad.get(packageName);
 		if (subMap != null) {
-			ArrayList<String> features = subMap.get(className);
-			if (features != null && (features.contains(featureName) || features.contains("*"))) {
+			ArrayList<EStructuralFeature> features = subMap.get(eClass);
+			if (features != null && (features.contains(feature) || features.contains("*"))) {
 				return true;
 			}
 			else {
@@ -366,15 +365,14 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 		}
 	}
 	
-	public boolean shouldHandleFeatureForType(EObject object, String featureName)
+	public boolean shouldHandleFeatureForType(EObject object, EStructuralFeature feature)
 	{
 		EClass eClass = object.eClass();
-		String className = eClass.getName();
 		String packageName = eClass.getEPackage().getName();
-		HashMap<String, ArrayList<String>> subMap = typesToLoad.get(packageName);
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = typesToLoad.get(packageName);
 		if (subMap != null) {
-			ArrayList<String> features = subMap.get(className);
-			if (features != null && (features.contains(featureName) || features.contains("*"))) {
+			ArrayList<EStructuralFeature> features = subMap.get(eClass);
+			if (features != null && (features.contains(feature) || features.contains("*"))) {
 				return true;
 			}
 			else {
@@ -390,12 +388,12 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 	public boolean shouldCreateAllObjectForClass(EClass eClass)
 	{
 		String epackage = eClass.getEPackage().getName();
-		HashMap<String, ArrayList<String>> subMap = actualObjectsAndFeaturesToLoad.get(epackage);
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = actualObjectsAndFeaturesToLoad.get(epackage);
 		if (subMap == null) {
 			return false;
 		}
 		
-		if (subMap.keySet().contains(eClass.getName())) {
+		if (subMap.keySet().contains(eClass)) {
 			return true;
 		}
 		return false;
@@ -405,12 +403,12 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 	{
 		String epackage = eClass.getEPackage().getName();
 		
-		HashMap<String, ArrayList<String>> subMap = typesToLoad.get(epackage);
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = typesToLoad.get(epackage);
 		if (subMap == null) {
 			return false;
 		}
 		
-		if (subMap.keySet().contains(eClass.getName())) {
+		if (subMap.keySet().contains(eClass)) {
 			return true;
 		}
 		return false;
@@ -438,11 +436,11 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 			//get classname string
 			String className = eClass.getName();
 			//get subMap
-			HashMap<String, ArrayList<String>> subMap = traversalPlans.get(epackage);
+			HashMap<EClass, ArrayList<EStructuralFeature>> subMap = traversalPlans.get(epackage);
 			//if submap is not null
 			if (subMap != null) {
 				//get the features of the submap
-				 ArrayList<String> features = subMap.get(className);
+				 ArrayList<EStructuralFeature> features = subMap.get(eClass);
 				 //if features is not null
 				 if (features != null) {
 					//set the current features as features for caching 
@@ -489,7 +487,7 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 	    
 	    if (feature != null)
 	    {
-	    	if (shouldHandleFeature(peekObject, name) || shouldHandleFeatureForType(peekObject, name)) {
+	    	if (shouldHandleFeature(peekObject, feature) || shouldHandleFeatureForType(peekObject, feature)) {
 				handlingFeature = true;
 			}
 	    	else {
@@ -751,14 +749,14 @@ public class SmartSAXXMIHandler extends SAXXMIHandler{
 	  protected void setFeatureValue(EObject object, EStructuralFeature feature, Object value)
 	  {
 		
-		  if (shouldHandleFeature(object, feature.getName())) {
+		  if (shouldHandleFeature(object, feature)) {
 			  setFeatureValue(object, feature, value, -1);	
 		}
 		  else {
 //			if (handlingFeature && shouldHandleFeatureForType(object, feature.getName())) {
 //				setFeatureValue(object, feature, value, -1);
 //			}
-			  if (shouldHandleFeatureForType(object, feature.getName())) {
+			  if (shouldHandleFeatureForType(object, feature)) {
 					setFeatureValue(object, feature, value, -1);
 				}
 		}
