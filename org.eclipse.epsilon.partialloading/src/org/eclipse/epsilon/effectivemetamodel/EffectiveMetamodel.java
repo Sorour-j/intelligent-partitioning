@@ -7,92 +7,77 @@ public class EffectiveMetamodel {
 	protected String name;
 	protected String nsuri;
 	protected String path;
-	protected boolean isCalculated = false; // To understand that effective metamodel is calculated or not 
+	protected boolean isCalculated = false; // To understand that effective metamodel is calculated or not
 	protected ArrayList<EffectiveType> allOfType = new ArrayList<EffectiveType>();
 	protected ArrayList<EffectiveType> allOfKind = new ArrayList<EffectiveType>();
 	protected ArrayList<EffectiveType> types = new ArrayList<EffectiveType>();
-	
-	public EffectiveMetamodel(String name, String nsuri)
-	{
+
+	public EffectiveMetamodel(String name, String nsuri) {
 		this.name = name;
 		this.nsuri = nsuri;
 	}
-	
-	public EffectiveMetamodel()
-	{
+
+	public EffectiveMetamodel() {
 	}
+
 	public void setIsCalculated(boolean set) {
 		this.isCalculated = set;
 	}
+
 	public boolean getIsCalculated() {
 		return isCalculated;
 	}
-	public void setName(String name)
-	{
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	public void setNsuri(String nsuri)
-	{
+
+	public void setNsuri(String nsuri) {
 		this.nsuri = nsuri;
 	}
+
 	public void clear() {
 		this.getAllOfKind().clear();
 		this.getAllOfType().clear();
 		this.getTypes().clear();
 		this.isCalculated = false;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getPath() {
 		return path;
 	}
+
 	public void setPath(String path) {
 		this.path = path;
 	}
+
 	public String getNsuri() {
 		return nsuri;
 	}
-	
+
 	public ArrayList<EffectiveType> getAllOfType() {
 		return allOfType;
 	}
-	
+
 	public ArrayList<EffectiveType> getAllOfKind() {
 		return allOfKind;
 	}
-	
-//	public boolean removeFromTypes(String modelElement) {
-//		
-//		EffectiveType me = new EffectiveType(modelElement);
-//		
-//		for(EffectiveType et: types)
-//		{
-//			if (et.getName().equals(modelElement)) {
-//				types.remove(me);
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-	
-	/*Add elements to effective meta-model references*/
-	/* In all methods, if the element already exists, it just returned*/
-	
+
 	public void addAttributeToAll(String modelElement) {
-		for(EffectiveType et: allOfKind)
-			addAttributeToEffectiveType(et,modelElement);
-		for(EffectiveType et: allOfType)
-			addAttributeToEffectiveType(et,modelElement);
-		for(EffectiveType et: types)
-			addAttributeToEffectiveType(et,modelElement);
+		for (EffectiveType et : allOfKind)
+			addAttributeToEffectiveType(et, modelElement);
+		for (EffectiveType et : allOfType)
+			addAttributeToEffectiveType(et, modelElement);
+		for (EffectiveType et : types)
+			addAttributeToEffectiveType(et, modelElement);
 	}
-	
-	public EffectiveType addToAllOfKind(String modelElement)
-	{
-		for(EffectiveType et: allOfKind){
+
+	public EffectiveType addToAllOfKind(String modelElement) {
+		for (EffectiveType et : allOfKind) {
 			if (et.getName().equals(modelElement)) {
 				return et;
 			}
@@ -101,21 +86,20 @@ public class EffectiveMetamodel {
 			EffectiveType et = addToAllOfKind(getFromAllOfType(modelElement));
 			removeFromTypes(modelElement);
 			return et;
-		}
-		else if(typesContains(modelElement)) {
+		} else if (typesContains(modelElement)) {
 			EffectiveType et = addToAllOfKind(getFromTypes(modelElement));
 			removeFromTypes(modelElement);
 			return et;
 		}
-		
+
 		EffectiveType et = new EffectiveType(modelElement);
 		et.setEffectiveMetamodel(this);
 		allOfKind.add(et);
 		return et;
 	}
-	public EffectiveType addToAllOfKind(EffectiveType et)
-	{
-		for(EffectiveType t: allOfKind){
+
+	public EffectiveType addToAllOfKind(EffectiveType et) {
+		for (EffectiveType t : allOfKind) {
 			if (t.getName().equals(et.getName())) {
 				return t;
 			}
@@ -124,40 +108,42 @@ public class EffectiveMetamodel {
 		allOfKind.add(et);
 		return et;
 	}
+
 	public EffectiveType addToAllOfType(String modelElement)
-	
+
 	{
-		for(EffectiveType et: allOfType){
+		for (EffectiveType et : allOfType) {
 			if (et.getName().equals(modelElement)) {
 				et.increaseUsage();
 				return et;
 			}
 		}
-		
+
 		EffectiveType et = new EffectiveType(modelElement);
 		et.setEffectiveMetamodel(this);
 		allOfType.add(et);
 		return et;
 	}
-public EffectiveType addToAllOfType(EffectiveType efType)
-	
+
+	public EffectiveType addToAllOfType(EffectiveType efType)
+
 	{
-		for(EffectiveType et: allOfType){
+		for (EffectiveType et : allOfType) {
 			if (et.getName().equals(efType.getName())) {
 				et.increaseUsage();
 				return et;
 			}
 		}
-		
+
 		efType.setEffectiveMetamodel(this);
 		allOfType.add(efType);
 		return efType;
 	}
+
 	public EffectiveType addToTypes(String modelElement)
-	
+
 	{
-		for(EffectiveType et: types)
-		{
+		for (EffectiveType et : types) {
 			if (et.getName().equals(modelElement)) {
 				return et;
 			}
@@ -167,11 +153,11 @@ public EffectiveType addToAllOfType(EffectiveType efType)
 		types.add(et);
 		return et;
 	}
-public EffectiveType addToTypes(EffectiveType efType)
-	
+
+	public EffectiveType addToTypes(EffectiveType efType)
+
 	{
-		for(EffectiveType et: types)
-		{
+		for (EffectiveType et : types) {
 			if (et.getName().equals(efType.getName())) {
 				return et;
 			}
@@ -180,20 +166,15 @@ public EffectiveType addToTypes(EffectiveType efType)
 		types.add(efType);
 		return efType;
 	}
-	
-	/*Get methods for all references of effective meta-model*/
+
+	/* Get methods for all references of effective meta-model */
 	public ArrayList<EffectiveType> getTypes() {
 		return types;
 	}
-	
-	/*Methods for adding new feature to effective types (where-ever they are!)*/
-	public EffectiveFeature addAttributeToEffectiveType(EffectiveType effectiveType, String attribute){
-//		EffectiveType effectiveType = getFromAllOfKind(elementName);
-//		if (effectiveType == null) {
-//			effectiveType = getFromAllOfType(elementName);
-//			if (effectiveType == null) 
-//				effectiveType = getFromTypes(elementName);
-//		}
+
+	/* Methods for adding new feature to effective types (where-ever they are!) */
+	public EffectiveFeature addAttributeToEffectiveType(EffectiveType effectiveType, String attribute) {
+
 		if (effectiveType != null) {
 			EffectiveFeature effectiveFeature = new EffectiveFeature(attribute);
 			for (EffectiveFeature ef : effectiveType.getAttributes())
@@ -204,13 +185,12 @@ public EffectiveType addToTypes(EffectiveType efType)
 		}
 		return null;
 	}
-	
-	public EffectiveFeature addReferenceToEffectiveType(String elementName, String reference)
-	{
+
+	public EffectiveFeature addReferenceToEffectiveType(String elementName, String reference) {
 		EffectiveType effectiveType = getFromAllOfKind(elementName);
 		if (effectiveType == null) {
 			effectiveType = getFromAllOfType(elementName);
-			if (effectiveType == null) 
+			if (effectiveType == null)
 				effectiveType = getFromTypes(elementName);
 		}
 		if (effectiveType != null) {
@@ -223,177 +203,111 @@ public EffectiveType addToTypes(EffectiveType efType)
 		}
 		return null;
 	}
-	
-	public boolean removeFromTypes(String elementName)
-	{
+
+	public boolean removeFromTypes(String elementName) {
 		EffectiveType effectiveType = getFromTypes(elementName);
 		if (effectiveType != null) {
 			return getTypes().remove(effectiveType);
 		}
 		return false;
 	}
-	public boolean removeFromAllOfType(String elementName)
-	{
+
+	public boolean removeFromAllOfType(String elementName) {
 		EffectiveType effectiveType = getFromAllOfType(elementName);
 		if (effectiveType != null) {
 			return getTypes().remove(effectiveType);
 		}
 		return false;
 	}
-//	
-//	public EffectiveFeature addReferenceToAllOfKind(String elementName, String reference)
-//	{
-//		EffectiveType effectiveType = getFromAllOfKind(elementName);
-//		if (effectiveType != null) {
-//			EffectiveFeature effectiveFeature = new EffectiveFeature(reference);
-//			effectiveType.getReferences().add(effectiveFeature);
-//			return effectiveFeature;
-//		}
-//		return null;
-//	}
-//	
-//	public EffectiveFeature addReferenceToAllOfType(String elementName, String reference)
-//	{
-//		EffectiveType effectiveType = getFromAllOfType(elementName);
-//		if (effectiveType != null) {
-//			EffectiveFeature effectiveFeature = new EffectiveFeature(reference);
-//			effectiveType.getReferences().add(effectiveFeature);
-//			return effectiveFeature;
-//		}
-//		return null;
-//	}
-//	
-//	public EffectiveFeature addAttributeToAllOfType(String elementName, String attribute)
-//	{
-//		EffectiveType effectiveType = getFromAllOfType(elementName);
-//		if (effectiveType != null) {
-//			EffectiveFeature effectiveFeature = new EffectiveFeature(attribute);
-//			effectiveType.getAttributes().add(effectiveFeature);
-//			return effectiveFeature;
-//		}
-//		return null;
-//	}
-//	public EffectiveFeature addAttributeToTypes(String elementName, String attribute)
-//	{
-//		EffectiveType effectiveType = getFromTypes(elementName);
-//		if (effectiveType != null) {
-//			EffectiveFeature effectiveFeature = new EffectiveFeature(attribute);
-//			effectiveType.getAttributes().add(effectiveFeature);
-//			return effectiveFeature;
-//		}
-//		return null;
-//	}
-//	public EffectiveFeature addAttributeToAllOfKind(String elementName, String attribute)
-//	{
-//		EffectiveType effectiveType = getFromAllOfKind(elementName);
-//		if (effectiveType != null) {
-//			EffectiveFeature effectiveFeature = new EffectiveFeature(attribute);
-//			effectiveType.getAttributes().add(effectiveFeature);
-//			return effectiveFeature;
-//		}
-//		return null;
-//	}
-	
 
-	public ArrayList<EffectiveType> getAllOfEffectiveTypes()
-	{
+	public ArrayList<EffectiveType> getAllOfEffectiveTypes() {
 		ArrayList<EffectiveType> classes = new ArrayList<EffectiveType>();
 		classes.addAll(getAllOfKind());
 		classes.addAll(getAllOfType());
 		classes.addAll(getTypes());
 		return classes;
 	}
-	
-	public boolean hasEffectiveType(String typeName)
-	{
+
+	public boolean hasEffectiveType(String typeName) {
 		for (EffectiveType efType : getAllOfEffectiveTypes()) {
-				if(efType.getName().equals(typeName))
-					return true;
+			if (efType.getName().equals(typeName))
+				return true;
 		}
 		return false;
 	}
-	
-	/*Get elements from allOfType*/
-	public EffectiveType getFromAllOfType(String elementName)
-	{
-		for(EffectiveType ef: allOfType)
-		{
+
+	/* Get elements from allOfType */
+	public EffectiveType getFromAllOfType(String elementName) {
+		for (EffectiveType ef : allOfType) {
 			if (ef.getName().equals(elementName)) {
 				return ef;
 			}
 		}
 		return null;
 	}
-	/*Get elements from types*/
-	public EffectiveType getFromTypes(String elementName)
-	{
-		for(EffectiveType ef: types)
-		{
+
+	/* Get elements from types */
+	public EffectiveType getFromTypes(String elementName) {
+		for (EffectiveType ef : types) {
 			if (ef.getName().equals(elementName)) {
 				return ef;
 			}
 		}
 		return null;
 	}
-	/*Get elements from allOfKind*/
-	public EffectiveType getFromAllOfKind(String elementName)
-	{
-		for(EffectiveType ef: allOfKind)
-		{
+
+	/* Get elements from allOfKind */
+	public EffectiveType getFromAllOfKind(String elementName) {
+		for (EffectiveType ef : allOfKind) {
 			if (ef.getName().equals(elementName)) {
 				return ef;
 			}
 		}
 		return null;
 	}
-	
-	/*Check if an element is exists in allOfType*/
-	public boolean allOfTypeContains(String modelElement)
-	{
-		for(EffectiveType ef: allOfType)
-		{
+
+	/* Check if an element is exists in allOfType */
+	public boolean allOfTypeContains(String modelElement) {
+		for (EffectiveType ef : allOfType) {
 			if (ef.getName().equals(modelElement)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	/*Check if an element is exists in allOfKind*/
-	public boolean allOfKindContains(String modelElement)
-	{
-		for(EffectiveType ef: allOfKind)
-		{
+
+	/* Check if an element is exists in allOfKind */
+	public boolean allOfKindContains(String modelElement) {
+		for (EffectiveType ef : allOfKind) {
 			if (ef.getName().equals(modelElement)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	/*Check if an element is exists in types*/
-	public boolean typesContains(String modelElement)
-	{
-		for(EffectiveType ef: types){
+
+	/* Check if an element is exists in types */
+	public boolean typesContains(String modelElement) {
+		for (EffectiveType ef : types) {
 			if (ef.getName().equals(modelElement)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public void copyEffectiveMetamodel(EffectiveMetamodel model)
-	{
+
+	public void copyEffectiveMetamodel(EffectiveMetamodel model) {
 		for (EffectiveType ef : this.getAllOfKind())
-				model.addToAllOfKind(ef);
+			model.addToAllOfKind(ef);
 		for (EffectiveType ef : this.getAllOfType())
 			model.addToAllOfType(ef);
 		for (EffectiveType ef : this.getTypes())
 			model.addToTypes(ef);
 	}
-	
-	public boolean haveOverlap(EffectiveMetamodel model)
-	{
-		for (EffectiveType efType: getAllOfEffectiveTypes())
-			if(model.hasEffectiveType(efType.getName()))
+
+	public boolean haveOverlap(EffectiveMetamodel model) {
+		for (EffectiveType efType : getAllOfEffectiveTypes())
+			if (model.hasEffectiveType(efType.getName()))
 				return true;
 		return false;
 	}

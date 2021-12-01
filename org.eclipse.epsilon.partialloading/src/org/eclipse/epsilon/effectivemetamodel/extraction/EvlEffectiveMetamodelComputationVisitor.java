@@ -16,7 +16,7 @@ import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
 public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamodelComputationVisitor implements IEvlVisitor {
 
 	protected EvlStaticAnalyser staticAnalyser = null;
-	protected EvlModule module = new EvlModule();
+	protected EvlModule module;
 	
 	public EffectiveMetamodel setExtractor(EvlModule module , EvlStaticAnalyser staticAnalyser) {
 		
