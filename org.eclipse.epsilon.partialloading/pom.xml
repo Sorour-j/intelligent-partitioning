@@ -4,6 +4,19 @@
   <artifactId>org.eclipse.epsilon.effectivemetamodel</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>org.eclipse.epsilon.effectivemetamodel</name>
+  
+  <dependencies>
+  <dependency>
+    <groupId>org.antlr</groupId>
+    <artifactId>antlr-runtime</artifactId>
+    <version>3.5.2</version>
+</dependency>
+<dependency>
+    <groupId>org.eclipse.epsilon</groupId>
+    <artifactId>epsilon-core</artifactId>
+    <version>1.5.1</version>
+</dependency>
+  </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
