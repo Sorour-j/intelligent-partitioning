@@ -1,0 +1,9 @@
+model EnergyProvider driver XMIN {
+nsuri = "http://www.lowcomote.eu/EnergyProvider"
+};
+
+context ElectricalEnergyConsumption{
+constraint goodCostomer{
+	check : self.kwh == 0
+}
+}

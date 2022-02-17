@@ -37,7 +37,8 @@ public class EvlXminModelRunConfiguration extends EvlRunConfiguration{
 	IEolModule module;
 	EvlStaticAnalyser staticanalyser = new EvlStaticAnalyser();
 	XMIN xminModel = new XMIN();
-	HashMap<String, EffectiveMetamodel> efMetamodels;
+	EffectiveMetamodel efMetamodel;
+	
 	public EvlXminModelRunConfiguration(EvlRunConfiguration other) {
 		super(other);
 		module = getModule();
@@ -48,7 +49,7 @@ public class EvlXminModelRunConfiguration extends EvlRunConfiguration{
 	public void preExecute() throws Exception {
 		super.preExecute();
 		
-		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/movies.ecore";
+		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/EnergyConsumption.ecore";
 		ResourceSet resourceSet = new ResourceSetImpl();
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
 		ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
@@ -62,7 +63,7 @@ public class EvlXminModelRunConfiguration extends EvlRunConfiguration{
 		}
 		for (EObject o : ecoreResource.getContents()) {
 			EPackage ePackage = (EPackage) o;
-			System.out.println("Movie MM :" + o.eContents().size());
+			System.out.println("Java MM :" + o.eContents().size());
 			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 		}	//	Resource resource = resourceSet.createResource(URI.createFileURI(new File(model).getAbsolutePath()));
@@ -77,10 +78,14 @@ public class EvlXminModelRunConfiguration extends EvlRunConfiguration{
 			&& staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
 			{
 				
-			efMetamodels = new EvlPartitioningEffectiveMetamodelComputationVisitor().preExtractor((EvlModule)module, staticanalyser);
+			efMetamodel = new EvlEffectiveMetamodelComputationVisitor().setExtractor((EvlModule)module, staticanalyser);
 			System.out.println(xminModel);
-			xminModel.setEffectiveMteamodel(efMetamodels);
-//			xminModel.load();
+			//xminModel.setEffectiveMteamodel(efMetamodel);
+			efMetamodel.print();
+			xminModel.loadResource();
+			System.out.println("Free memory Before loading : " + Runtime.getRuntime().freeMemory()/ 1000000);
+			xminModel.load(efMetamodel);
+			System.out.println("Free memory After loading : " + Runtime.getRuntime().freeMemory()/ 1000000);
 		}
 	}
 	

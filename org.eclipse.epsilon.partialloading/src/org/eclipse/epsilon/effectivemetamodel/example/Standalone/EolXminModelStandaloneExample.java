@@ -12,12 +12,9 @@ package org.eclipse.epsilon.effectivemetamodel.example.Standalone;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
-import org.eclipse.epsilon.emc.emf.EmfModel;
-
 /**
  * This example demonstrates using the Epsilon Object Language, the core language of Epsilon, in a stand-alone manner 
  * 
@@ -31,25 +28,29 @@ public class EolXminModelStandaloneExample {
 			modelsRoot = root.getParent().resolve("standalone");
 		
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(XMIN.PROPERTY_NAME, "Tree");
+		modelProperties.setProperty(XMIN.PROPERTY_NAME, "EnergyProvider");
 		modelProperties.setProperty(XMIN.PROPERTY_FILE_BASED_METAMODEL_URI,
-			modelsRoot.resolve("tree.ecore").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("EnergyConsumption.ecore").toAbsolutePath().toUri().toString()
 			
 		);
-		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"Tree");
+		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"http://www.lowcomote.eu/EnergyProvider");
 		modelProperties.setProperty("type", "XMIN");
 		modelProperties.setProperty(XMIN.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("First.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("LCLModel_40.xmi").toAbsolutePath().toUri().toString()
 		);
+		modelProperties.setProperty(XMIN.PROPERTY_STOREONDISPOSAL, "true");
 		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()
-			.withScript(root.resolve("tree.eol"))
+			.withScript(root.resolve("energy.eol"))
 			.withModel(new XMIN(), modelProperties)
 			.withParameter("Thread", Thread.class)
 			.withProfiling()
 			.build();
 		EolXminModelRunConfiguration xminRunconfig = new EolXminModelRunConfiguration(runConfig);
 		xminRunconfig.run();
+		runConfig.dispose();
+		xminRunconfig.dispose();
+		
 		//System.out.println(sm.getResult());
 	}
 }

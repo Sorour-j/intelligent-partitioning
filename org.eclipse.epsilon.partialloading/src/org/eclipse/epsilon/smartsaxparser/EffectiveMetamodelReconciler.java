@@ -392,22 +392,10 @@ public class EffectiveMetamodelReconciler {
 			if (refs == null) {
 				//get refs from allOfKind or allOfType
 				refs = getFeaturesForClassToLoad(eClass);
-//	
+	
 				subMap.put(eClass, refs);
 			}
 		}
-			
-			//If this eclass exists as ActualObjectToLoad then merge features in ActualObjtToLoad
-//			if (types != null && types.containsKey(eClass.getName())) {
-//						for (String feature : types.get(eClass.getName()))
-//							if (refs.contains(feature))
-//								refs.remove(feature);
-//					
-//							refs.addAll(types.get(eClass.getName()));
-//							subMap.put(eClass.getName(), refs);
-//							types.remove(eClass.getName());
-//			}
-			
 	}
 	
 	public void addTypesToLoad(EClass eClass)
@@ -478,11 +466,13 @@ public class EffectiveMetamodelReconciler {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
 							//result.add(ef.getName());
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
 							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						for(EffectiveFeature ef: et.getReferences())
 						{
 							//result.add(ef.getName());
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
 							result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop2;
@@ -533,12 +523,14 @@ public class EffectiveMetamodelReconciler {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
 							//result.add(ef.getName());
-							result.add(eClass.getEStructuralFeature(ef.getName()));
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
+								result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						for(EffectiveFeature ef: et.getReferences())
 						{
 							//result.add(ef.getName());
-							result.add(eClass.getEStructuralFeature(ef.getName()));
+							if (!result.contains(eClass.getEStructuralFeature(ef.getName())))
+								result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop1;
 					}
@@ -913,5 +905,23 @@ public class EffectiveMetamodelReconciler {
 		}
 		return false;
 		
+	}
+	
+	public void print(String packageName) {
+		System.out.println("AllOfKind:");
+		for (EClass cls : getActualObjectsToLoad().get(packageName).keySet()) {
+			System.out.print(cls.getName() + " : ");
+			for (EStructuralFeature f : getActualObjectsToLoad().get(packageName).get(cls))
+				System.out.println(" feature = " + f.getName());
+		}
+		
+		if (!getTypesToLoad().isEmpty()) {
+			System.out.println("AllOfType:");
+		for (EClass cls : getTypesToLoad().get(packageName).keySet()) {
+			System.out.print(cls.getName() + " : ");
+			for (EStructuralFeature f : getTypesToLoad().get(packageName).get(cls))
+				System.out.println(" feature = " + f.getName());
+		}
+		}
 	}
 }

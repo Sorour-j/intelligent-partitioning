@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -13,6 +14,10 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.xmi.PartialXMILoadConfiguration;
 import org.eclipse.epsilon.emc.emf.xmi.PartialXMIResourceFactory;
@@ -72,7 +77,7 @@ public class XMIN extends EmfModel {
 		effectiveMetamodelReconciler.reconcile();
 		long en = System.nanoTime();
 		System.out.println("Reconcile  : " + (long) ((en - st) / 1000000));
-
+		effectiveMetamodelReconciler.print("EnergyProvider");
 		PartialXMILoadConfiguration configuration = new PartialXMILoadConfiguration();
 
 		if (!effectiveMetamodelReconciler.getActualObjectsToLoad().isEmpty())
@@ -80,8 +85,9 @@ public class XMIN extends EmfModel {
 					.keySet()) {
 				configuration.addAllOfKind(eclass);
 				for (EStructuralFeature ef : effectiveMetamodelReconciler.getActualObjectsToLoad()
-						.get(effectiveMetamodel.getName()).get(eclass))
+						.get(effectiveMetamodel.getName()).get(eclass)) {
 					configuration.addFeature(eclass, ef);
+				}
 			}
 
 		if (!effectiveMetamodelReconciler.getTypesToLoad().isEmpty())
@@ -100,11 +106,12 @@ public class XMIN extends EmfModel {
 		try {
 			startTime = System.nanoTime();
 			resource.load(loadOptions);
-
+			//resource.save(System.out, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime); // divide by 1000000 to get milliseconds.
 		System.out.println("**** Time ****");
@@ -134,4 +141,5 @@ public class XMIN extends EmfModel {
 	public HashMap<String, EffectiveMetamodel> getEffectiveMteamodels() {
 		return effectiveMetamodels;
 	}
+	
 }

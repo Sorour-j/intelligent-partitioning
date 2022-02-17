@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="EnergyProvider" nsURI="http://www.lowcomote.eu/EnergyProvider"
+    nsPrefix="ec">
+  <eClassifiers xsi:type="ecore:EClass" name="EnergyProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cities" upperBound="-1"
+        eType="#//City" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="household" upperBound="-1"
+        eType="#//HouseHold" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="companyName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="electricalEnergyConsumption"
+        upperBound="-1" eType="#//ElectricalEnergyConsumption" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="City">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HouseHold">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="houseHoldId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="city" lowerBound="1" eType="#//City"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="electricalEnergyConsumption"
+        upperBound="-1" eType="#//ElectricalEnergyConsumption" eOpposite="#//ElectricalEnergyConsumption/household"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectricalEnergyConsumption">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kwh" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="household" lowerBound="1"
+        eType="#//HouseHold" eOpposite="#//HouseHold/electricalEnergyConsumption"/>
+  </eClassifiers>
+</ecore:EPackage>

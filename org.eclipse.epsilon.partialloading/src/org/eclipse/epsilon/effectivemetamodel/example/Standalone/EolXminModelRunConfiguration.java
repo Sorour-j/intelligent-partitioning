@@ -34,7 +34,7 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 	@Override
 	public void preExecute() throws Exception {
 		super.preExecute();
-		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/tree.ecore";
+		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/EnergyConsumption.ecore";
 		ResourceSet resourceSet = new ResourceSetImpl();
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
 		ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
@@ -48,7 +48,7 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 		}
 		for (EObject o : ecoreResource.getContents()) {
 			EPackage ePackage = (EPackage) o;
-			System.out.println("Tree MM :" + o.eContents().size());
+		//	System.out.println("Tree MM :" + o.eContents().size());
 			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 		}	//	Resource resource = resourceSet.createResource(URI.createFileURI(new File(model).getAbsolutePath()));
@@ -60,15 +60,15 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 		if (!staticanalyser.getContext().getModelDeclarations().isEmpty() 
 			&& staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN")){
 				
-		//	efMetamodel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module, staticanalyser);
-			efMetamodel.addToAllOfKind("Tree");
-			efMetamodel.addReferenceToEffectiveType("Tree","children");
-			efMetamodel.addAttributeToEffectiveType(efMetamodel.getFromAllOfKind("Tree"),"label");
-			efMetamodel.addToTypes("Tree");
-			efMetamodel.addAttributeToEffectiveType(efMetamodel.getFromTypes("Tree"),"label");
-			xminModel.setEffectiveMteamodel(efMetamodel);
-			efMetamodel.setIsCalculated(true);
-			System.out.println(xminModel);
+			efMetamodel = new EolEffectiveMetamodelComputationVisitor().setExtractor(module, staticanalyser);
+//			efMetamodel.addToAllOfKind("Tree");
+//			efMetamodel.addReferenceToEffectiveType("Tree","children");
+//			efMetamodel.addAttributeToEffectiveType(efMetamodel.getFromAllOfKind("Tree"),"label");
+//			efMetamodel.addToTypes("Tree");
+//			efMetamodel.addAttributeToEffectiveType(efMetamodel.getFromTypes("Tree"),"label");
+//			xminModel.setEffectiveMteamodel(efMetamodel);
+//			efMetamodel.setIsCalculated(true);
+//			System.out.println(xminModel);
 			xminModel.loadResource();
 			xminModel.load(efMetamodel);
 		}

@@ -31,19 +31,19 @@ public class EolStandaloneExample {
 			modelsRoot = root.getParent().resolve("standalone");
 		
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "javaMM");
+		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "EnergyProvider");
 		modelProperties.setProperty(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
-			modelsRoot.resolve("tree.ecore").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("EnergyConsumption.ecore").toAbsolutePath().toUri().toString()
 			
 		);
-	//	modelProperties.setProperty(EmfModel.PROPERTY_METAMODEL_URI,"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
+	//	modelProperties.setProperty(EmfModel.PROPERTY_METAMODEL_URI,"http://www.lowcomote.eu/EnergyProvider");
 		modelProperties.setProperty("type", "EMF");
 		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("first.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("LCLModel_40.xmi").toAbsolutePath().toUri().toString()
 		);
 		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()
-			.withScript(root.resolve("tree.eol"))
+			.withScript(root.resolve("energy.eol"))
 			.withModel(new EmfModel(), modelProperties)
 		//	.withParameter("Thread", Thread.class)
 			.withProfiling()
