@@ -43,13 +43,13 @@ public class PartialXMIResourceTest {
 		PartialXMILoadConfiguration configuration = new PartialXMILoadConfiguration();
 		
 		EClass eclass1 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(3);
-		EStructuralFeature feature1 = eclass1.getEAllReferences().get(0);
-		configuration.addAllOfKind(eclass1);
-		configuration.addFeature(eclass1, feature1);
+		EStructuralFeature feature1 = eclass1.getEAllReferences().get(0); 
+		configuration.addAllOfKind(eclass1); //All kind of ElectricalEnergyConsumption instances
+		configuration.addFeature(eclass1, feature1); // houseHold reference >> it is containment ref, so all kind of HouseHold will be added as well
 		
 		EClass eclass2 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(2);
 		EStructuralFeature feature2 = eclass2.getEAllAttributes().get(0);
-		configuration.addFeature(eclass2, feature2);
+		configuration.addFeature(eclass2, feature2); //houseHoldId of HouseHold class is required
 		
 		HashMap<String, Object> loadOptions = new HashMap<>();
 		loadOptions.put(OPTION_PARTIAL_LOADING_CONFIGURATION, configuration);
