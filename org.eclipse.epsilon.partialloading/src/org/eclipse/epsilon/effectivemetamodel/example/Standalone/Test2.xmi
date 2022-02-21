@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaMM="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java">
+  <javaMM:Model xmi:id="_oZJi4MXWEeqoA8ltj4aSzQ" name="org.eclipse.core.databinding.beans">
+    <ownedElements xmi:id="_oZLYEMXWEeqoA8ltj4aSzQ" name="org">
+      <ownedPackages xmi:id="_oZLYEcXWEeqoA8ltj4aSzQ" name="eclipse">
+        <ownedPackages xmi:id="_oZLYEsXWEeqoA8ltj4aSzQ" name="core">
+          <ownedPackages xmi:id="_oZLYE8XWEeqoA8ltj4aSzQ" name="databinding">
+            <ownedPackages xmi:id="_oZL_IMXWEeqoA8ltj4aSzQ" name="beans">
+              <ownedElements xsi:type="javaMM:ClassDeclaration" xmi:id="_oZsVcMXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" name="BeanProperties" usagesInImports="_oc2-TMXWEeqoA8ltj4aSzQ _oc3lQ8XWEeqoA8ltj4aSzQ _oc3lWsXWEeqoA8ltj4aSzQ _oc4MccXWEeqoA8ltj4aSzQ _oc4MgsXWEeqoA8ltj4aSzQ _oc4zi8XWEeqoA8ltj4aSzQ _oc4zlMXWEeqoA8ltj4aSzQ _oc5am8XWEeqoA8ltj4aSzQ _oc5aosXWEeqoA8ltj4aSzQ _oc5ausXWEeqoA8ltj4aSzQ" usagesInTypeAccess="_oalGXMXWEeqoA8ltj4aSzQ _oa0W3cXWEeqoA8ltj4aSzQ _oa095MXWEeqoA8ltj4aSzQ _oa1k9MXWEeqoA8ltj4aSzQ _oa1lF8XWEeqoA8ltj4aSzQ _oa3aTsXWEeqoA8ltj4aSzQ _oa-IAsXWEeqoA8ltj4aSzQ _obAkLcXWEeqoA8ltj4aSzQ _obBLQcXWEeqoA8ltj4aSzQ _obCZVcXWEeqoA8ltj4aSzQ _obDndcXWEeqoA8ltj4aSzQ _obFc1cXWEeqoA8ltj4aSzQ _obGD3MXWEeqoA8ltj4aSzQ _obGq6cXWEeqoA8ltj4aSzQ _obHR4cXWEeqoA8ltj4aSzQ _obH49sXWEeqoA8ltj4aSzQ _obIgDMXWEeqoA8ltj4aSzQ _obJuBMXWEeqoA8ltj4aSzQ _obSRB8XWEeqoA8ltj4aSzQ _obS4IsXWEeqoA8ltj4aSzQ _obUGNsXWEeqoA8ltj4aSzQ _obVUaMXWEeqoA8ltj4aSzQ _oblL_MXWEeqoA8ltj4aSzQ _oblzCsXWEeqoA8ltj4aSzQ _obmaFsXWEeqoA8ltj4aSzQ _obnBFcXWEeqoA8ltj4aSzQ _obsgm8XWEeqoA8ltj4aSzQ _obwLI8XWEeqoA8ltj4aSzQ _ob5VH8XWEeqoA8ltj4aSzQ _ob9mhMXWEeqoA8ltj4aSzQ _ocEUP8XWEeqoA8ltj4aSzQ _ocFiPMXWEeqoA8ltj4aSzQ _ocNeAMXWEeqoA8ltj4aSzQ _ocWA-cXWEeqoA8ltj4aSzQ _ocWoQcXWEeqoA8ltj4aSzQ _oca5iMXWEeqoA8ltj4aSzQ">
+                <bodyDeclarations xsi:type="javaMM:MethodDeclaration" xmi:id="_oZtjkMXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" name="value" usages="_oZ3UoMXWEeqoA8ltj4aSzQ _oaEI5cXWEeqoA8ltj4aSzQ _oa1k8sXWEeqoA8ltj4aSzQ _obAkK8XWEeqoA8ltj4aSzQ">
+                  <modifier xmi:id="_oZtjnMXWEeqoA8ltj4aSzQ" visibility="public" static="true"/>
+                  <body xmi:id="_oZtjncXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ">
+                    <statements xsi:type="javaMM:ReturnStatement" xmi:id="_oZtjnsXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ">
+                      <expression xsi:type="javaMM:MethodInvocation" xmi:id="_oZtjn8XWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" method="_oZuKocXWEeqoA8ltj4aSzQ">
+                        <arguments xsi:type="javaMM:SingleVariableAccess" xmi:id="_oZtjoMXWEeqoA8ltj4aSzQ" variable="_oZtjosXWEeqoA8ltj4aSzQ"/>
+                        <arguments xsi:type="javaMM:NullLiteral" xmi:id="_oZtjocXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ"/>
+                      </expression>
+                    </statements>
+                  </body>
+                  <returnType xmi:id="_oZuKoMXWEeqoA8ltj4aSzQ" type="_ocsmJcXWEeqoA8ltj4aSzQ"/>
+                </bodyDeclarations>
+                <bodyDeclarations xsi:type="javaMM:MethodDeclaration" xmi:id="_oZuKocXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" name="value" usages="_oZ37ocXWEeqoA8ltj4aSzQ _obDncsXWEeqoA8ltj4aSzQ _oZtjn8XWEeqoA8ltj4aSzQ _oZxN8cXWEeqoA8ltj4aSzQ">
+                  <modifier xmi:id="_oZuxs8XWEeqoA8ltj4aSzQ" visibility="public" static="true"/>
+                  <body xmi:id="_oZuxtMXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ">
+                    <statements xsi:type="javaMM:VariableDeclarationStatement" xmi:id="_oZwm7MXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ">
+                      <type xmi:id="_oZwm7cXWEeqoA8ltj4aSzQ" type="_ocsmKcXWEeqoA8ltj4aSzQ"/>
+                      <fragments xmi:id="_oZxN8MXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" name="remainder" usageInVariableAccess="_oZxN-8XWEeqoA8ltj4aSzQ">
+                        <initializer xsi:type="javaMM:MethodInvocation" xmi:id="_oZxN8cXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" method="_oZuKocXWEeqoA8ltj4aSzQ">
+                          <arguments xsi:type="javaMM:ArrayAccess" xmi:id="_oZxN8sXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ">
+                            <array xsi:type="javaMM:SingleVariableAccess" xmi:id="_oZxN88XWEeqoA8ltj4aSzQ" variable="_oZuxt8XWEeqoA8ltj4aSzQ"/>
+                            <index xsi:type="javaMM:NumberLiteral" xmi:id="_oZxN9MXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" tokenValue="1"/>
+                          </arguments>
+                          <arguments xsi:type="javaMM:SingleVariableAccess" xmi:id="_oZxN9cXWEeqoA8ltj4aSzQ" variable="_oZx1AcXWEeqoA8ltj4aSzQ"/>
+                        </initializer>
+                      </fragments>
+                      <modifier xmi:id="_oZxN9sXWEeqoA8ltj4aSzQ"/>
+                    </statements>
+                  </body>
+                  <typeParameters xmi:id="_oZx1BMXWEeqoA8ltj4aSzQ" originalCompilationUnit="_oc1JAMXWEeqoA8ltj4aSzQ" name="T" usagesInTypeAccess="_ocsmLMXWEeqoA8ltj4aSzQ _ocsmMsXWEeqoA8ltj4aSzQ _ocsmNsXWEeqoA8ltj4aSzQ _ocsmQsXWEeqoA8ltj4aSzQ"/>
+                  <returnType xmi:id="_oZx1BcXWEeqoA8ltj4aSzQ" type="_ocsmKcXWEeqoA8ltj4aSzQ"/>
+                </bodyDeclarations>
+                </ownedElements>
+            </ownedPackages>
+            </ownedPackages>
+            </ownedPackages>
+            </ownedPackages>
+    </ownedElements>
+</javaMM:Model>
+</xmi:XMI>

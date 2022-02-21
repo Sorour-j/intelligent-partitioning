@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -30,26 +31,27 @@ public class PartialXMIResourceTest {
 	public static ResourceSet ecoreResourceSet = new ResourceSetImpl();
 	public static ResourceSet xmiResourceSet = new ResourceSetImpl();
 	public static Resource resource;
-	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/EnergyConsumption.ecore";
+	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/java.ecore";
 	protected PartialXMILoadConfiguration configuration;
-	static String uri = "http://www.lowcomote.eu/EnergyProvider";
-	
+	static String uri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java";
+	//static String uri = "http://movies/1.0";
+
 	public static void main(String[] args) throws Exception {
 		
 		RegisterEcore(metamodel);
 		xmiResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new PartialXMIResourceFactory());
-		resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/LCLModel_40.xmi"));
+		resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/Test2.xmi"));
 
 		PartialXMILoadConfiguration configuration = new PartialXMILoadConfiguration();
+
+		EClass eclass1 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(60);//add MethodInvocation class
+		EStructuralFeature feature1 = eclass1.getEAllReferences().get(3); //add method reference >> containment: false. resolvedType: MathodDeclaration
+		configuration.addAllOfKind(eclass1); //MethodInvocation
+		configuration.addFeature(eclass1, feature1); //MethodInvocation, method
 		
-		EClass eclass1 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(3);
-		EStructuralFeature feature1 = eclass1.getEAllReferences().get(0); 
-		configuration.addAllOfKind(eclass1); //All kind of ElectricalEnergyConsumption instances
-		configuration.addFeature(eclass1, feature1); // houseHold reference >> it is containment ref, so all kind of HouseHold will be added as well
-		
-		EClass eclass2 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(2);
+		EClass eclass2 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(0);//MathodDeclaration
 		EStructuralFeature feature2 = eclass2.getEAllAttributes().get(0);
-		configuration.addFeature(eclass2, feature2); //houseHoldId of HouseHold class is required
+		configuration.addFeature(eclass2, feature2); //MathodDeclaration, name
 		
 		HashMap<String, Object> loadOptions = new HashMap<>();
 		loadOptions.put(OPTION_PARTIAL_LOADING_CONFIGURATION, configuration);
