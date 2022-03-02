@@ -924,4 +924,11 @@ public class EffectiveMetamodelReconciler {
 		}
 		}
 	}
+	
+	public EPackage getPackage(String packageName) {
+		for (EPackage pkg : packages)
+			if (pkg.getName().equals(packageName))
+				return pkg;
+		return null;
+	}
 }
