@@ -600,6 +600,7 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 			else {
 				// add target.getTypeName() under EM's types reference;
 				effectiveType = efmetamodel.addToTypes(effectiveType.getName());
+				loadFeatures(target, efmetamodel.getFromTypes(target.getName()));
 			}
 //			if (!target.getMetaClass().getAllStructuralFeatures().isEmpty()) {
 //				features.addAll(target.getMetaClass().getAllStructuralFeatures());

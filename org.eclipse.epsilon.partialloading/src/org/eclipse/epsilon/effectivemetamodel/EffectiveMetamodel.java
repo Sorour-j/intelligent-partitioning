@@ -311,4 +311,24 @@ public class EffectiveMetamodel {
 				return true;
 		return false;
 	}
+	
+	public void print() {
+		System.out.println("*****allOfKind*****" );
+		for (EffectiveType ef : this.getAllOfKind()) {
+			System.out.print(ef.getName());
+			for(EffectiveFeature f : ef.getAttributes())
+			System.out.print(", attr = " + f.getName());
+			for(EffectiveFeature f : ef.getReferences())
+				System.out.print(", refs = " + f.getName());
+			System.out.println();
+		}
+		System.out.println("*****Types*****" );
+		for (EffectiveType ef : this.getTypes()) {
+			System.out.println(ef.getName());
+			for(EffectiveFeature f : ef.getAttributes())
+				System.out.println("attr = " + f.getName());
+			for(EffectiveFeature f : ef.getAttributes())
+				System.out.println("refs = " + f.getName());
+		}
+	}
 }
