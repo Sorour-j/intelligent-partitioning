@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imdb:IMDB xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:imdb="imdb" xmi:id="_5uk94J7ZEeyh-6PVe6384A">
+  <movies xmi:id="_5up2YJ7ZEeyh-6PVe6384A" persons="_5uqdcJ7ZEeyh-6PVe6384A _5uqdcp7ZEeyh-6PVe6384A" title="One"/>
+  <movies xmi:id="_5up2YZ7ZEeyh-6PVe6384A" persons="_5uqdcZ7ZEeyh-6PVe6384A" title="Two"/>
+  <actors xsi:type="imdb:Actor" xmi:id="_5uqdcJ7ZEeyh-6PVe6384A" name="Actor1"/>
+  <actors xsi:type="imdb:Actor" xmi:id="_5uqdcZ7ZEeyh-6PVe6384A" name="Actor2"/>
+  <actors xsi:type="imdb:Actress" xmi:id="_5uqdcp7ZEeyh-6PVe6384A" name="Actress1"/>
+</imdb:IMDB>
