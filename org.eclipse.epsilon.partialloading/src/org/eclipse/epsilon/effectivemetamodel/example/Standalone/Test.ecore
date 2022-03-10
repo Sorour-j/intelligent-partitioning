@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Test" nsURI="Test" nsPrefix="test">
+  <eClassifiers xsi:type="ecore:EClass" name="main">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bs" upperBound="-1" eType="#//B"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ds" upperBound="-1" eType="#//D"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="A" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c" upperBound="-1" eType="#//C"
+        eOpposite="#//C/a"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="B" eSuperTypes="#//A"/>
+  <eClassifiers xsi:type="ecore:EClass" name="D" eSuperTypes="#//C"/>
+  <eClassifiers xsi:type="ecore:EClass" name="C">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a" eType="#//A" eOpposite="#//A/c"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

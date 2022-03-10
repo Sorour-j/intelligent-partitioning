@@ -31,33 +31,29 @@ public class PartialXMIResourceTest2 {
 	public static ResourceSet ecoreResourceSet = new ResourceSetImpl();
 	public static ResourceSet xmiResourceSet = new ResourceSetImpl();
 	public static Resource resource;
-	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/IMDB.ecore";
+	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/Test.ecore";
 	protected PartialXMILoadConfiguration configuration;
-	static String uri = "imdb";
-	//static String uri = "http://movies/1.0";
+	static String uri = "Test";
 
 	public static void main(String[] args) throws Exception {
 		
 		RegisterEcore(metamodel);
 		
 		xmiResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new PartialXMIResourceFactory());
-		XMIResource resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/imdb.xmi"));
-		PartialXMILoadConfiguration configuration = new PartialXMILoadConfiguration();
-
-		EClass eclass1 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(1);
-		EStructuralFeature feature1 = eclass1.getEAllReferences().get(0);
-		configuration.addAllOfKind(eclass1); //Movie
-		configuration.addFeature(eclass1, feature1); //Movie -> persons: Person
+		XMIResource resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/PartialTest.xmi"));
 		
-		EClass eclass2 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(2);//Person
-		EStructuralFeature feature2 = eclass2.getEAllAttributes().get(0);
-		configuration.addFeature(eclass2, feature2); //Person, name
+		PartialXMILoadConfiguration configuration = new PartialXMILoadConfiguration();
+		
+		EClass eclass1 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(1);
+		EStructuralFeature feature1 = eclass1.getEAllReferences().get(0);//A
+		configuration.addAllOfKind(eclass1); //A and B(Subclass)
+		configuration.addFeature(eclass1, feature1); //ref:c -> resolvedType:C and subclass:D
 
 		HashMap<String, Object> loadOptions = new HashMap<>();
 		loadOptions.put(OPTION_PARTIAL_LOADING_CONFIGURATION, configuration);
 		resource.load(loadOptions);
 		
-		resource.save(System.out, null); 
+		resource.save(System.out, null); //Why ref:a is loaded as well?
 	}
 	
 	static void RegisterEcore(String metamodel) {
