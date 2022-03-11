@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test:main xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:test="Test" xmi:id="_WRf3wKB6EeyMq5tE5WKu8g">
+  <bs xmi:type="test:B" xmi:id="_WRjiIKB6EeyMq5tE5WKu8g" c="_WRjiIqB6EeyMq5tE5WKu8g" name="B1"/>
+  <bs xmi:type="test:B" xmi:id="_WRjiIaB6EeyMq5tE5WKu8g" c="_WRjiI6B6EeyMq5tE5WKu8g" name="B2"/>
+  <ds xmi:type="test:D" xmi:id="_WRjiIqB6EeyMq5tE5WKu8g" a="_WRjiIKB6EeyMq5tE5WKu8g" name="D1"/>
+  <ds xmi:type="test:D" xmi:id="_WRjiI6B6EeyMq5tE5WKu8g" a="_WRjiIaB6EeyMq5tE5WKu8g" name="D2"/>
+</test:main>
