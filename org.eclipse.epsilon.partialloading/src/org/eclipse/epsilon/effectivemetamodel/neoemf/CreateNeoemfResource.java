@@ -59,9 +59,9 @@ public class CreateNeoemfResource {
 		ImmutableConfig config = new BlueprintsNeo4jConfig().autoSave().cacheContainers().cacheMetaClasses();
 		persistentResource.save(config.toMap());
 		//persistentResource.unload();
-		//persistentResource.getContents().addAll(EcoreUtil.copyAll(xmiResource.getContents()));
+		persistentResource.getContents().addAll(EcoreUtil.copyAll(xmiResource.getContents()));
 		//persistentResource.load(config.toMap());
-		persistentResource.getContents().add(EcoreUtil.copy(xmiResource.getContents().get(0)));
+	//	persistentResource.getContents().add(EcoreUtil.copy(xmiResource.getContents().get(0)));
 		// "regular" save
 		persistentResource.save(config.toMap());
     }
