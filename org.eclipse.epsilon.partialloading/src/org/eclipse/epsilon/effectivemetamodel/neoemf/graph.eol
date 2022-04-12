@@ -1,0 +1,8 @@
+model graph driver Neo4j {
+nsuri = "graph"
+};
+
+var v:Vertice;
+for (v in Vertice.allInstances()){
+	v.label.println();
+}
