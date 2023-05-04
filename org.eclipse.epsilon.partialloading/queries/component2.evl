@@ -1,0 +1,90 @@
+model ccl driver XMIN {nsuri = "http://componentlanguage"};
+context Component {
+
+ /* Components must be connected to at least one more component */
+    constraint ComponentIsConnected {
+        check: self.ports.exists(p:InPort|p.incoming.notEmpty()) or
+        self.ports.exists(p:OutPort|p.outgoing.notEmpty())
+        
+        //check: Connector.all.exists(c|self.ports.includes(c.source)
+        //    or self.ports.includes(c.target))
+        message: "Component " + self.name + " is disconnected"
+    }
+    /* Component names must start with an upper-case letter */
+    constraint ComponentValidName {
+        check: self.name = self.name.firstToUpperCase()
+        message: self.name + " should start with an upper-case letter"
+    }
+
+    /* Component names must be globally unique */
+    constraint ComponentUniqueName {
+        //check: Component.all.select(c|c.name = self.name).size() == 1
+        check: getComponentsByName().get(self.name).size() == 1
+        message: "Duplicate component name " + self.name
+    }
+}
+
+context Connector {
+
+    /* If a connector connects two ports, their types must match */
+    constraint PortTypesMatch {
+        check: self.source.type = self.target.type
+        message: "The types of the source and target ports don't match"
+    }
+
+    /* The source and target ports of a connector must belong to different components */
+    constraint DifferentComponents {
+        check: self.source.component <> self.target.component
+        message: "Cannot connect ports of the same component"
+    }
+}
+
+context Port {
+
+    /* Port names must start with an lower-case letter */
+    constraint PortValidName {
+        check: self.name.isDefined() implies self.name = self.name.firstToLowerCase()
+        message: self.name + " should start with a lower-case letter"
+    }
+    
+}
+
+context InPort {
+
+    /* Either all input ports of a component are connected or none */
+    constraint InPortIsConnected {
+        check: self.component.ports.exists(p : InPort|p.isConnected()) implies self.isConnected()
+        message: "Either all or no input ports must be connected"
+    }
+
+    /* The name of a port must be unique within its container component */
+    constraint InPortUniqueName {
+        check: self.component.ports.select(p : InPort|p.name = self.name).size() == 1
+        message: "Duplicate port name " + self.name
+    }
+}
+
+context OutPort {
+
+    /* The name of a port must be unique within its container component */
+    constraint OutPortUniqueName {
+        check: self.component.ports.select(p : OutPort|p.name = self.name).size() == 1
+        message: "Duplicate port name " + self.name
+    }
+    
+    /* Unnamed out ports are only allowed for components with one out port */
+    constraint NamedIfMultiple {
+        check: self.component.ports.select(p: OutPort|true).size() > 1 implies
+            self.name.isDefined()
+        message: "Unnamed out ports are only allowed for components with one out port"
+    }
+    
+}
+operation InPort isConnected() : Boolean {
+    return self.incoming.notEmpty();
+}
+
+@cached
+operation getComponentsByName() {
+    return Component.all.mapBy(c|c.name);
+}

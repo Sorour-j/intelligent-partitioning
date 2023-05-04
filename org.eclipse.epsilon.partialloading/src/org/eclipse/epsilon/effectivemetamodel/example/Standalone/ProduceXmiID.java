@@ -21,12 +21,11 @@ public class ProduceXmiID {
 	public static ResourceSet ecoreResourceSet = new ResourceSetImpl();
 	public static ResourceSet xmiResourceSet = new ResourceSetImpl();
 	public static XMIResource resource;
-	static String uri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java";
 	public static void main(String[] args) throws Exception {
 		 
 	ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 	Resource ecoreResource = ecoreResourceSet
-			.createResource(URI.createFileURI(new File("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/java.ecore").getAbsolutePath()));
+			.createResource(URI.createFileURI(new File("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/psl.ecore").getAbsolutePath()));
 	try {
 		ecoreResource.load(null);
 	} catch (IOException e) {
@@ -53,7 +52,7 @@ public class ProduceXmiID {
 	}
 	System.out.println("Registeration Done!......");
 
-	resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/eclipseModel-0.1.2.xmi"));
+	resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/Project.xmi"));
 	resource.load(null);
 	
 	

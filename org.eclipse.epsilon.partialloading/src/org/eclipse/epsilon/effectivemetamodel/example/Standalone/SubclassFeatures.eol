@@ -1,0 +1,12 @@
+model Core driver EMF {nsuri = "org.amma.dsl.jdt.core"};
+model DOM driver EMF {nsuri = "org.amma.dsl.jdt.dom"};
+model PrimitiveTypes driver EMF {nsuri = "org.amma.dsl.jdt.primitiveTypes"};
+
+var td : TypeDeclaration;
+var matches : Set;
+
+for (td in TypeDeclaration.all){
+	matches.addAll(td.bodyDeclarations.select(md:MethodDeclaration|md.modifiers.exists(mod:Modifier|mod.public==true)));
+}
+
+matches.size().println("Result: ");

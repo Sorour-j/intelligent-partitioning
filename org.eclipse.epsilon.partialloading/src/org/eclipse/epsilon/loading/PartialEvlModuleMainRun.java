@@ -15,6 +15,7 @@ import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EvlPartitioningEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
+import org.eclipse.epsilon.xmin.partitioning.PartialEvlModule;
 
 public class PartialEvlModuleMainRun {
 	

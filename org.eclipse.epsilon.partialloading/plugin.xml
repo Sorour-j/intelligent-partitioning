@@ -17,5 +17,24 @@
             type="XMIN">
       </modelType>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.modelType">
+      <modelType
+            class="org.eclipse.epsilon.emc.emfmysql.EmfMySqlModel"
+            dialog="org.eclipse.epsilon.loading.EmfMySqlModelConfigurationDialog"
+            icon="icons/EmfMySqlModel.png"
+            label="EMFMySQL Database"
+            type="EmfSql">
+      </modelType>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.modelType">
+      <modelType
+            class="org.eclipse.epsilon.effectivemetamodel.neoemf.NeoEMF"
+            icon="icons/XMIN.png"
+            label="Neo4j"
+            type="Neo4j">
+      </modelType>
+   </extension>
 
 </plugin>

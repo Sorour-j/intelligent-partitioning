@@ -1,0 +1,8 @@
+model graph driver XMIN {
+nsuri = "graph"
+};
+
+var v:Vertice;
+for (v in Vertice.allInstances()){
+	v.label.println("Label: ");
+}

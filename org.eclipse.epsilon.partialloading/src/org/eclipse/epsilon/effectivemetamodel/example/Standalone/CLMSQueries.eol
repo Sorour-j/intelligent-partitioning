@@ -1,0 +1,20 @@
+model bo driver XMIN{
+	nsuri = "bo"
+};
+
+/*Search for classes with specific name*/
+BClass.all.select(
+				c:BClass| c.name == "Location" and
+				c.ShadowModel.isNullOrWhiteSpace() and
+				c.ShadowClass.isNullOrWhiteSpace()
+).size().println("Location Classes: ");
+				
+/*Find classes with string Primary Keys*/	
+operation String isNullOrWhiteSpace() : Boolean{
+	 return self.isDefined() or (self.split(" ").size() < 2);
+}
+
+//selectOne returns the first one?
+BClass.all.select(
+			c:BClass | c.Attributes.selectOne(a:Attribute| a.Name == 					   c.PK).Datatype.equls("string")
+).size().println("PK Classes: ");

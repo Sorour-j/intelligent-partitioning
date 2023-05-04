@@ -4,6 +4,9 @@ Bundle-Name: Partialloading
 Bundle-SymbolicName: org.eclipse.epsilon.effectivemetamodel;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.eclipse.epsilon.effectivemetamodel,
+ org.eclipse.epsilon.effectivemetamodel.example.Standalone,
+ org.eclipse.epsilon.effectivemetamodel.extraction,
+ org.eclipse.epsilon.emc.emfmysql,
  org.eclipse.epsilon.loading,
  org.eclipse.epsilon.smartsaxparser
 Require-Bundle: org.eclipse.emf.ecore,
@@ -15,12 +18,16 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.epsilon.etl.staticanalyser
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.epsilon.partialloading
-Import-Package: junit.framework;version="4.13.0",
+Import-Package: com.mysql.jdbc,
+ junit.framework;version="4.13.0",
  org.eclipse.core.runtime;version="3.5.0",
  org.eclipse.debug.core,
  org.eclipse.epsilon.common.module,
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emc.emf.dt,
+ org.eclipse.epsilon.emc.emf.xmi,
+ org.eclipse.epsilon.emc.jdbc,
+ org.eclipse.epsilon.emc.mysql,
  org.eclipse.epsilon.emf.dt,
  org.eclipse.epsilon.eol,
  org.eclipse.epsilon.eol.dom,

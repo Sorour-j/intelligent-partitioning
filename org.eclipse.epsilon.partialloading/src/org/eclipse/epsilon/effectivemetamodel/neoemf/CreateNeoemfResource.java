@@ -2,11 +2,8 @@ package org.eclipse.epsilon.effectivemetamodel.neoemf;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -18,7 +15,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import fr.inria.atlanmod.neoemf.config.ImmutableConfig;
 import fr.inria.atlanmod.neoemf.data.blueprints.neo4j.config.BlueprintsNeo4jConfig;
 import fr.inria.atlanmod.neoemf.data.blueprints.util.BlueprintsUriFactory;
-import fr.inria.atlanmod.neoemf.data.mapdb.config.MapDbConfig;
+
+
 
 public class CreateNeoemfResource {
 	
@@ -52,11 +50,12 @@ public class CreateNeoemfResource {
 		
 		String db = "/Users/sorourjahanbin/git/Intelligent-partitioning/org.eclipse.epsilon.partialloading/databases/sampleXMI.graphdb";
 		
+		
 		Resource persistentResource = RS.createResource(new BlueprintsUriFactory().createLocalUri(db));
 
 		//Map<String, ?> options = new BlueprintsNeo4jConfig().autoSave().cacheContainers().cacheMetaClasses().toMap();
 
-		ImmutableConfig config = new BlueprintsNeo4jConfig().autoSave().cacheContainers().cacheMetaClasses();
+		ImmutableConfig config = new BlueprintsNeo4jConfig();
 		persistentResource.save(config.toMap());
 		//persistentResource.unload();
 		persistentResource.getContents().addAll(EcoreUtil.copyAll(xmiResource.getContents()));

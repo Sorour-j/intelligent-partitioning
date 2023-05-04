@@ -2,7 +2,6 @@ package org.eclipse.epsilon.effectivemetamodel.neoemf;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -10,14 +9,13 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import fr.inria.atlanmod.neoemf.config.BaseConfig;
 import fr.inria.atlanmod.neoemf.config.ImmutableConfig;
-import fr.inria.atlanmod.neoemf.data.blueprints.neo4j.config.BlueprintsNeo4jConfig;
+import fr.inria.atlanmod.neoemf.data.blueprints.config.BlueprintsTinkerConfig;
 import fr.inria.atlanmod.neoemf.data.blueprints.util.BlueprintsUriFactory;
-import fr.inria.atlanmod.neoemf.data.mapdb.util.MapDbUriFactory;
+
 
 
 public class Main {
@@ -54,7 +52,7 @@ public class Main {
          * Note using the BlueprintsNeo4jOptions class to create the option map automatically sets Neo4j as the graph
          * backend.
          */
-        resource.save(new BlueprintsNeo4jConfig().toMap());
+        resource.save(new BlueprintsTinkerConfig().toMap());
        
         return resource;
     }
@@ -96,7 +94,7 @@ public class Main {
 
     public static void readVertices(Resource resource) throws IOException {
     	
-        resource.load(new BlueprintsNeo4jConfig().toMap());
+        resource.load(new BlueprintsTinkerConfig().toMap());
         Graph graph = (Graph) resource.getContents().get(0);
         for (Vertice v : graph.getVertices()) {
             System.out.println(v.getLabel());
@@ -135,10 +133,10 @@ public class Main {
                 graph.getVertices().add(v2);
             }
 
-            resource.getContents().add(graph);
+       //     resource.getContents().add(graph);
             //resource.save(new BaseConfig().toMap());
      //       ImmutableConfig config = new MapDbConfig()
-            ImmutableConfig config = new BlueprintsNeo4jConfig()
+            ImmutableConfig config = new BlueprintsTinkerConfig()
                     .cacheContainers()
                 //    .withLists()
                     .cacheMetaClasses();
@@ -177,7 +175,7 @@ public class Main {
             	        new File("databases/books.graphdb")
             	    )
             	);
-            ImmutableConfig config = new BlueprintsNeo4jConfig()
+            ImmutableConfig config = new BlueprintsTinkerConfig()
                     .cacheContainers()
                     .cacheMetaClasses();
 

@@ -31,10 +31,10 @@ public class PartialXMIResourceTest2 {
 	public static ResourceSet ecoreResourceSet = new ResourceSetImpl();
 	public static ResourceSet xmiResourceSet = new ResourceSetImpl();
 	public static Resource resource;
-	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/Test.ecore";
+	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/test.ecore";
 	protected PartialXMILoadConfiguration configuration;
+	//static String uri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java";
 	static String uri = "Test";
-
 	public static void main(String[] args) throws Exception {
 		
 		RegisterEcore(metamodel);
@@ -51,9 +51,16 @@ public class PartialXMIResourceTest2 {
 
 		HashMap<String, Object> loadOptions = new HashMap<>();
 		loadOptions.put(OPTION_PARTIAL_LOADING_CONFIGURATION, configuration);
-		resource.load(loadOptions);
-		
-		resource.save(System.out, null); //Why ref:a is loaded as well?
+		resource.load(loadOptions); //Expected: A{c}, B{c}, C, D
+//		final Map<Object, Object> saveOptions = resource.getDefaultSaveOptions();
+//		saveOptions.put(XMIResource.OPTION_SCHEMA_LOCATION,Boolean.TRUE);
+//		saveOptions.put(XMIResource.OPTION_ENCODING,"UTF-8");
+//		saveOptions.put(XMIResource.OPTION_USE_XMI_TYPE, Boolean.TRUE);
+//		saveOptions.put(XMIResource.OPTION_SAVE_TYPE_INFORMATION,Boolean.TRUE);
+//		
+//		//resource.save(System.out,saveOptions);
+//		resource.save(saveOptions);
+		resource.save(System.out, null); //Why ref:a is loaded as well? (Maybe because ref:a and ref:c are Eopposite?)
 	}
 	
 	static void RegisterEcore(String metamodel) {

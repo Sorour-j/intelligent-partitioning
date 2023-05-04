@@ -34,7 +34,7 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 	@Override
 	public void preExecute() throws Exception {
 		super.preExecute();
-		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/EnergyConsumption.ecore";
+		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/CLMSmetamodel.ecore";
 		ResourceSet resourceSet = new ResourceSetImpl();
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
 		ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
@@ -70,6 +70,7 @@ public class EolXminModelRunConfiguration extends EolRunConfiguration{
 //			efMetamodel.setIsCalculated(true);
 //			System.out.println(xminModel);
 			xminModel.loadResource();
+			efMetamodel.print();
 			xminModel.load(efMetamodel);
 		}
 	}

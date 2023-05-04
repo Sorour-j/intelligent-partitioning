@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imdb:IMDB xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:imdb="imdb" xsi:schemaLocation="imdb IMDB.ecore">
+  <movies persons="//@actors.0 //@actors.2" title="One"/>
+  <movies persons="//@actors.1" title="Two"/>
+  <actors xsi:type="imdb:Actor" name="Actor1"/>
+  <actors xsi:type="imdb:Actor" name="Actor2"/>
+  <actors xsi:type="imdb:Actress" name="Actress1"/>
+</imdb:IMDB>

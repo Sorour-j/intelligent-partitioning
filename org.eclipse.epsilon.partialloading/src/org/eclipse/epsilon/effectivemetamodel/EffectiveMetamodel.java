@@ -1,6 +1,9 @@
 package org.eclipse.epsilon.effectivemetamodel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.epsilon.eol.m3.Attribute;
 
 public class EffectiveMetamodel {
 
@@ -101,6 +104,12 @@ public class EffectiveMetamodel {
 	public EffectiveType addToAllOfKind(EffectiveType et) {
 		for (EffectiveType t : allOfKind) {
 			if (t.getName().equals(et.getName())) {
+				for (EffectiveFeature ef : et.getAttributes())
+					if (! t.containsAttribute(ef.getName()))
+						t.attributes.add(ef);
+				for (EffectiveFeature ef : et.getReferences())
+					if (! t.containsReference(ef.getName()))
+						t.references.add(ef);
 				return t;
 			}
 		}
@@ -297,6 +306,7 @@ public class EffectiveMetamodel {
 	}
 
 	public void copyEffectiveMetamodel(EffectiveMetamodel model) {
+		model.setName(name);
 		for (EffectiveType ef : this.getAllOfKind())
 			model.addToAllOfKind(ef);
 		for (EffectiveType ef : this.getAllOfType())
@@ -327,8 +337,21 @@ public class EffectiveMetamodel {
 			System.out.println(ef.getName());
 			for(EffectiveFeature f : ef.getAttributes())
 				System.out.println("attr = " + f.getName());
-			for(EffectiveFeature f : ef.getAttributes())
+			for(EffectiveFeature f : ef.getReferences())
 				System.out.println("refs = " + f.getName());
+		}
+	}
+
+	/* Combine the efMetamodel in parameter into the context*/
+	public void combineMetamodels(EffectiveMetamodel ef2) {
+		for (EffectiveType t : ef2.getAllOfKind()) {
+			this.addToAllOfKind(t);
+		}
+		for (EffectiveType t : ef2.getAllOfType()) {
+			this.addToAllOfType(t);
+		}
+		for (EffectiveType t : ef2.getTypes()) {
+			this.addToTypes(t);
 		}
 	}
 }

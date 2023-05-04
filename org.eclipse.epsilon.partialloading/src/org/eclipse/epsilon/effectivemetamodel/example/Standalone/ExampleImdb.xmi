@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:movies="http://movies/1.0">
+  <movies:Movie xmi:id="_cHIvIJ-uEeymwOmHBpNTLg" persons="_cMFg9Z-uEeymwOmHBpNTLg _cNvGZp-uEeymwOmHBpNTLg" title="#" year="2012"/>
+  <movies:Movie xmi:id="_cHIvI5-uEeymwOmHBpNTLg" title="#1" year="2009"/>
+  <movies:Movie xmi:id="_cHJ9QJ-uEeymwOmHBpNTLg" persons="_cPMfnZ-uEeymwOmHBpNTLg _cPMf95-uEeymwOmHBpNTLg _cPPih5-uEeymwOmHBpNTLg" title="#2" year="2010" type="VIDEO"/>
+  <movies:Movie xmi:id="_cHJ9QZ-uEeymwOmHBpNTLg" title="#3" year="2010" type="VIDEO"/>
+  <movies:Movie xmi:id="_cHJ9Qp-uEeymwOmHBpNTLg" persons="_cPVDEZ-uEeymwOmHBpNTLg" title="#Beauty Nail Salon" year="2014"/>
+  <movies:Movie xmi:id="_cHKkUJ-uEeymwOmHBpNTLg" persons="_cNrceJ-uEeymwOmHBpNTLg _cNz_gp-uEeymwOmHBpNTLg" title="#Cheerleader Camp" rating="3.8" year="2010" type="VIDEO"/>
+  <movies:Actor xmi:id="_cMFg9Z-uEeymwOmHBpNTLg" movies="_cHIvIJ-uEeymwOmHBpNTLg" name="Comer, Jamie"/>
+  <movies:Actor xmi:id="_cNvGZp-uEeymwOmHBpNTLg" movies="_cHIvIJ-uEeymwOmHBpNTLg" name="Pell, Roxie"/>
+  <movies:Actor xmi:id="_cPMfnZ-uEeymwOmHBpNTLg" movies="_cHJ9QJ-uEeymwOmHBpNTLg" name="Simmons, Paul (V)"/>
+  <movies:Actor xmi:id="_cPMf95-uEeymwOmHBpNTLg" movies="_cHJ9QJ-uEeymwOmHBpNTLg" name="Simpson, Robert (XIII)"/>
+  <movies:Actor xmi:id="_cPPih5-uEeymwOmHBpNTLg" movies="_cHJ9QJ-uEeymwOmHBpNTLg" name="Stair, Foster"/>
+  <movies:Actor xmi:id="_cPVDEZ-uEeymwOmHBpNTLg" movies="_cHJ9Qp-uEeymwOmHBpNTLg" name="Tran, Peter (I)"/>
+  <movies:Actor xmi:id="_cNrceJ-uEeymwOmHBpNTLg" movies="_cHKkUJ-uEeymwOmHBpNTLg" name="Paige, Skyla"/>
+  <movies:Actor xmi:id="_cNz_gp-uEeymwOmHBpNTLg" movies="_cHKkUJ-uEeymwOmHBpNTLg" name="Powers, Sandra"/>
+  </xmi:XMI>
+ 

@@ -1,7 +1,9 @@
 package org.eclipse.epsilon.effectivemetamodel.extraction;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
+import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveType;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
@@ -84,7 +86,6 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 
-
 	EffectiveMetamodel efmetamodel = new EffectiveMetamodel();
 	EolModule module;
 	EolStaticAnalyser staticanalyser = new EolStaticAnalyser();
@@ -94,18 +95,10 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 		EolModule module = (EolModule) imodule;
 		this.module = module;
 		this.staticanalyser = staticAnalyser;
-		
-//		try {
-//			xminModel = (XMIN) module.getContext().getModelRepository().getModelByName(staticAnalyser.getContext().getModelDeclarations().get(0).getModel().getName());
-//		} catch (EolModelNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			xminModel = (XMIN) staticAnalyser.getContext().getModelDeclarations().get(0).getModel();
-//		}
-//		efmetamodel = new EffectiveMetamodel(xminModel.getName(), xminModel.getMetamodelUris().get(0));
+
 		extractor();
 		iterate();
 		efmetamodel.setIsCalculated(true);
-//		xminModel.setEffectiveMteamodel(efmetamodel);
 		return efmetamodel;
 	}
 
@@ -224,8 +217,7 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 		Object body = executableBlock.getBody();
 		if (body instanceof StatementBlock) {
 			((StatementBlock) body).accept(this);
-		}
-		else if (body instanceof Expression) {
+		} else if (body instanceof Expression) {
 			((Expression) body).accept(this);
 		}
 	}
@@ -364,7 +356,6 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 
 	@Override
 	public void visit(Operation operation) {
-
 		operation.getBody().accept(this);
 		if (operation.getReturnTypeExpression() != null)
 			operation.getReturnTypeExpression().accept(this);
@@ -383,9 +374,11 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 
 		if (!operationCallExpression.isContextless()) {
 
-			if (staticanalyser.getResolvedType(operationCallExpression.getTargetExpression()) instanceof EolModelElementType) {
+			if (staticanalyser
+					.getResolvedType(operationCallExpression.getTargetExpression()) instanceof EolModelElementType) {
 
-				target = (EolModelElementType) staticanalyser.getResolvedType(operationCallExpression.getTargetExpression());
+				target = (EolModelElementType) staticanalyser
+						.getResolvedType(operationCallExpression.getTargetExpression());
 
 				if (operationCallExpression.getNameExpression().getName().equals("all")
 						|| operationCallExpression.getNameExpression().getName().equals("allOfKind")
@@ -449,19 +442,19 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 		if (resolvedType instanceof EolModelElementType) {
 			ProprtyCallExpresionHandler(propertyCallExpression, ((EolModelElementType) resolvedType));
 		}
-		
+
 		else if (resolvedType instanceof EolCollectionType
-				&& ((EolCollectionType) resolvedType).getContentType() instanceof EolModelElementType) 
-				{
-			ProprtyCallExpresionHandler(propertyCallExpression, ((EolModelElementType) ((EolCollectionType) resolvedType).getContentType()));
+				&& ((EolCollectionType) resolvedType).getContentType() instanceof EolModelElementType) {
+			ProprtyCallExpresionHandler(propertyCallExpression,
+					((EolModelElementType) ((EolCollectionType) resolvedType).getContentType()));
 		}
-		
+
 		else if (resolvedType instanceof EolAnyType) {
 			String nameexpr = propertyCallExpression.getNameExpression().getName();
 			for (EffectiveType ef : efmetamodel.getAllOfEffectiveTypes()) {
 				for (StructuralFeature feature : ef.getTraversalAttributes()) {
 					if (feature.getName().equals(nameexpr)) {
-						ef.addToAttributes(nameexpr);
+						ef.addToAttributes(feature);
 					}
 				}
 				for (StructuralFeature feature : ef.getTraversalReferences()) {
@@ -616,8 +609,10 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 			for (StructuralFeature sf : features) {
 				if (sf instanceof Attribute) {
 					if (sf.getName().equals(pro.getNameExpression().getName())
-							&& !effectiveType.containsAttribute(sf.getName()))
-						effectiveType.addToAttributes(sf.getName());
+							&& !effectiveType.containsAttribute(sf.getName())) {
+						effectiveType.addToAttributes(sf);
+					}
+
 //					else
 //						effectiveType.addToTraversalAttributes(sf);
 
@@ -626,25 +621,44 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 							&& !effectiveType.containsReference(sf.getName())) {
 						effectiveType.addToReferences(sf.getName());
 
-						//I add isContaiment in Reference and set it in EmfModelMetamodel class
+						// I add isContaiment in Reference and set it in EmfModelMetamodel class
+						/* I commented because of Neo4j */
 						if (!((Reference) sf).isContainment()) {
 							efmetamodel.addToAllOfKind(sf.getType().getName());
-							loadFeatures((EolModelElementType)(sf.getType()), efmetamodel.getFromAllOfKind(sf.getType().getName()));
+							loadFeatures((EolModelElementType) (sf.getType()),
+									efmetamodel.getFromAllOfKind(sf.getType().getName()));
+//							if(sf.getName().equals("source")) 
+//								efmetamodel.addReferenceToEffectiveType("OutPort", "outgoing");
+//							else if(sf.getName().equals("target")) 
+//									efmetamodel.addReferenceToEffectiveType("InPort", "incoming");
+						} else {
+
+							EolType typeName = staticanalyser.getResolvedType(pro);
+
+							if (typeName instanceof EolCollectionType) {
+								typeName = ((EolCollectionType) typeName).getContentType();
+							}
+							sf.setType(typeName);
+							efmetamodel.addToTypes(typeName.getName());
+							loadFeatures((EolModelElementType) (typeName),
+									efmetamodel.getFromTypes(typeName.getName()));
+							}
 						}
 					}
-//					else
-//							effectiveType.addToTraversalReferences(sf);
+
 				}
 			}
-		}
 	}
 
 	public String effectiveMetamodelConvertor(EffectiveMetamodel model) {
 		String efMetamodelString = new String();
+
 		for (EffectiveType type : model.getAllOfKind()) {
 			efMetamodelString += "AllofKind" + type.getName() + "-";
-			efMetamodelString += "Attributes" + type.getAttributes() + "-";
-			efMetamodelString += "references" + type.getReferences() + "-";
+			for (EffectiveFeature atr : type.getAttributes())
+				efMetamodelString += "Attributes" + atr.getName() + "-";
+			for (EffectiveFeature ref : type.getReferences())
+				efMetamodelString += "references" + ref.getName() + "-";
 		}
 		for (EffectiveType type : model.getAllOfType()) {
 			efMetamodelString += "AllofType" + type + "-";
@@ -652,7 +666,7 @@ public class EolEffectiveMetamodelComputationVisitor implements IEolVisitor {
 			efMetamodelString += "references" + type.getReferences() + "-";
 		}
 		for (EffectiveType type : model.getTypes()) {
-			efMetamodelString += "AllofType" + type + "-";
+			efMetamodelString += "Types" + type + "-";
 			efMetamodelString += "Attributes" + type.getAttributes() + "-";
 			efMetamodelString += "references" + type.getReferences() + "-";
 		}

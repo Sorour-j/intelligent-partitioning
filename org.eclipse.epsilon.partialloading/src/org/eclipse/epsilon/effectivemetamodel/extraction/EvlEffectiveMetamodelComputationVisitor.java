@@ -13,44 +13,41 @@ import org.eclipse.epsilon.evl.dom.Fix;
 import org.eclipse.epsilon.evl.dom.IEvlVisitor;
 import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
 
-public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamodelComputationVisitor implements IEvlVisitor {
+public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamodelComputationVisitor
+		implements IEvlVisitor {
 
 	protected EvlStaticAnalyser staticAnalyser = null;
 	protected EvlModule module;
-	
-	public EffectiveMetamodel setExtractor(EvlModule module , EvlStaticAnalyser staticAnalyser) {
-		
+
+	public EffectiveMetamodel setExtractor(EvlModule module, EvlStaticAnalyser staticAnalyser) {
+
 		this.module = module;
 		this.staticAnalyser = staticAnalyser;
-//		try {
-//			xminModel = (XMIN) module.getContext().getModelRepository().getModelByName(staticAnalyser.getContext().getModelDeclarations().get(0).getModel().getName());
-//		} catch (EolModelNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			xminModel = (XMIN) staticAnalyser.getContext().getModelDeclarations().get(0).getModel();
-//		}
 		extractor();
 		iterate();
 		efmetamodel.setIsCalculated(true);
 		return efmetamodel;
 	}
-	
+
 	@Override
 	public void extractor() {
-		
+
 		for (Pre p : module.getDeclaredPre()) {
 			p.accept(this);
 		}
-
 		for (ConstraintContext cc : module.getConstraintContexts()) {
 			cc.accept(this);
 		}
-		
+		for (Constraint c : module.getConstraints()) {
+			c.accept(this);
+		}
 		module.getDeclaredOperations().forEach(o -> o.accept(this));
 		
 		for (Post post : module.getDeclaredPost()) {
-			post.accept(this);
+				post.accept(this);
 		}
 	}
+
 	@Override
 	public void iterate() {
 		String modelVersion1, modelVersion2 = null;
@@ -62,7 +59,8 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 			extractor();
 			modelVersion2 = effectiveMetamodelConvertor(efmetamodel);
 		}
-	}	
+	}
+
 	@Override
 	public void visit(Post post) {
 		post.getBody().accept(this);
@@ -76,7 +74,7 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 	@Override
 	public void visit(ConstraintContext constraintContext) {
 		EolModelElementType target;
-		
+
 		if (constraintContext.getTypeExpression() != null) {
 			target = (EolModelElementType) staticAnalyser.getResolvedType(constraintContext.getTypeExpression());
 			efmetamodel.addToAllOfKind(target.getName());
@@ -99,10 +97,8 @@ public class EvlEffectiveMetamodelComputationVisitor extends EolEffectiveMetamod
 			}
 		}
 		constraintContext.getTypeExpression().accept(this);
-		for (Constraint c : constraintContext.getConstraints())
-		{
-			c.accept(this);
-		}
+		if (constraintContext.getGuardBlock() != null)
+			constraintContext.getGuardBlock().accept(this);
 	}
 
 	@Override

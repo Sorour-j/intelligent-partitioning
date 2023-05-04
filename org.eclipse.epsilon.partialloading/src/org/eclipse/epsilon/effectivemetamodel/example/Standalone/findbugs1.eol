@@ -1,0 +1,45 @@
+model javaMM driver Neo4j {nsuri = "javaMM"};
+
+var result : Sequence;
+
+/**** notReservedWord ****/
+/*One attribute*/
+for (ne in NamedElement.all){
+	if (ne.name == "var" or ne.name == "_" or ne.name == "strictfp" or ne.name == "assert" or ne.name == "enum"){
+		result.add(false);
+	}
+}
+result.size().println("Unsatisfied NamedElements: ");
+
+/**** noRedundantAssignments ****/
+//One attribute, Two containment references
+var as : Assignment;
+result.clear();
+for (as in Assignment.all){
+	if (as.operator == AssignmentKind#ASSIGN and as.leftHandSide == as.rightHandSide){
+		result.add(false);
+	}
+}
+result.size().println("Unsatisfied Assignment: ");
+
+
+/**** publicVariableIsFinal ****/
+//containment.attribute
+var vs : VariableDeclarationStatement;
+result.clear();
+for (vs in VariableDeclarationStatement.all){
+		if (vs.modifier.visibility == VisibilityKind#public and vs.modifier.inheritance <> InheritanceKind#final)
+			result.add(false);
+}
+result.size().println("Unsatisfied VariableDeclarationStatement: ");
+
+/**** doesNotCatchDubiousExceptions ****/
+//Containment.Containment.non-containment.Attribute
+var cc : CatchClause;
+result.clear();
+for (cc in CatchClause.all){
+if (cc.exception.type.type.name == "IllegalMonitorStateException"){
+	result.add(false);
+    }
+}
+result.size().println("Unsatisfied doesNotCatchDubiousExceptions: ");

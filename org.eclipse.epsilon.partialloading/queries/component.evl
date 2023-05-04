@@ -1,0 +1,13 @@
+model ccl driver XMIN {nsuri = "http://componentlanguage"};
+
+context Component {
+
+     /* Components must be connected to at least one more component */
+    constraint ComponentIsConnected {
+        check: self.ports.exists(p:InPort|p.incoming.notEmpty()) or
+        self.ports.exists(p:OutPort|p.outgoing.notEmpty())
+        
+   
+        message: "Component " + self.name + " is disconnected"
+    }
+}

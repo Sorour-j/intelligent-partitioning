@@ -2,6 +2,7 @@ package org.eclipse.epsilon.effectivemetamodel.neoemf;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -22,7 +23,7 @@ public class RepoModel {
 	public static void main(String[] args) throws Exception {
 		
 		//Register Meta-model
-		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/neoemf/java.ecore";
+		String metamodel = "/Users/sorourjahanbin/git/Intelligent-partitioning/org.eclipse.epsilon.partialloading/src/org/eclipse/epsilon/effectivemetamodel/neoemf/JDTAST.ecore";
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
@@ -41,18 +42,15 @@ public class RepoModel {
 		}
 		
 		NeoEMFModel model = new NeoEMFModel();
-		model.setName("javaMM");
+		model.setName("JDTAST");
 		
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(NeoEMFModel.PROPERTY_NAME, "javaMM");
-		modelProperties.setProperty(NeoEMFModel.PROPERTY_METAMODEL_URI,"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
+		modelProperties.setProperty(NeoEMFModel.PROPERTY_NAME, "JDTAST");
+	//	modelProperties.setProperty(NeoEMFModel.PROPERTY_METAMODEL_URI,"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
 		modelProperties.setProperty("type", "NeoEMF");
 		
 		EolModule module = new EolModule();
-		module.parse("model javaMM driver NeoEMF {\n"
-				+ "nsuri = \"http://atlanmod.org/neoemf/tutorial\"\n"
-				+ "}; var v:Movie;for (v in Movie.allInstances()) "
-				+ "{v.title.println(\"Title: \");");
+		module.parse(new File("/Users/sorourjahanbin/git/mainandstaticanalysis/org.eclipse.epsilon.neo4j/src/org/eclipse/epsilon/neo4j/benchmarks/grabats.eol"));
 			//	+ "v.name.println(\"Name: \");}");
 		
 //		EolStaticAnalyser staticAnalyser = new EolStaticAnalyser();

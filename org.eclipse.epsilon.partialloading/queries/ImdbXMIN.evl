@@ -1,0 +1,17 @@
+model movies driver XMIN {
+nsuri = "http://movies/1.0"
+};
+context Movie {
+
+	constraint hasTitle {
+		check: self.`title` <> null and self.year <> null
+	}
+	constraint hasRate {
+		check: self.year > 2009
+	}
+}
+context Person {
+	constraint hasName {
+		check: self.name <> null and self.movies.isEmpty().println()
+	}
+}

@@ -1,0 +1,25 @@
+model EnergyProvider driver XMIN {
+nsuri = "http://www.lowcomote.eu/EnergyProvider"
+};
+
+/*
+model javaMM driver XMIN {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};*/
+
+/*
+context MethodInvocation {
+	constraint doesNotCallFinalize {
+		check: not (
+			self.method.name == "finalize" and
+			self.method.parameters.isEmpty()
+		) 
+	}
+}*/
+
+context HouseHold {
+	constraint HouseHoldIdExists {
+		check : self.houseHoldId <> null
+	}
+	
+}

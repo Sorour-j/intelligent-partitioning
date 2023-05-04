@@ -31,24 +31,26 @@ public class EolStandaloneExample {
 			modelsRoot = root.getParent().resolve("standalone");
 		
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "EnergyProvider");
+		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "javaMM");
 		modelProperties.setProperty(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
-			modelsRoot.resolve("EnergyConsumption.ecore").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("/Users/sorourjahanbin/git/mainandstaticanalysis/org.eclipse.epsilon.neo4j/model/java_findbugs.ecore").toAbsolutePath().toUri().toString()
 			
 		);
 	//	modelProperties.setProperty(EmfModel.PROPERTY_METAMODEL_URI,"http://www.lowcomote.eu/EnergyProvider");
-		modelProperties.setProperty("type", "EMF");
+		modelProperties.setProperty("type", "xmi");
 		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("LCLModel_40.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("/Users/sorourjahanbin/git/mainandstaticanalysis/org.eclipse.epsilon.neo4j/model/eclipseModel-1.0.xmi").toAbsolutePath().toUri().toString()
 		);
 		
+		System.out.println("Loaded!");
+		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()
-			.withScript(root.resolve("energy.eol"))
+			.withScript(root.resolve("test2.eol"))
 			.withModel(new EmfModel(), modelProperties)
 		//	.withParameter("Thread", Thread.class)
 			.withProfiling()
 			.build();
-	
+//	
 		runConfig.run();
 		//runConfig.run();
 			

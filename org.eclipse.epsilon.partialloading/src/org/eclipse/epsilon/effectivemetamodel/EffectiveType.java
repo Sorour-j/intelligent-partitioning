@@ -95,16 +95,17 @@ public class EffectiveType {
 		return containsAttribute(feature) || containsReference(feature);
 	}
 
-	public EffectiveFeature addToAttributes(String attribute) {
+	public EffectiveFeature addToAttributes(StructuralFeature attribute) {
 		for (EffectiveFeature ef : attributes) {
-			if (ef.getName().equals(attribute)) {
+			if (ef.getName().equals(attribute.getName())) {
 				ef.setEffectiveType(this);
 				// ef.increaseUsage();
 				return ef;
 			}
 		}
 
-		EffectiveFeature attr = new EffectiveFeature(attribute);
+		EffectiveFeature attr = new EffectiveFeature(attribute.getName());
+		attr.setType(attribute.getType().getName());
 		attributes.add(attr);
 		attr.setEffectiveType(this);
 		return attr;

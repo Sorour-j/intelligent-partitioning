@@ -1,0 +1,10 @@
+model javaMM driver XMIN {
+nsuri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" 
+};
+
+var m : MethodInvocation;
+
+for (m in MethodInvocation.all()){
+	m.method.name.println();
+	m.method.parameters.println();
+}

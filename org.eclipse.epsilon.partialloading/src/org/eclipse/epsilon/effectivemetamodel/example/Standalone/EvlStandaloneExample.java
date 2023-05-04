@@ -30,19 +30,19 @@ public class EvlStandaloneExample {
 			modelsRoot = root.getParent().resolve("standalone");
 		
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "javaMM");
+		modelProperties.setProperty(EmfModel.PROPERTY_NAME, "http://movies/1.0");
 		modelProperties.setProperty(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
-			modelsRoot.resolve("java.ecore").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("movies.ecore").toAbsolutePath().toUri().toString()
 			
 		);
 	//	modelProperties.setProperty(EmfModel.PROPERTY_METAMODEL_URI,"http://www.eclipse.org/MoDisco/Java/0.2.incubation/java");
 		modelProperties.setProperty("type", "EMF");
 		modelProperties.setProperty(EmfModel.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("test.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("ExampleImdb.xmi").toAbsolutePath().toUri().toString()
 		);
 	
 		EvlRunConfiguration runConfig = EvlRunConfiguration.Builder()
-			.withScript(root.resolve("java_findbugs.evl"))
+			.withScript(root.resolve("ImdbXMIN.evl"))
 			.withModel(new EmfModel(), modelProperties)
 		//	.withParameter("greeting", "Hello from ")
 			.withProfiling()

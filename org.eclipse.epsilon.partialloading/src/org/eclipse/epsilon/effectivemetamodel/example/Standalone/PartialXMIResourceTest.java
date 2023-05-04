@@ -31,7 +31,7 @@ public class PartialXMIResourceTest {
 	public static ResourceSet ecoreResourceSet = new ResourceSetImpl();
 	public static ResourceSet xmiResourceSet = new ResourceSetImpl();
 	public static Resource resource;
-	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/java.ecore";
+	public static String metamodel ="src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/java2.ecore";
 	protected PartialXMILoadConfiguration configuration;
 	static String uri = "http://www.eclipse.org/MoDisco/Java/0.2.incubation/java";
 	//static String uri = "http://movies/1.0";
@@ -40,7 +40,7 @@ public class PartialXMIResourceTest {
 		
 		RegisterEcore(metamodel);
 		xmiResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new PartialXMIResourceFactory());
-		resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/Test2.xmi"));
+		resource = (XMIResource) xmiResourceSet.createResource(URI.createFileURI("src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/eclipseModel-1.0.xmi"));
 
 		PartialXMILoadConfiguration configuration = new PartialXMILoadConfiguration();
 
@@ -50,9 +50,14 @@ public class PartialXMIResourceTest {
 		configuration.addFeature(eclass1, feature1); //MethodInvocation, method
 		
 		EClass eclass2 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(0);//MathodDeclaration
+	//	EClass eclass3 = (EClass)xmiResourceSet.getPackageRegistry().getEPackage(uri).getEClassifiers().get(4);//MathodDeclaration
+		
 		EStructuralFeature feature2 = eclass2.getEAllAttributes().get(0);
 		configuration.addFeature(eclass2, feature2); //MathodDeclaration, name
 		
+//		EStructuralFeature feature3 = eclass2.getEAllAttributes().get(0);
+//		configuration.addFeature(eclass3, feature3); //MathodDeclaration, name
+//		
 		HashMap<String, Object> loadOptions = new HashMap<>();
 		loadOptions.put(OPTION_PARTIAL_LOADING_CONFIGURATION, configuration);
 		resource.load(loadOptions);
@@ -61,7 +66,6 @@ public class PartialXMIResourceTest {
 	}
 	
 	static void RegisterEcore(String metamodel) {
-		System.out.println("Registering Ecore:......");
 		
 		ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 		Resource ecoreResource = ecoreResourceSet

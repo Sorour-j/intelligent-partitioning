@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveFeature;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveType;
+import org.eclipse.epsilon.eol.m3.Reference;
 
 public class EffectiveMetamodelReconciler {
 
@@ -22,16 +23,9 @@ public class EffectiveMetamodelReconciler {
 	//epackages
 	protected ArrayList<EPackage> packages = new ArrayList<EPackage>();
 	
-	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> traversalPlans = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
 	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> actualObjectsAndFeaturesToLoad = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
 	protected HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> typesToLoad = new HashMap<String, HashMap<EClass,ArrayList<EStructuralFeature>>>();
 	protected HashMap<String, ArrayList<String>> metamodelClasses = new HashMap<String, ArrayList<String>>();
-	protected HashMap<String, ArrayList<String>> placeHolderObjects = new HashMap<String, ArrayList<String>>();
-	
-	//visited EClasses
-	protected ArrayList<EClass> visitedClasses = new ArrayList<EClass>();
-
-	
 	public ArrayList<EffectiveMetamodel> getEffectiveMetamodels() {
 		return effectiveMetamodels;
 	}
@@ -56,17 +50,13 @@ public class EffectiveMetamodelReconciler {
 		this.packages.addAll((Collection<? extends EPackage>) packages);
 	}
 	
-	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getObjectsAndRefNamesToVisit() {
-		return traversalPlans;
-	}
-	
 	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getActualObjectsToLoad() {
 		return actualObjectsAndFeaturesToLoad;
 	}
 	
-	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getTypesToLoad() {
-		return typesToLoad;
-	}
+//	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getTypesToLoad() {
+//		//return typesToLoad;
+//	}
 	
 	public void reconcile()
 	{
@@ -92,15 +82,7 @@ public class EffectiveMetamodelReconciler {
 						addTypesToLoad((EClass) eClassifier);
 					}
 					
-					//cast to eClass
-
 					EClass eClass = (EClass) eClassifier;
-					
-					//clear visited class
-					visitedClasses.clear();
-					
-					//visit EClass
-					planTraversal(eClass);
 				}
 			}
 		}
@@ -279,7 +261,7 @@ public class EffectiveMetamodelReconciler {
 		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if em's name is equal to epack's name
-			if (em.getName().equalsIgnoreCase(ePackage.getName())) {
+			//if (em.getName().equalsIgnoreCase(ePackage.getName())) {
 				
 				//for each type in all of kind
 				for(EffectiveType et: em.getAllOfKind())
@@ -292,16 +274,16 @@ public class EffectiveMetamodelReconciler {
 					}
 					
 					//get the eclass by name
-					EClass kind = (EClass) ePackage.getEClassifier(elementName);
+				/*	EClass kind = (EClass) ePackage.getEClassifier(elementName);
 					
 					//if the eclass's super types contains the type also return true
-//					if(eClass.getESuperTypes().contains(kind))
-//					{
-//						return true;
-//					}
-					/*By Sorour*/
-				    if (eClass.getEAllSuperTypes().contains(kind))
+					if(eClass.getEAllSuperTypes().contains(kind))
+					{
 						return true;
+					}*/
+					/*By Sorour*/
+//				    if (eClass.getEAllSuperTypes().contains(kind))
+//						return true;
 					/**/
 				}
 				
@@ -315,7 +297,7 @@ public class EffectiveMetamodelReconciler {
 						return true;
 					}
 				}
-			}
+			//}
 		}
 		return false;
 	}
@@ -326,9 +308,6 @@ public class EffectiveMetamodelReconciler {
 		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if em's name is equal to epack's name
-			if (em.getName().equalsIgnoreCase(ePackage.getName())) {
-				
-				//for each type in all of type
 				for(EffectiveType et: em.getTypes())
 				{
 					//get name
@@ -342,18 +321,13 @@ public class EffectiveMetamodelReconciler {
 					EClass kind = (EClass) ePackage.getEClassifier(elementName);
 					
 					//if the eclass's super types contains the type also return true
-//					if(eClass.getESuperTypes().contains(kind))
-//					{
-//						return true;
-//					}
-					// The subclasses of effective types should be loaded as well
-					
-					/*By Sorour*/
-					 if (eClass.getEAllSuperTypes().contains(kind))
+					if(eClass.getEAllSuperTypes().contains(kind))
+					{
 						return true;
-					/**/
+					}
+					
 				}
-			}
+		//	}
 		}
 		return false;
 	}
@@ -361,7 +335,7 @@ public class EffectiveMetamodelReconciler {
 	public void addActualObjectToLoad(EClass eClass)
 	{
 		//get the epackage name
-		String epackage = eClass.getEPackage().getName();
+		String epackage = eClass.getEPackage().getNsURI();
 		
 		//get the submap with the epackage name
 		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = actualObjectsAndFeaturesToLoad.get(epackage);
@@ -401,12 +375,12 @@ public class EffectiveMetamodelReconciler {
 	public void addTypesToLoad(EClass eClass)
 	{
 		//get the epackage name
-		String epackage = eClass.getEPackage().getName();
+		String epackage = eClass.getEPackage().getNsURI();
 		
 		//get the submap with the epackage name
-		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = typesToLoad.get(epackage);
+		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = actualObjectsAndFeaturesToLoad.get(epackage);
 	//	HashMap<EClass, ArrayList<EStructuralFeature>> Actual = actualObjectsAndFeaturesToLoad.get(epackage);
-		ArrayList<EStructuralFeature> refs = getFeaturesForTypeToLoad(eClass);
+		ArrayList<EStructuralFeature> refs = new ArrayList<EStructuralFeature>();
 		
 		//if sub map is null and eClass doesn't exist in ActualObjToLoad
 		
@@ -414,11 +388,12 @@ public class EffectiveMetamodelReconciler {
 				//create new sub map
 				subMap = new HashMap<EClass, ArrayList<EStructuralFeature>>();
 				
+				refs = getFeaturesForTypeToLoad(eClass);
 					//add the ref to the sub map
 					subMap.put(eClass, refs);
 			
 					//add the sub map to objectsAndRefNamesToVisit
-					typesToLoad.put(epackage, subMap);
+					actualObjectsAndFeaturesToLoad.put(epackage, subMap);
 				}
 		else
 		{	
@@ -458,7 +433,7 @@ public class EffectiveMetamodelReconciler {
 		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if the container is the container needed
-			if (em.getName().equals(ePackage.getName())) {
+		//	if (em.getName().equals(ePackage.getName())) {
 				for(EffectiveType et: em.getTypes())
 				{
 					//if class name equals, add all references and attributes
@@ -479,7 +454,7 @@ public class EffectiveMetamodelReconciler {
 					}
 					
 					//if eclass is a sub class of the kind, add all attributes and references
-					EClass kind = (EClass) ePackage.getEClassifier(et.getName());
+				/*	EClass kind = (EClass) ePackage.getEClassifier(et.getName());
 					if (eClass.getEAllSuperTypes().contains(kind)) {
 						for(EffectiveFeature ef: et.getAttributes())
 						{
@@ -495,9 +470,9 @@ public class EffectiveMetamodelReconciler {
 								result.add(eClass.getEStructuralFeature(ef.getName()));
 						}
 						//break loop1;
-					}
+					}*/
 				}
-			}
+		//	}
 		}
 		return result;
 	}
@@ -513,7 +488,7 @@ public class EffectiveMetamodelReconciler {
 		for(EffectiveMetamodel em: effectiveMetamodels)
 		{
 			//if the container is the container needed
-			if (em.getName().equals(ePackage.getName())) {
+		//	if (em.getName().equals(ePackage.getName())) {
 				//for elements all of kind
 				//loop1:
 				for(EffectiveType et: em.getAllOfKind())
@@ -575,336 +550,9 @@ public class EffectiveMetamodelReconciler {
 						//break loop2;
 					}
 				}
-			}
+		//	}
 		}
 		return result;
-	}
-
-	public void planTraversal(EClass eClass)
-	{
-		//add this class to the visited
-		visitedClasses.add(EcoreUtil.copy(eClass));
-		
-		//if this one is a live class, should addRef()
-		if (liveClass(eClass.getEPackage(), eClass.getName())) {
-			//add class to objectsAndRefNamesToVisit
-			addToTraversalPlan(eClass, null);
-			//add to placeholder if necessary
-			insertPlaceHolderOjbects(eClass.getEPackage(), eClass);
-		}
-		
-		//for each reference
-		for(EReference eReference: eClass.getEAllReferences())
-		{
-			//if the etype of the reference has not been visited
-			if (!visitedEClass((EClass) eReference.getEType())) {
-				//visit the etype
-				planTraversal((EClass) eReference.getEType());
-			}
-			
-			//if is live reference
-			if (liveReference(eReference)) {
-				//add class and reference to objectsAndRefNamesToVisit
-				addToTraversalPlan(eClass, eReference);
-				//insert placeholder if necessary
-				insertPlaceHolderOjbects(eClass.getEPackage(), eClass);
-			}
-		}
-		
-		//for every eclassifier
-		for(EClassifier every: eClass.getEPackage().getEClassifiers())
-		{
-			if (every instanceof EClass) {
-				EClass theClass = (EClass) every;
-				
-				if (theClass.getEAllSuperTypes().contains(eClass)) {
-					for(EReference eReference: theClass.getEAllReferences())
-					{
-						if (!visitedEClass((EClass) eReference.getEType())) {
-							planTraversal((EClass) eReference.getEType());
-						}
-						
-						if (liveReference(eReference)) {
-							addToTraversalPlan(theClass, eReference);
-							insertPlaceHolderOjbects(theClass.getEPackage(), theClass);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	
-	//determines if a class is live class, this is used to generate the traversal path
-	public boolean liveClass(EPackage ePackage, String className)
-	{
-		//for each effective metamodel
-		for(EffectiveMetamodel em: effectiveMetamodels)
-		{
-			//get the package first
-			if (em.getName().equalsIgnoreCase(ePackage.getName())) {
-				
-				//for all of kinds
-				for(EffectiveType et: em.getAllOfKind())
-				{
-					//the element name
-					String elementName = et.getName();
-					//if name equals return true
-					if (className.equals(elementName)) {
-						return true;
-					}
-					
-					//get the eclass for the mec
-					EClass kind = (EClass) ePackage.getEClassifier(elementName);
-					//get the eclass for the current class under question
-					EClass actual = (EClass) ePackage.getEClassifier(className);
-					//if the current class under question is a sub class of the mec, should return true
-					if(actual.getEAllSuperTypes().contains(kind))
-					{
-						return true;
-					}
-					//if the current class under question is a super class of the mec, should also return true
-					if (kind.getEAllSuperTypes().contains(actual)) 
-					{
-						return true;
-					}
-				}
-				
-				for(EffectiveType et: em.getAllOfType())
-				{
-					//the element n ame
-					String elementName = et.getName();
-					//if name equals return true
-					if (className.equals(elementName)) {
-						return true;
-					}
-					
-					//get the eclass for the mec
-					EClass type = (EClass) ePackage.getEClassifier(elementName);
-					//get the eclass for the class under question
-					EClass actual = (EClass) ePackage.getEClassifier(className);
-					//if the class under question is a super class of the mec, should return true
-					if (type.getEAllSuperTypes() != null && type.getEAllSuperTypes().contains(actual)) 
-					{
-						return true;
-					}
-				}
-				
-				for(EffectiveType et: em.getTypes())
-				{
-					//the element n ame
-					String elementName = et.getName();
-					//if name equals return true
-					if (className.equals(elementName)) {
-						return true;
-					}
-					
-					//get the eclass for the mec
-					EClass type = (EClass) ePackage.getEClassifier(elementName);
-					//get the eclass for the class under question
-					EClass actual = (EClass) ePackage.getEClassifier(className);
-					//if the class under question is a super class of the mec, should return true
-					if (type.getEAllSuperTypes() != null && type.getEAllSuperTypes().contains(actual)) 
-					{
-						return true;
-					}
-				}
-				
-				ArrayList<String> placeHolders = placeHolderObjects.get(em.getName());
-				
-				if (placeHolders != null) {
-					for(String t : placeHolderObjects.get(em.getName()))
-					{
-						if (t.equals(className)) {
-							return true;
-						}
-						
-						//get the eclass for the mec
-						EClass type = (EClass) ePackage.getEClassifier(t);
-						//get the eclass for the class under question
-						EClass actual = (EClass) ePackage.getEClassifier(className);
-						//if the class under question is a super class of the mec, should return true
-						if (type.getEAllSuperTypes().contains(actual)) 
-						{
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
-	//add classes and references to visit and fill up the objectsAndRefNamesToVisit map
-	public void addToTraversalPlan(EClass eClass, EReference eReference)
-	{
-		//get the epackage name
-		String epackage = eClass.getEPackage().getName();
-		//get the submap with the epackage name
-		HashMap<EClass, ArrayList<EStructuralFeature>> subMap = traversalPlans.get(epackage);
-		//if sub map is null
-		if (subMap == null) {
-			//create new sub map
-			subMap = new HashMap<EClass, ArrayList<EStructuralFeature>>();
-			//create new refs for the map
-			ArrayList<EStructuralFeature> refs = new ArrayList<EStructuralFeature>();
-			//if eReference is not null
-			if (eReference != null) {
-				//add the eReference to the ref
-				refs.add(eReference);
-			}
-			//add the ref to the sub map
-			subMap.put(eClass, refs);
-			//add the sub map to objectsAndRefNamesToVisit
-			traversalPlans.put(epackage, subMap);
-		}
-		else {
-			//if sub map is not null, get the refs by class name
-			ArrayList<EStructuralFeature> refs = subMap.get(eClass);
-
-			//if refs is null, create new refs and add the ref and then add to sub map
-			if (refs == null) {
-				refs = new ArrayList<EStructuralFeature>();
-				if(eReference != null)
-				{
-					refs.add(eReference);
-				}
-				subMap.put(eClass, refs);
-			}
-			//if ref is not null, add the ref
-			else {
-				if (eReference != null) {
-					if (!refs.contains(eReference)) {
-						refs.add(eReference);	
-					}
-				}
-			}
-		}
-	}
-
-	
-	
-	public void insertPlaceHolderOjbects(EPackage ePackage, EClass eClass)
-	{
-		//inserted 
-		boolean inserted = false;
-		//for each effective metamodel
-		for(EffectiveMetamodel em: effectiveMetamodels)
-		{
-			//get the matching package
-			if (em.getName().equals(ePackage.getName())) {
-				
-				//for each type in all of kind
-				for(EffectiveType et: em.getAllOfKind())
-				{
-					//if types match, return
-					if (et.getName().equals(eClass.getName())) {
-						inserted = true;
-						return;
-					}
-					
-					//if types match return
-					EClass kind = (EClass) ePackage.getEClassifier(et.getName());
-					for(EClass superClass: eClass.getEAllSuperTypes())
-					{
-						if (kind.getName().equals(superClass.getName())) {
-							inserted = true;
-							return;
-						}
-					}
-				}
-				
-				//for each type in all of type
-				for(EffectiveType et: em.getAllOfType())
-				{
-					//if types match, return
-					if (et.getName().equals(eClass.getName())) {
-						inserted = true;
-						return;
-					}
-				}
-				
-				ArrayList<String> placeHolders = placeHolderObjects.get(em.getName());
-				
-				if (placeHolders != null) {
-					for(String t : placeHolderObjects.get(em.getName()))
-					{
-						if (t.equals(eClass.getName())) {
-							inserted = true;
-							return;
-						}
-					}
-				}
-				
-				
-				
-				//if not inserted, add to types
-				if (!inserted) {
-					inserted = true;
-					addPlaceHolderObject(ePackage.getName(), eClass.getName());
-					return;
-				}
-			}
-		}
-		//if not inserted, create effective metamodel and add to types
-		if (!inserted) {
-			addPlaceHolderObject(ePackage.getName(), eClass.getName());
-			EffectiveMetamodel newEffectiveMetamodel = new EffectiveMetamodel();
-			newEffectiveMetamodel.setName(ePackage.getName());
-			effectiveMetamodels.add(newEffectiveMetamodel);
-		}
-	}
-	
-	public void addPlaceHolderObject(String ePackage, String type)
-	{
-		if (placeHolderObjects.containsKey(ePackage)) {
-			ArrayList<String> metamodel = placeHolderObjects.get(ePackage);
-			if (metamodel.contains(type)) {
-				return;
-			}
-			else {
-				metamodel.add(type);
-			}
-		}
-		else {
-			ArrayList<String> metamodel = new ArrayList<String>();
-			metamodel.add(type);
-			placeHolderObjects.put(ePackage, metamodel);
-		}
-	}
-
-	//test to see if the class has been visited
-	public boolean visitedEClass(EClass eClass)
-	{
-		for(EClass clazz: visitedClasses)
-		{
-			if (clazz.getName().equals(eClass.getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-	//returns true if the reference is live
-	public boolean liveReference(EReference eReference)
-	{
-		//if reference is containment, we are not looking into non-containment references
-		if(eReference.isContainment())
-		{
-			//get the etype
-			EClassifier eClassifier = eReference.getEType();
-			EClass etype = (EClass) eClassifier;
-			
-			//if etype is a live class, return true
-			if (liveClass(etype.getEPackage(), etype.getName())) {
-				return true;
-			}
-			
-			return false;
-		}
-		return false;
-		
 	}
 	
 	public void print(String packageName) {
@@ -915,20 +563,26 @@ public class EffectiveMetamodelReconciler {
 				System.out.println(" feature = " + f.getName());
 		}
 		
-		if (!getTypesToLoad().isEmpty()) {
-			System.out.println("AllOfType:");
-		for (EClass cls : getTypesToLoad().get(packageName).keySet()) {
-			System.out.print(cls.getName() + " : ");
-			for (EStructuralFeature f : getTypesToLoad().get(packageName).get(cls))
-				System.out.println(" feature = " + f.getName());
-		}
-		}
+//		if (!getTypesToLoad().isEmpty()) {
+//			System.out.println("AllOfType:");
+//		for (EClass cls : getTypesToLoad().get(packageName).keySet()) {
+//			System.out.print(cls.getName() + " : ");
+//			for (EStructuralFeature f : getTypesToLoad().get(packageName).get(cls))
+//				System.out.println(" feature = " + f.getName());
+//		}
+//		}
 	}
 	
 	public EPackage getPackage(String packageName) {
 		for (EPackage pkg : packages)
-			if (pkg.getName().equals(packageName))
+			if (pkg.getNsURI().equals(packageName))
 				return pkg;
 		return null;
+	}
+//	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getActualObjectsToLoad() {
+//		return actualObjectsAndFeaturesToLoad;
+//	}
+	public HashMap<String, HashMap<EClass, ArrayList<EStructuralFeature>>> getTypesToLoad() {
+		return typesToLoad;
 	}
 }

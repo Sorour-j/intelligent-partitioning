@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import fr.inria.atlanmod.neoemf.config.ImmutableConfig;
 import fr.inria.atlanmod.neoemf.data.blueprints.neo4j.config.BlueprintsNeo4jConfig;
-import fr.inria.atlanmod.neoemf.data.mapdb.config.MapDbConfig;
 
 public class NeoEMFDataset {
 

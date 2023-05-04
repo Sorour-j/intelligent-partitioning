@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.effectivemetamodel.XMIN;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EvlEffectiveMetamodelComputationVisitor;
 import org.eclipse.epsilon.effectivemetamodel.extraction.EvlPartitioningEffectiveMetamodelComputationVisitor;
+import org.eclipse.epsilon.effectivemetamodel.extraction.PartitioningEffectiveMetamodelVisitor;
 import org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel;
 import org.eclipse.epsilon.effectivemetamodel.SubModelFactory;
 import org.eclipse.epsilon.eol.EolModule;
@@ -30,26 +31,31 @@ import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.eclipse.epsilon.evl.staticanalyser.EvlStaticAnalyser;
-import org.eclipse.epsilon.loading.PartialEvlModule;
+import org.eclipse.epsilon.xmin.partitioning.PartialEvlModule;
 
 public class EvlXminModelRunConfiguration extends EvlRunConfiguration{
 	
-	IEolModule module;
+	PartialEvlModule module;
 	EvlStaticAnalyser staticanalyser = new EvlStaticAnalyser();
-	XMIN xminModel = new XMIN();
+	XMIN model = new XMIN();
 	EffectiveMetamodel efMetamodel;
 	
 	public EvlXminModelRunConfiguration(EvlRunConfiguration other) {
 		super(other);
-		module = getModule();
+		module = (PartialEvlModule) super.getModule();
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void preExecute() throws Exception {
-		super.preExecute();
 		
-		String metamodel = "src/org/eclipse/epsilon/effectivemetamodel/example/Standalone/EnergyConsumption.ecore";
+		super.preExecute();
+		module.setIsPartitioned(true);
+		
+		//which model?
+		model = (XMIN)module.getContext().getModelRepository().getModels().get(0);
+		//Register meta-model
+		String metamodel = model.getMetamodelFiles().get(0);
 		ResourceSet resourceSet = new ResourceSetImpl();
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
 		ecoreResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
@@ -63,30 +69,28 @@ public class EvlXminModelRunConfiguration extends EvlRunConfiguration{
 		}
 		for (EObject o : ecoreResource.getContents()) {
 			EPackage ePackage = (EPackage) o;
-			System.out.println("Java MM :" + o.eContents().size());
 			resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
-		}	//	Resource resource = resourceSet.createResource(URI.createFileURI(new File(model).getAbsolutePath()));
-
-		
+		}
+		long timeA = System.currentTimeMillis();
+		//analyse the program and resolve the types
 		staticanalyser.getContext().setModelFactory(new SubModelFactory());
 		staticanalyser.validate(module);
+		long timeB = System.currentTimeMillis();
+		System.out.println("Analysis time: " + (timeB - timeA) + " ms");
 		
-		xminModel = (XMIN) module.getContext().getModelRepository().getModels().get(0);
-			
-		if (!staticanalyser.getContext().getModelDeclarations().isEmpty() 
-			&& staticanalyser.getContext().getModelDeclarations().get(0).getDriverNameExpression().getName().equals("XMIN"))
-			{
-				
-			efMetamodel = new EvlEffectiveMetamodelComputationVisitor().setExtractor((EvlModule)module, staticanalyser);
-			System.out.println(xminModel);
-			//xminModel.setEffectiveMteamodel(efMetamodel);
-			efMetamodel.print();
-			xminModel.loadResource();
-			System.out.println("Free memory Before loading : " + Runtime.getRuntime().freeMemory()/ 1000000);
-			xminModel.load(efMetamodel);
-			System.out.println("Free memory After loading : " + Runtime.getRuntime().freeMemory()/ 1000000);
-		}
+		timeA = System.currentTimeMillis();
+		//compute all effective meta-models >> each constraint : one meta-model
+		model.setEffectiveMteamodels(new PartitioningEffectiveMetamodelVisitor().setpartitionExtractor((PartialEvlModule)module, staticanalyser));
+		timeB = System.currentTimeMillis();
+		System.out.println("Effective metamodel extraction time: " + (timeB - timeA) + " ms");
+		model.setMetamodelResource(resourceSet);
+		staticanalyser.postValidate(module);
 	}
 	
+	@Override
+	public void postExecute() throws Exception {
+		super.postExecute();
+		model.close();
+	}
 }

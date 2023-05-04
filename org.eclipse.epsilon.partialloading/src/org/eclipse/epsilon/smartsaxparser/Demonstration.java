@@ -24,7 +24,7 @@ public class Demonstration {
 
 	// public static ArrayList<EffectiveMetamodel> effectiveMetamodels = new
 	// ArrayList<EffectiveMetamodel>();
-	public static XMIN effectiveMetamodel;
+	public static org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel effectiveMetamodel;
 	protected static String model = null;
 
 	// "src/org/eclipse/epsilon/TestUnit/Parser/flowchart2.xmi";
@@ -35,10 +35,10 @@ public class Demonstration {
 //	public void generateEffectiveMetamodel(EolModule module)
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String metamodel = "src/org/eclipse/epsilon/TestUnit/Parser/java.ecore";
+		String metamodel = "src/org/eclipse/epsilon/smartsaxparser/IMDB.ecore";
 		String evlFile = "src/org/eclipse/epsilon/TestUnit/Parser/java_1Constraint.evl";
 		SetEolCalculationSetting.calculation(evlFile, metamodel);
-		model = "src/org/eclipse/epsilon/TestUnit/Parser/eclipseModel-0.1.xmi";
+		model = "src/org/eclipse/epsilon/smartsaxparser/imdb.xmi";
 //		try {
 //			demo();
 //		} catch (IOException e) {
@@ -131,7 +131,7 @@ public class Demonstration {
 		this.model = model;
 	}
 
-	public void setEfMetamodel(XMIN effectivemetamodel) {
+	public void setEfMetamodel(org.eclipse.epsilon.effectivemetamodel.EffectiveMetamodel effectivemetamodel) {
 		this.effectiveMetamodel = effectivemetamodel;
 	}
 //	public static void main(String[] args) throws Exception {

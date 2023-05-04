@@ -28,29 +28,26 @@ public class EolXminModelStandaloneExample {
 			modelsRoot = root.getParent().resolve("standalone");
 		
 		StringProperties modelProperties = new StringProperties();
-		modelProperties.setProperty(XMIN.PROPERTY_NAME, "EnergyProvider");
+		modelProperties.setProperty(XMIN.PROPERTY_NAME, "bo");
 		modelProperties.setProperty(XMIN.PROPERTY_FILE_BASED_METAMODEL_URI,
-			modelsRoot.resolve("EnergyConsumption.ecore").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("CLMSmetamodel.ecore").toAbsolutePath().toUri().toString()
 			
 		);
-		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"http://www.lowcomote.eu/EnergyProvider");
+		modelProperties.setProperty(XMIN.PROPERTY_METAMODEL_URI,"bo");
 		modelProperties.setProperty("type", "XMIN");
 		modelProperties.setProperty(XMIN.PROPERTY_MODEL_URI,
-			modelsRoot.resolve("LCLModel_40.xmi").toAbsolutePath().toUri().toString()
+			modelsRoot.resolve("CrewMember.flexmi.xmi").toAbsolutePath().toUri().toString()
 		);
 		modelProperties.setProperty(XMIN.PROPERTY_STOREONDISPOSAL, "true");
 		
 		EolRunConfiguration runConfig = EolRunConfiguration.Builder()
-			.withScript(root.resolve("energy.eol"))
+			.withScript(root.resolve("CLMSQueries.eol"))
 			.withModel(new XMIN(), modelProperties)
 			.withParameter("Thread", Thread.class)
 			.withProfiling()
 			.build();
 		EolXminModelRunConfiguration xminRunconfig = new EolXminModelRunConfiguration(runConfig);
 		xminRunconfig.run();
-		runConfig.dispose();
-		xminRunconfig.dispose();
-		
-		//System.out.println(sm.getResult());
+
 	}
 }

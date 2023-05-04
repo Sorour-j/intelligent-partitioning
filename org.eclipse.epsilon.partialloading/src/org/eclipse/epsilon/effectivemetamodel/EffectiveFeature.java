@@ -1,10 +1,13 @@
 package org.eclipse.epsilon.effectivemetamodel;
 
-public class EffectiveFeature {
+import org.eclipse.epsilon.eol.compile.m3.StructuralFeature;
+
+public class EffectiveFeature{
 
 	protected String name;
 	protected int usage;
 	protected EffectiveType effectiveType;
+	protected String type;
 	
 	
 	public EffectiveFeature(String name)
@@ -23,6 +26,14 @@ public class EffectiveFeature {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	public int getUsage() {

@@ -53,7 +53,7 @@ public class SmartSAXXMIResource extends XMIResourceImpl {
 			}
 			actualObjectsToLoad = effectiveMetamodelReconciler.getActualObjectsToLoad();
 			objectsAndRefNamesToVisit = effectiveMetamodelReconciler.getObjectsAndRefNamesToVisit();
-			typesToLoad = effectiveMetamodelReconciler.getTypesToLoad();
+			//typesToLoad = effectiveMetamodelReconciler.getTypesToLoad();
 		} else {
 			EffectiveMetamodelReconciler effectiveMetamodelReconciler = (EffectiveMetamodelReconciler) options
 					.get(OPTION_EFFECTIVE_METAMODEL_RECONCILER);
@@ -63,7 +63,7 @@ public class SmartSAXXMIResource extends XMIResourceImpl {
 				}
 				actualObjectsToLoad = effectiveMetamodelReconciler.getActualObjectsToLoad();
 				objectsAndRefNamesToVisit = effectiveMetamodelReconciler.getObjectsAndRefNamesToVisit();
-				typesToLoad = effectiveMetamodelReconciler.getTypesToLoad();
+			//	typesToLoad = effectiveMetamodelReconciler.getTypesToLoad();
 			}
 		}
 		super.load(options);

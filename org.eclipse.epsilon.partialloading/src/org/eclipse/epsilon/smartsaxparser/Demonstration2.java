@@ -39,7 +39,7 @@ public class Demonstration2 {
 	
 	public static void demo() throws IOException
 	{	
-		model = "src/org/eclipse/epsilon/smartsaxparser/LCLModel_40.xmi";
+		model = "src/org/eclipse/epsilon/smartsaxparser/main.xmi";
 		  ResourceSet resourceSet = new ResourceSetImpl();
 			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl(){
 				@Override

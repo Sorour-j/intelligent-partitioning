@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Test:main xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:Test="Test" xmi:id="_iodC8Z7xEeyaksMvkPlqHA" xmlns:test="Test" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <bs xmi:id="_iohUYJ7xEeyaksMvkPlqHA" c="//@fs.0 //@fs.1"/>
+  <fs xmi:id="_iohUYZ7xEeyaksMvkPlqHA" name="One"/>
+  <fs xmi:id="_ioh7cJ7xEeyaksMvkPlqHA" name="Two"/>
+</Test:main>

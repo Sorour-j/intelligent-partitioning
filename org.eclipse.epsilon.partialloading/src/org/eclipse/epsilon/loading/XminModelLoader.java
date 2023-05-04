@@ -71,12 +71,7 @@ public class XminModelLoader implements EpsilonLaunchConfigurationDelegateListen
 				}
 		}
 		
-		((XMIN)model).setEffectiveMteamodel(efMetamodels);
-//		if (model instanceof XMIN)
-//			((XMIN)model).load(efMetamodel);
-//		else if (model instanceof EmfMySqlModel)
-//			((EmfMySqlModel)model).setEffectiveMetamodel(efMetamodel);
-		
+		//((XMIN)model).setEffectiveMteamodel(efMetamodels);	
 		System.out.println(model);
 }
 	@Override

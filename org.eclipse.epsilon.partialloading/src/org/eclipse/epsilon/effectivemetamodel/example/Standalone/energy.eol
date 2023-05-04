@@ -2,8 +2,8 @@ model EnergyProvider driver XMIN {
 nsuri = "http://www.lowcomote.eu/EnergyProvider"
 };
 
-var e :ElectricalEnergyConsumption;
+var e :HouseHold;
 
-for (e in ElectricalEnergyConsumption.allInstances()){
-	e.household.houseHoldId.println("ref : ");
+for (e in HouseHold.all()){
+	e.houseHoldId.println("ref : ");
 }
